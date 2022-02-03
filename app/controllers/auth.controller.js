@@ -71,16 +71,23 @@ exports.signin = async (req, res) => {
       authorities.push("ROLE_" + roles[i].name.toUpperCase());
     }
 
-    req.session.token = token;
-
-    return res.status(200).send({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      roles: authorities,
+    return res.status(200).json({
+      status: 200,
+      success: true,
+      data: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        roles: authorities,
+        token: token,
+      }
     });
   } catch (error) {
-    return res.status(500).send({ message: error.message });
+    return res.status(500).json({
+      status: 500,
+      success: false,
+      message: error.message
+    });
   }
 };
 
