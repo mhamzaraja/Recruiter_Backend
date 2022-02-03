@@ -1,6 +1,7 @@
 const { authJwt } = require("../middleware");
 const controller = require("../controllers/user.controller");
 const eduController = require("../controllers/user.education.controller");
+const projectsController = require("../controllers/user.projects.controller");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -48,4 +49,10 @@ module.exports = function(app) {
   app.put("/api/user/education/update/:id", [authJwt.verifyToken], eduController.updateEducation );
 
   //projects
+  app.post("/api/user/projects/create", projectsController.saveProjects);
+  app.get("/api/user/projects/getAll", projectsController.showProjects);
+  app.get("/api/user/projects/getOne/:id", projectsController.showProjectsById);
+  app.delete("/api/user/projects/delete/:id", projectsController.deleteProjects);
+  app.put("/api/user/projects/update/:id", projectsController.updateProjects);
+
 };
