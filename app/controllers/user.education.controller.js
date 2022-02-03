@@ -31,7 +31,8 @@ exports.showEducation = async (req, res) => {
 };
 
 exports.showEducationById = async (req, res) => {
-    await userEducation.findOne({ where: { id: req.params.id } })
+    let id = req.params.id
+    await userEducation.findOne({ where: { id } })
         .then(data => {
             res.send(data)
         })

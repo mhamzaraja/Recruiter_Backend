@@ -41,9 +41,11 @@ module.exports = function(app) {
   app.post("/api/user/profile", [authJwt.verifyToken], controller.createUpdate);
   
   //Education
-  app.post("/api/user/education/create",  eduController.saveEducation);
-  app.get("/api/user/education/getAll", eduController.showEducation );
-  app.get("/api/user/education/:id", eduController.showEducationById);
-  app.delete("/api/user/education/:id", eduController.deleteEducation );
-  app.put("/api/user/education/:id", eduController.updateEducation );
+  app.post("/api/user/education/create", [authJwt.verifyToken], eduController.saveEducation);
+  app.get("/api/user/education/getAll", [authJwt.verifyToken], eduController.showEducation );
+  app.get("/api/user/education/getOne/:id", eduController.showEducationById);
+  app.delete("/api/user/education/delete/:id", [authJwt.verifyToken], eduController.deleteEducation );
+  app.put("/api/user/education/update/:id", [authJwt.verifyToken], eduController.updateEducation );
+
+  //projects
 };
