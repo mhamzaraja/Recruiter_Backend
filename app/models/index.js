@@ -32,6 +32,8 @@ db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.candidateProfile = require("../models/candidateProfile.model")(sequelize, Sequelize);
 db.candidateEducation = require("../models/education.model")(sequelize, Sequelize);
 db.candidateProjects = require("../models/user.projects.model")(sequelize, Sequelize);
+db.candidateSkills = require("../models/user.skills.model")(sequelize, Sequelize);
+db.candidateLanguages = require("../models/user.languages.model")(sequelize, Sequelize);
 
 // ASSOCIATIONS
 

@@ -2,6 +2,8 @@ const { authJwt } = require("../middleware");
 const controller = require("../controllers/user.controller");
 const eduController = require("../controllers/user.education.controller");
 const projectsController = require("../controllers/user.projects.controller");
+const skillsController = require("../controllers/user.skills.controller");
+const languagesController = require("../controllers/user.languages.controller");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -55,4 +57,17 @@ module.exports = function(app) {
   app.delete("/api/user/projects/delete/:id", projectsController.deleteProjects);
   app.put("/api/user/projects/update/:id", projectsController.updateProjects);
 
+  //skills
+  app.post("/api/user/skills/create", skillsController.saveSkills);
+  app.get("/api/user/skills/getAll", skillsController.showSkills);
+  app.get("/api/user/skills/getOne/:id", skillsController.showSkillsById);
+  app.delete("/api/user/skills/delete/:id", skillsController.deleteSkills);
+  app.put("/api/user/skills/update/:id", skillsController.updateSkills);
+
+  //languages
+  app.post("/api/user/languages/create", languagesController.saveLanguages);
+  app.get("/api/user/languages/getAll", languagesController.showLanguages);
+  app.get("/api/user/languages/getOne/:id", languagesController.showLanguagesById);
+  app.delete("/api/user/languages/delete/:id", languagesController.deleteLanguages);
+  app.put("/api/user/languages/update/:id", languagesController.updateLanguages);
 };

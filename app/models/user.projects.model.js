@@ -10,7 +10,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false,
             validate: {
-                notNull: { msg: 'must have a field of project name' },
+                notNull: { msg: 'must have a project name' },
                 notEmpty: { msg: 'project name must not be empty' }
             }
         },
@@ -26,7 +26,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false,
             validate: {
-                notNull: { msg: 'must have a starting' },
+                notNull: { msg: 'must have a starting date' },
                 notEmpty: { msg: 'there must be a starting date' }
             }
         },
@@ -50,7 +50,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false,
             validate: {
-                notNull: { msg: 'must have a associated_with' },
+                notNull: { msg: 'must have a field of assosiation' },
                 notEmpty: { msg: 'association must not be empty' }
             }
         },

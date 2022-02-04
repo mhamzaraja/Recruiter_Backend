@@ -1,8 +1,8 @@
 const db = require("../models");
-const userProjects = db.candidateProjects;
+const userLanguages = db.candidateLanguages;
 
-exports.saveProjects = async (req, res) => {
-    await userProjects.create(req.body)
+exports.saveLanguages = async (req, res) => {
+    await userLanguages.create(req.body)
         .then(data => {
             res.send(data);
             res.status(200).send({
@@ -17,8 +17,8 @@ exports.saveProjects = async (req, res) => {
         });
 };
 
-exports.showProjects = async (req, res) => {
-    await userProjects.findAll()
+exports.showLanguages = async (req, res) => {
+    await userLanguages.findAll()
         .then(data => {
             res.send(data);
         })
@@ -30,9 +30,9 @@ exports.showProjects = async (req, res) => {
         });
 };
 
-exports.showProjectsById = async (req, res) => {
+exports.showLanguagesById = async (req, res) => {
     let id = req.params.id
-    await userProjects.findOne({ where: { id } })
+    await userLanguages.findOne({ where: { id } })
         .then(data => {
             res.send(data)
         })
@@ -46,12 +46,12 @@ exports.showProjectsById = async (req, res) => {
 
 };
 
-exports.deleteProjects = async (req, res) => {
+exports.deleteLanguages = async (req, res) => {
     try {
-        let project = await userProjects.findOne({
+        let language = await userLanguages.findOne({
             where: { id: req.params.id }
         });
-        await project.destroy();
+        await language.destroy();
         res.status(200).send({ message: "Deleted Successfully!" });
     } catch (err) {
         res.status(500).send({
@@ -61,31 +61,22 @@ exports.deleteProjects = async (req, res) => {
     }
 };
 
-exports.updateProjects = async (req, res) => {
+exports.updateLanguages = async (req, res) => {
     const {
-        project_name,
-        project_url,
-        start_date,
-        end_date,
-        currently_ongoing,
-        associated_with,
-        description
+        language_title,
+        language_proficiency
     } = req.body;
 
     try {
-        let project = await userProjects.findOne({
+        let language = await userLanguages.findOne({
             where: { id: req.params.id }
         });
 
-        project.project_name = project_name;
-        project.project_url = project_url;
-        project.start_date = start_date;
-        project.end_date = end_date;
-        project.currently_ongoing = currently_ongoing;
-        project.associated_with = associated_with;
-        project.description = description;
+        console.log(language_title);
+        language.language_title = language_title;
+        language.language_proficiency = language_proficiency;
 
-        await project.save();
+        await language.save();
         res.status(200).send({ message: "Updated Successfully!" });
     } catch (err) {
         res.status(500).send({

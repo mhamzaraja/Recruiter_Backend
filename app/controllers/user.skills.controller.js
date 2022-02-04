@@ -1,8 +1,8 @@
 const db = require("../models");
-const userProjects = db.candidateProjects;
+const userSkills = db.candidateSkills;
 
-exports.saveProjects = async (req, res) => {
-    await userProjects.create(req.body)
+exports.saveSkills = async (req, res) => {
+    await userSkills.create(req.body)
         .then(data => {
             res.send(data);
             res.status(200).send({
@@ -17,8 +17,8 @@ exports.saveProjects = async (req, res) => {
         });
 };
 
-exports.showProjects = async (req, res) => {
-    await userProjects.findAll()
+exports.showSkills = async (req, res) => {
+    await userSkills.findAll()
         .then(data => {
             res.send(data);
         })
@@ -30,9 +30,9 @@ exports.showProjects = async (req, res) => {
         });
 };
 
-exports.showProjectsById = async (req, res) => {
+exports.showSkillsById = async (req, res) => {
     let id = req.params.id
-    await userProjects.findOne({ where: { id } })
+    await userSkills.findOne({ where: { id } })
         .then(data => {
             res.send(data)
         })
@@ -46,12 +46,12 @@ exports.showProjectsById = async (req, res) => {
 
 };
 
-exports.deleteProjects = async (req, res) => {
+exports.deleteSkills = async (req, res) => {
     try {
-        let project = await userProjects.findOne({
+        let skill = await userSkills.findOne({
             where: { id: req.params.id }
         });
-        await project.destroy();
+        await skill.destroy();
         res.status(200).send({ message: "Deleted Successfully!" });
     } catch (err) {
         res.status(500).send({
@@ -61,31 +61,21 @@ exports.deleteProjects = async (req, res) => {
     }
 };
 
-exports.updateProjects = async (req, res) => {
+exports.updateSkills = async (req, res) => {
     const {
-        project_name,
-        project_url,
-        start_date,
-        end_date,
-        currently_ongoing,
-        associated_with,
-        description
+        skill_title,
+        skill_proficiency
     } = req.body;
 
     try {
-        let project = await userProjects.findOne({
+        let skill = await userSkills.findOne({
             where: { id: req.params.id }
         });
 
-        project.project_name = project_name;
-        project.project_url = project_url;
-        project.start_date = start_date;
-        project.end_date = end_date;
-        project.currently_ongoing = currently_ongoing;
-        project.associated_with = associated_with;
-        project.description = description;
+        skill.skill_title = skill_title;
+        skill.skill_proficiency = skill_proficiency;
 
-        await project.save();
+        await skill.save();
         res.status(200).send({ message: "Updated Successfully!" });
     } catch (err) {
         res.status(500).send({
