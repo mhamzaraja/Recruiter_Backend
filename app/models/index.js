@@ -31,6 +31,7 @@ db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.candidateProfile = require("../models/candidateProfile.model")(sequelize, Sequelize);
 db.candidateEducation = require("../models/education.model")(sequelize, Sequelize);
+db.userExperience = require("../models/userExperience.model")(sequelize, Sequelize);
 
 // ASSOCIATIONS
 
