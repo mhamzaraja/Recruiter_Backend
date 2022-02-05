@@ -2,11 +2,22 @@ const db = require("../models");
 const userProjects = db.candidateProjects;
 
 exports.saveProjects = async (req, res) => {
-    await userProjects.create(req.body)
-        .then(data => {
-            res.send(data);
-            res.status(200).send({
-                message: "Register Successfully!"
+    await userProjects.create({
+            project_name : req.body.project_name,
+            project_url : req.body.project_url,
+            start_date : req.body.start_date,
+            end_date : req.body.end_date,
+            currently_ongoing : req.body.currently_ongoing,
+            associated_with : req.body.associated_with,
+            description : req.body.description,
+            userId : req.body.userId
+    })
+    .then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                message: "Added Successfully!",
+                data: data
             });
         })
         .catch(err => {
@@ -18,9 +29,16 @@ exports.saveProjects = async (req, res) => {
 };
 
 exports.showProjects = async (req, res) => {
-    await userProjects.findAll()
+    let userId = req.params.userId;
+    await userProjects.findAll({
+        where: { userId }
+    })
         .then(data => {
-            res.send(data);
+            res.status(200).json({
+                status: 200,
+                success: true,
+                data: data
+            });
         })
         .catch(err => {
             res.status(500).send({
@@ -31,10 +49,16 @@ exports.showProjects = async (req, res) => {
 };
 
 exports.showProjectsById = async (req, res) => {
-    let id = req.params.id
-    await userProjects.findOne({ where: { id } })
-        .then(data => {
-            res.send(data)
+    let id = req.params.id;
+    let userId = req.params.userId;
+    await userProjects.findOne({
+        where: { id , userId }
+    }).then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                data: data
+            });
         })
         .catch(err => {
             res.status(500).send({
@@ -42,17 +66,28 @@ exports.showProjectsById = async (req, res) => {
                     err.message || "Something Went wrong while requesting!"
             });
         });
-
-
 };
 
 exports.deleteProjects = async (req, res) => {
+    let id = req.params.id;
+    let userId = req.params.userId;
     try {
         let project = await userProjects.findOne({
-            where: { id: req.params.id }
+            where: { id , userId }
         });
-        await project.destroy();
-        res.status(200).send({ message: "Deleted Successfully!" });
+        await project.destroy().then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                message: "Deleted Successfully",
+                data: data
+            });
+        }).catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Something Went wrong while requesting!"
+            });
+        });
     } catch (err) {
         res.status(500).send({
             message:
@@ -62,6 +97,8 @@ exports.deleteProjects = async (req, res) => {
 };
 
 exports.updateProjects = async (req, res) => {
+    let id = req.params.id;
+    let userId = req.params.userId;
     const {
         project_name,
         project_url,
@@ -74,7 +111,7 @@ exports.updateProjects = async (req, res) => {
 
     try {
         let project = await userProjects.findOne({
-            where: { id: req.params.id }
+            where: { id , userId }
         });
 
         project.project_name = project_name;
@@ -85,8 +122,20 @@ exports.updateProjects = async (req, res) => {
         project.associated_with = associated_with;
         project.description = description;
 
-        await project.save();
-        res.status(200).send({ message: "Updated Successfully!" });
+        await project.save().then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                message: "Updated Successfully",
+                data: data
+            });
+        })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Something Went wrong while requesting!"
+                });
+            });
     } catch (err) {
         res.status(500).send({
             message:

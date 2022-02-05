@@ -2,11 +2,17 @@ const db = require("../models");
 const userSkills = db.candidateSkills;
 
 exports.saveSkills = async (req, res) => {
-    await userSkills.create(req.body)
+    await userSkills.create({
+        skill_title: req.body.skill_title,
+        skill_proficiency: req.body.skill_proficiency,
+        userId : req.body.userId
+    })
         .then(data => {
-            res.send(data);
-            res.status(200).send({
-                message: "Register Successfully!"
+            res.status(200).json({
+                status: 200,
+                success: true,
+                message: "Added Successfully!",
+                data: data
             });
         })
         .catch(err => {
@@ -18,9 +24,16 @@ exports.saveSkills = async (req, res) => {
 };
 
 exports.showSkills = async (req, res) => {
-    await userSkills.findAll()
+    let userId = req.params.userId;
+    await userSkills.findAll({
+        where: { userId }
+    })
         .then(data => {
-            res.send(data);
+            res.status(200).json({
+                status: 200,
+                success: true,
+                data: data
+            });
         })
         .catch(err => {
             res.status(500).send({
@@ -31,10 +44,17 @@ exports.showSkills = async (req, res) => {
 };
 
 exports.showSkillsById = async (req, res) => {
-    let id = req.params.id
-    await userSkills.findOne({ where: { id } })
+    let id = req.params.id;
+    let userId = req.params.userId;
+    await userSkills.findOne({
+        where: { id, userId }
+    })
         .then(data => {
-            res.send(data)
+            res.status(200).json({
+                status: 200,
+                success: true,
+                data: data
+            });
         })
         .catch(err => {
             res.status(500).send({
@@ -42,17 +62,28 @@ exports.showSkillsById = async (req, res) => {
                     err.message || "Something Went wrong while requesting!"
             });
         });
-
-
 };
 
 exports.deleteSkills = async (req, res) => {
+    let id = req.params.id;
+    let userId = req.params.userId;
     try {
         let skill = await userSkills.findOne({
-            where: { id: req.params.id }
+            where: { id, userId }
         });
-        await skill.destroy();
-        res.status(200).send({ message: "Deleted Successfully!" });
+        await skill.destroy().then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                message: "Deleted Successfully",
+                data: data
+            });
+        }).catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Something Went wrong while requesting!"
+            });
+        });
     } catch (err) {
         res.status(500).send({
             message:
@@ -62,6 +93,8 @@ exports.deleteSkills = async (req, res) => {
 };
 
 exports.updateSkills = async (req, res) => {
+    let id = req.params.id;
+    let userId = req.params.userId;
     const {
         skill_title,
         skill_proficiency
@@ -69,14 +102,26 @@ exports.updateSkills = async (req, res) => {
 
     try {
         let skill = await userSkills.findOne({
-            where: { id: req.params.id }
+            where: { id, userId }
         });
 
         skill.skill_title = skill_title;
         skill.skill_proficiency = skill_proficiency;
 
-        await skill.save();
-        res.status(200).send({ message: "Updated Successfully!" });
+        await skill.save().then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                message: "Updated Successfully",
+                data: data
+            });
+        })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Something Went wrong while requesting!"
+                });
+            });
     } catch (err) {
         res.status(500).send({
             message:

@@ -4,7 +4,11 @@ const db = require("../models");
 const User = db.user;
 
 verifyToken = (req, res, next) => {
-  let token = req.session.token;
+  if (!req.headers.authorization) {
+    return res.status(403).json({ error: 'No credentials sent!' });
+  }
+  const authHeader = req.headers.authorization;
+  const token = authHeader.split(' ')[1];
 
   if (!token) {
     return res.status(403).send({
