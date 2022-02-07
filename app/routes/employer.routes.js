@@ -1,5 +1,5 @@
 const { authJwt } = require("../middleware");
-// const controller = require("../controllers/employer.controller");
+const employerProfileController = require("../controllers/employer.controller");
 const jobPostController = require("../controllers/job.post.controller");
 const jobLocationController = require("../controllers/job.location.controller");
 const jobSkillsController = require("../controllers/job.skills.controller");
@@ -15,7 +15,11 @@ module.exports = function (app) {
     //     });
 
     //employer
-    // app.post("/api/employer/profile", controller.createUpdate);
+    app.post("/api/employer/profile/create", employerProfileController.saveEmployerProfile);
+    app.get("/api/employer/profile/getAll", employerProfileController.showAllJEmployerProfile);
+    app.get("/api/employer/profile/getOne/:id", employerProfileController.showEmployerProfileById);
+    app.delete("/api/employer/profile/delete/:id", employerProfileController.deleteEmployerProfile);
+    app.put("/api/employer/profile/update/:id", employerProfileController.updateEmployerProfile);
 
 
     //job post

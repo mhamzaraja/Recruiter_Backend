@@ -38,6 +38,7 @@ db.candidateSkills = require("../models/user.skills.model")(sequelize, Sequelize
 db.candidateLanguages = require("../models/user.languages.model")(sequelize, Sequelize);
 
 //employer models
+db.employerProfile = require("../models/employer.profile.model")(sequelize, Sequelize);
 db.jobPost = require("../models/job.post.model")(sequelize, Sequelize);
 db.jobSkills = require("../models/job.skills.model")(sequelize, Sequelize);
 db.jobLocation = require("../models/job.location.model")(sequelize, Sequelize);
