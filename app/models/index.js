@@ -65,6 +65,9 @@ db.user.belongsToMany(db.role, {
 //candidate_user
 db.candidateProfile.belongsTo(db.user);
 
+//Experience
+db.user.hasMany(db.userExperience, {foreignKey: "userId"});
+db.userExperience.belongsTo(db.user);
 
 db.ROLES = ["user", "admin", "moderator"];
 

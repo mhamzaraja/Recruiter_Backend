@@ -48,8 +48,9 @@ module.exports = function(app) {
 
   // User Experience
     app.post("/api/user/experience/create", [authJwt.verifyToken], experienceController.createUserExperience );
-    app.post("/api/user/experience/update", [authJwt.verifyToken], experienceController.updateUserExperience );
-
-
+    app.get("/api/user/experience/getAll/:userId", [authJwt.verifyToken], experienceController.getAllUserExperience );
+    app.get("/api/user/experience/get/:userId&:id", [authJwt.verifyToken], experienceController.getUserExperience );
+    app.post("/api/user/experience/update/:userId&:id", [authJwt.verifyToken], experienceController.updateUserExperience );
+    app.delete("/api/user/experience/delete/:userId&:id", [authJwt.verifyToken], experienceController.deleteUserExperience );
 
 };
