@@ -1,11 +1,11 @@
 const db = require("../models");
-const userLanguages = db.candidateLanguages;
+const jobLocation = db.jobLocation;
 
-exports.saveLanguages = async (req, res) => {
-    await userLanguages.create({
-        language_title : req.body.language_title,
-        language_proficiency : req.body.language_proficiency,
-        userId : req.body.userId
+exports.saveJobLocation = async (req, res) => {
+    await jobLocation.create({
+        address: req.body.address,
+        city: req.body.city,
+        country: req.body.country
     })
         .then(data => {
             res.status(200).json({
@@ -23,11 +23,9 @@ exports.saveLanguages = async (req, res) => {
         });
 };
 
-exports.showAllLanguages = async (req, res) => {
-    let userId = req.params.userId;
-    await userLanguages.findAll({
-        where: { userId }
-    })
+exports.showAllJobsLocation = async (req, res) => {
+    let employerId = req.params.employerId;
+    await jobLocation.findAll()
         .then(data => {
             res.status(200).json({
                 status: 200,
@@ -43,19 +41,18 @@ exports.showAllLanguages = async (req, res) => {
         });
 };
 
-exports.showLanguagesById = async (req, res) => {
+exports.showJobLocationById = async (req, res) => {
     let id = req.params.id;
-    let userId = req.params.userId;
-    await userLanguages.findOne({
-        where: { id , userId }
+    let employerId = req.params.employerId;
+    await jobLocation.findOne({
+        where: { id }
+    }).then(data => {
+        res.status(200).json({
+            status: 200,
+            success: true,
+            data: data
+        });
     })
-        .then(data => {
-            res.status(200).json({
-                status: 200,
-                success: true,
-                data: data
-            });
-        })
         .catch(err => {
             res.status(500).send({
                 message:
@@ -64,14 +61,14 @@ exports.showLanguagesById = async (req, res) => {
         });
 };
 
-exports.deleteLanguages = async (req, res) => {
+exports.deleteJobLocation = async (req, res) => {
     let id = req.params.id;
-    let userId = req.params.userId;
+    let employerId = req.params.employerId;
     try {
-        let language = await userLanguages.findOne({
-            where: { id , userId }
+        let loc = await jobLocation.findOne({
+            where: { id }
         });
-        await language.destroy().then(data => {
+        await loc.destroy().then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,
@@ -92,23 +89,25 @@ exports.deleteLanguages = async (req, res) => {
     }
 };
 
-exports.updateLanguages = async (req, res) => {
+exports.updateJobLocation = async (req, res) => {
     let id = req.params.id;
-    let userId = req.params.userId;
+    let employerId = req.params.employerId;
     const {
-        language_title,
-        language_proficiency
+        address,
+        city,
+        country
     } = req.body;
 
     try {
-        let language = await userLanguages.findOne({
-            where: { id , userId }
+        let loc = await jobLocation.findOne({
+            where: { id }
         });
 
-        language.language_title = language_title;
-        language.language_proficiency = language_proficiency;
+        loc.address = address;
+        loc.city = city;
+        loc.country = country;
 
-        await language.save().then(data => {
+        await loc.save().then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,

@@ -23,7 +23,7 @@ exports.saveSkills = async (req, res) => {
         });
 };
 
-exports.showSkills = async (req, res) => {
+exports.showAllSkills = async (req, res) => {
     let userId = req.params.userId;
     await userSkills.findAll({
         where: { userId }

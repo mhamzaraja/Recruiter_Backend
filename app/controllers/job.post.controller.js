@@ -1,12 +1,48 @@
 const db = require("../models");
-const userJobs = db.candidateJobs;
+const userJob = db.jobPost;
 
-exports.saveJobs = async (req, res) => {
-    await userJobs.create(req.body)
+exports.saveJob = async (req, res) => {
+    await userJob.create({
+
+        job_title: req.body.job_title,
+        company: req.body.company,
+        workplace_type: req.body.workplace_type,
+        employment_type: req.body.employment_type,
+        job_description: req.body.job_description,
+        no_of_positions: req.body.no_of_positions,
+        minimum_qualification: req.body.minimum_qualification,
+        years_of_experience: req.body.years_of_experience,
+        salary_range: req.body.salary_range,
+        salary_visible: req.body.salary_visible,
+        created_date: req.body.created_date,
+        is_active: req.body.is_active,
+        is_sponser: req.body.is_sponser,
+        authorization: req.body.authorization
+
+    }).then(data => {
+        res.status(200).json({
+            status: 200,
+            success: true,
+            message: "Added Successfully!",
+            data: data
+        });
+    })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Something Went wrong while requesting!"
+            });
+        });
+};
+
+exports.showAllJobs = async (req, res) => {
+    // let jobId = req.params.jobId;
+    await userJob.findAll()
         .then(data => {
-            res.send(data);
-            res.status(200).send({
-                message: "Register Successfully!"
+            res.status(200).json({
+                status: 200,
+                success: true,
+                data: data
             });
         })
         .catch(err => {
@@ -17,11 +53,18 @@ exports.saveJobs = async (req, res) => {
         });
 };
 
-exports.showJobs = async (req, res) => {
-    await userJobs.findAll()
-        .then(data => {
-            res.send(data);
-        })
+exports.showJobById = async (req, res) => {
+    let id = req.params.id;
+    // let jobId = req.params.jobId;
+    await userJob.findOne({
+        where: { id }
+    }).then(data => {
+        res.status(200).json({
+            status: 200,
+            success: true,
+            data: data
+        });
+    })
         .catch(err => {
             res.status(500).send({
                 message:
@@ -30,29 +73,26 @@ exports.showJobs = async (req, res) => {
         });
 };
 
-exports.showJobsById = async (req, res) => {
-    let id = req.params.id
-    await userJobs.findOne({ where: { id } })
-        .then(data => {
-            res.send(data)
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
-            });
-        });
-
-
-};
-
-exports.deleteJobs = async (req, res) => {
+exports.deleteJob = async (req, res) => {
+    let id = req.params.id;
+    // let jobId = req.params.jobId;
     try {
-        let job = await userJobs.findOne({
-            where: { id: req.params.id }
+        let job = await userJob.findOne({
+            where: { id }
         });
-        await job.destroy();
-        res.status(200).send({ message: "Deleted Successfully!" });
+        await job.destroy().then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                message: "Deleted Successfully",
+                data: data
+            });
+        }).catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Something Went wrong while requesting!"
+            });
+        });
     } catch (err) {
         res.status(500).send({
             message:
@@ -61,22 +101,60 @@ exports.deleteJobs = async (req, res) => {
     }
 };
 
-exports.updateJobs = async (req, res) => {
+exports.updateJob = async (req, res) => {
+    let id = req.params.id;
+    // let jobId = req.params.jobId;
     const {
         job_title,
-        job_proficiency
+        company,
+        workplace_type,
+        employment_type,
+        job_description,
+        no_of_positions,
+        minimum_qualification,
+        years_of_experience,
+        salary_range,
+        salary_visible,
+        created_date,
+        is_active,
+        is_sponser,
+        authorization
     } = req.body;
 
     try {
-        let job = await userJobs.findOne({
-            where: { id: req.params.id }
+        let job = await userJob.findOne({
+            where: { id }
         });
 
         job.job_title = job_title;
-        job.job_proficiency = job_proficiency;
+        job.company = company;
+        job.workplace_type = workplace_type;
+        job.employment_type = employment_type;
+        job.job_description = job_description;
+        job.no_of_positions = no_of_positions;
+        job.minimum_qualification = minimum_qualification;
+        job.years_of_experience = years_of_experience;
+        job.salary_range = salary_range;
+        job.salary_visible = salary_visible;
+        job.created_date = created_date;
+        job.is_active = is_active;
+        job.is_sponser = is_sponser;
+        job.authorization = authorization;
 
-        await job.save();
-        res.status(200).send({ message: "Updated Successfully!" });
+        await job.save().then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                message: "Updated Successfully",
+                data: data
+            });
+        })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Something Went wrong while requesting!"
+                });
+            });
     } catch (err) {
         res.status(500).send({
             message:

@@ -1,13 +1,12 @@
 const db = require("../models");
-const userLanguages = db.candidateLanguages;
+const jobSkills = db.jobSkills;
 
-exports.saveLanguages = async (req, res) => {
-    await userLanguages.create({
-        language_title : req.body.language_title,
-        language_proficiency : req.body.language_proficiency,
-        userId : req.body.userId
+exports.saveJobSkills = async (req, res) => {
+    await jobSkills.create({
+            skill_title : req.body.skill_title,
+            skill_level : req.body.skill_level
     })
-        .then(data => {
+    .then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,
@@ -23,11 +22,9 @@ exports.saveLanguages = async (req, res) => {
         });
 };
 
-exports.showAllLanguages = async (req, res) => {
-    let userId = req.params.userId;
-    await userLanguages.findAll({
-        where: { userId }
-    })
+exports.showAllJobsSkills = async (req, res) => {
+    let employerId = req.params.employerId;
+    await jobSkills.findAll()
         .then(data => {
             res.status(200).json({
                 status: 200,
@@ -43,13 +40,12 @@ exports.showAllLanguages = async (req, res) => {
         });
 };
 
-exports.showLanguagesById = async (req, res) => {
+exports.showJobSkillsById = async (req, res) => {
     let id = req.params.id;
-    let userId = req.params.userId;
-    await userLanguages.findOne({
-        where: { id , userId }
-    })
-        .then(data => {
+    let employerId = req.params.employerId;
+    await jobSkills.findOne({
+        where: { id }
+    }).then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,
@@ -64,14 +60,14 @@ exports.showLanguagesById = async (req, res) => {
         });
 };
 
-exports.deleteLanguages = async (req, res) => {
+exports.deleteJobSkills = async (req, res) => {
     let id = req.params.id;
-    let userId = req.params.userId;
+    let employerId = req.params.employerId;
     try {
-        let language = await userLanguages.findOne({
-            where: { id , userId }
+        let project = await jobSkills.findOne({
+            where: { id }
         });
-        await language.destroy().then(data => {
+        await project.destroy().then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,
@@ -92,23 +88,23 @@ exports.deleteLanguages = async (req, res) => {
     }
 };
 
-exports.updateLanguages = async (req, res) => {
+exports.updateJobSkills = async (req, res) => {
     let id = req.params.id;
-    let userId = req.params.userId;
+    let employerId = req.params.employerId;
     const {
-        language_title,
-        language_proficiency
+        skill_title,
+        skill_level
     } = req.body;
 
     try {
-        let language = await userLanguages.findOne({
-            where: { id , userId }
+        let project = await jobSkills.findOne({
+            where: { id }
         });
 
-        language.language_title = language_title;
-        language.language_proficiency = language_proficiency;
+        project.skill_title = skill_title;
+        project.skill_level = skill_level;
 
-        await language.save().then(data => {
+        await project.save().then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,

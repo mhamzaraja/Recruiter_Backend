@@ -28,7 +28,7 @@ exports.saveProjects = async (req, res) => {
         });
 };
 
-exports.showProjects = async (req, res) => {
+exports.showAllProjects = async (req, res) => {
     let userId = req.params.userId;
     await userProjects.findAll({
         where: { userId }

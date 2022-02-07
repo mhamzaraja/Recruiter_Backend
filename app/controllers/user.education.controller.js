@@ -29,7 +29,7 @@ exports.saveEducation = async (req, res) => {
         });
 };
 
-exports.showEducation = async (req, res) => {
+exports.showAllEducations = async (req, res) => {
     let userId = req.params.userId;
     await userEducation.findAll({
         where: { userId }
