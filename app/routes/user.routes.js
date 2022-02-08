@@ -42,7 +42,8 @@ module.exports = function(app) {
   // );
 
   app.post("/api/user/profile", [authJwt.verifyToken], controller.createUpdate);
-  app.get("/api/user/profile/:userId", [authJwt.verifyToken], controller.getProfileById);
+  app.get("/api/user/profile/getOne/:id&:userId", [authJwt.verifyToken], controller.getProfileById);
+  app.get("/api/user/profile/getAll/:userId", [authJwt.verifyToken], controller.getCompleteProfileByUserId);
 
   //Education
   app.post("/api/user/education/create", [authJwt.verifyToken], educationController.saveEducation);

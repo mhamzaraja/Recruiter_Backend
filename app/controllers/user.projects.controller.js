@@ -16,7 +16,6 @@ exports.saveProjects = async (req, res) => {
             res.status(200).json({
                 status: 200,
                 success: true,
-                message: "Added Successfully!",
                 data: data
             });
         })
