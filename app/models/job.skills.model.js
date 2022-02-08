@@ -3,6 +3,7 @@ module.exports = (sequelize, Sequelize) => {
         "job_skill", {
             id:{
                 type: Sequelize.INTEGER,
+                allowNull: false,
                 autoIncrement: true,
                 primaryKey: true
             },

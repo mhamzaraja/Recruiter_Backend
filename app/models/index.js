@@ -31,8 +31,8 @@ db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 
 //candidate models
-db.candidateProfile = require("../models/candidateProfile.model")(sequelize, Sequelize);
-db.candidateEducation = require("../models/education.model")(sequelize, Sequelize);
+db.candidateProfile = require("../models/candidate.Profile.model")(sequelize, Sequelize);
+db.candidateEducation = require("../models/candidate.education.model")(sequelize, Sequelize);
 db.candidateProjects = require("../models/user.projects.model")(sequelize, Sequelize);
 db.candidateSkills = require("../models/user.skills.model")(sequelize, Sequelize);
 db.candidateLanguages = require("../models/user.languages.model")(sequelize, Sequelize);
@@ -58,29 +58,45 @@ db.user.belongsToMany(db.role, {
   otherKey: "roleId"
 });
 
+// candidate profile
+db.user.hasMany(db.candidateProfile,{
+  foreignKey: "userId"
+});
+db.candidateProfile.belongsTo(db.user, {
+  foreignKey : 'userId'
+});
+
 // education
 db.user.hasMany(db.candidateEducation,{
   foreignKey: "userId"
 });
-db.candidateEducation.belongsTo(db.user);
+db.candidateEducation.belongsTo(db.user, {
+  foreignKey : 'userId'
+});
 
 // projects
 db.user.hasMany(db.candidateProjects,{
   foreignKey: "userId"
 });
-db.candidateProjects.belongsTo(db.user);
+db.candidateProjects.belongsTo(db.user, {
+  foreignKey : 'userId'
+});
 
 // skills
 db.user.hasMany(db.candidateSkills,{
   foreignKey: "userId"
 });
-db.candidateSkills.belongsTo(db.user);
+db.candidateSkills.belongsTo(db.user, {
+  foreignKey : 'userId'
+});
 
 // languages
 db.user.hasMany(db.candidateLanguages,{
   foreignKey: "userId"
 });
-db.candidateLanguages.belongsTo(db.user);
+db.candidateLanguages.belongsTo(db.user, {
+  foreignKey : 'userId'
+});
 
 db.ROLES = ["user", "admin", "moderator"];
 

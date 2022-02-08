@@ -36,7 +36,7 @@ exports.saveJob = async (req, res) => {
 };
 
 exports.showAllJobs = async (req, res) => {
-    // let jobId = req.params.jobId;
+    // const jobId = req.params.jobId;
     await userJob.findAll()
         .then(data => {
             res.status(200).json({
@@ -54,8 +54,8 @@ exports.showAllJobs = async (req, res) => {
 };
 
 exports.showJobById = async (req, res) => {
-    let id = req.params.id;
-    // let jobId = req.params.jobId;
+    const id = req.params.id;
+    // const jobId = req.params.jobId;
     await userJob.findOne({
         where: { id }
     }).then(data => {
@@ -74,10 +74,10 @@ exports.showJobById = async (req, res) => {
 };
 
 exports.deleteJob = async (req, res) => {
-    let id = req.params.id;
-    // let jobId = req.params.jobId;
+    const id = req.params.id;
+    // const jobId = req.params.jobId;
     try {
-        let job = await userJob.findOne({
+        const job = await userJob.findOne({
             where: { id }
         });
         await job.destroy().then(data => {
@@ -102,8 +102,8 @@ exports.deleteJob = async (req, res) => {
 };
 
 exports.updateJob = async (req, res) => {
-    let id = req.params.id;
-    // let jobId = req.params.jobId;
+    const id = req.params.id;
+    // const jobId = req.params.jobId;
     const {
         job_title,
         company,
@@ -122,7 +122,7 @@ exports.updateJob = async (req, res) => {
     } = req.body;
 
     try {
-        let job = await userJob.findOne({
+        const job = await userJob.findOne({
             where: { id }
         });
 

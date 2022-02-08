@@ -3,8 +3,13 @@ module.exports = (sequelize, Sequelize) => {
         "candidate_skills", {
         id: {
             type: Sequelize.INTEGER,
+            allowNull: false,
             autoIncrement: true,
             primaryKey: true
+        },
+        userId: {
+            type: Sequelize.INTEGER,
+            allowNull: false
         },
         skill_title: {
             type: Sequelize.STRING,

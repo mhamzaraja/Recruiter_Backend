@@ -23,7 +23,7 @@ exports.saveJobSkills = async (req, res) => {
 };
 
 exports.showAllJobsSkills = async (req, res) => {
-    let employerId = req.params.employerId;
+    const employerId = req.params.employerId;
     await jobSkills.findAll()
         .then(data => {
             res.status(200).json({
@@ -41,8 +41,8 @@ exports.showAllJobsSkills = async (req, res) => {
 };
 
 exports.showJobSkillsById = async (req, res) => {
-    let id = req.params.id;
-    let employerId = req.params.employerId;
+    const id = req.params.id;
+    const employerId = req.params.employerId;
     await jobSkills.findOne({
         where: { id }
     }).then(data => {
@@ -61,10 +61,10 @@ exports.showJobSkillsById = async (req, res) => {
 };
 
 exports.deleteJobSkills = async (req, res) => {
-    let id = req.params.id;
-    let employerId = req.params.employerId;
+    const id = req.params.id;
+    const employerId = req.params.employerId;
     try {
-        let project = await jobSkills.findOne({
+        const project = await jobSkills.findOne({
             where: { id }
         });
         await project.destroy().then(data => {
@@ -89,15 +89,15 @@ exports.deleteJobSkills = async (req, res) => {
 };
 
 exports.updateJobSkills = async (req, res) => {
-    let id = req.params.id;
-    let employerId = req.params.employerId;
+    const id = req.params.id;
+    const employerId = req.params.employerId;
     const {
         skill_title,
         skill_level
     } = req.body;
 
     try {
-        let project = await jobSkills.findOne({
+        const project = await jobSkills.findOne({
             where: { id }
         });
 

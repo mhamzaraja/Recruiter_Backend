@@ -11,14 +11,6 @@ exports.createUpdate = async (req, res) => {
     },
   });
 
-  // Validate request
-  if (!req.body.name && !req.body.gender && !req.body.marital_status && !req.body.cnic) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-    return;
-  }
-
   if (!profile) {
     CandidateProfile.create(req.body)
       .then(data => {
@@ -33,16 +25,16 @@ exports.createUpdate = async (req, res) => {
             err.message || "Some error occurred while creating the Tutorial."
         });
       });
-  }else{
+  } else {
     CandidateProfile.update(req.body, {
       where: { userId: req.body.userId }
     }).then(num => {
-        if (num == 1) {
-          res.status(200).send("update Successfully");
-        }else{
-          res.status(200).send(req.body);
-        }
-      })
+      if (num == 1) {
+        res.status(200).send("update Successfully");
+      } else {
+        res.status(200).send(req.body);
+      }
+    })
       .catch(err => {
         res.status(500).send({
           message: "Error updating Tutorial with id=" + req.body.userId
@@ -51,19 +43,48 @@ exports.createUpdate = async (req, res) => {
   }
 };
 
+exports.getProfileById = async (req, res) => {
+  //checkProfile
+  const profile = await CandidateProfile.findOne({
+    where: {
+      userId: req.body.userId,
+    },
+  });
 
-exports.allAccess = (req, res) => {
-  res.status(200).send("Public Content.");
+  if (!profile) {
+    res.status(500).json({
+      status: 500,
+      success: false,
+      message: "cannot find user"
+    });
+  } else {
+    res.status(200).json({
+      status: 200,
+      success: true,
+      data: profile
+  });
+  }
 };
 
-exports.userBoard = (req, res) => {
-  res.status(200).send("User Content.");
-};
+exports.getCompleteProfileByUserId = async (req, res) => {
+  //checkProfile
+  const profile = await CandidateProfile.findOne({
+    where: {
+      userId: req.body.userId,
+    },
+  });
 
-exports.adminBoard = (req, res) => {
-  res.status(200).send("Admin Content.");
-};
-
-exports.moderatorBoard = (req, res) => {
-  res.status(200).send("Moderator Content.");
+  if (!profile) {
+    res.status(500).json({
+      status: 500,
+      success: false,
+      message: "cannot find user"
+    });
+  } else {
+    res.status(200).json({
+      status: 200,
+      success: true,
+      data: profile
+  });
+  }
 };

@@ -8,7 +8,6 @@ exports.saveEducation = async (req, res) => {
         location: req.body.location,
         institution: req.body.institution,
         completion_year: req.body.completion_year,
-        gpa: req.body.gpa,
         total_gpa: req.body.total_gpa,
         obtained_gpa: req.body.obtained_gpa,
         userId: req.body.userId
@@ -30,7 +29,7 @@ exports.saveEducation = async (req, res) => {
 };
 
 exports.showAllEducations = async (req, res) => {
-    let userId = req.params.userId;
+    const userId = req.params.userId;
     await userEducation.findAll({
         where: { userId }
     })
@@ -50,8 +49,8 @@ exports.showAllEducations = async (req, res) => {
 };
 
 exports.showEducationById = async (req, res) => {
-    let id = req.params.id;
-    let userId = req.params.userId;
+    const id = req.params.id;
+    const userId = req.params.userId;
     await userEducation.findOne({
         where: { id, userId }
     }).then(data => {
@@ -70,10 +69,10 @@ exports.showEducationById = async (req, res) => {
 };
 
 exports.deleteEducation = async (req, res) => {
-    let id = req.params.id;
-    let userId = req.params.userId;
+    const id = req.params.id;
+    const userId = req.params.userId;
     try {
-        let education = await userEducation.findOne({
+        const education = await userEducation.findOne({
             where: { id, userId }
         });
         await education.destroy().then(data => {
@@ -98,21 +97,20 @@ exports.deleteEducation = async (req, res) => {
 };
 
 exports.updateEducation = async (req, res) => {
-    let id = req.params.id;
-    let userId = req.params.userId;
+    const id = req.params.id;
+    const userId = req.params.userId;
     const {
         degree_title,
         field_of_study,
         location,
         institution,
         completion_year,
-        gpa,
         total_gpa,
         obtained_gpa
     } = req.body;
 
     try {
-        let education = await userEducation.findOne({
+        const education = await userEducation.findOne({
             where: { id, userId }
         });
 
@@ -121,7 +119,6 @@ exports.updateEducation = async (req, res) => {
         education.location = location;
         education.institution = institution;
         education.completion_year = completion_year;
-        education.gpa = gpa;
         education.total_gpa = total_gpa;
         education.obtained_gpa = obtained_gpa;
 

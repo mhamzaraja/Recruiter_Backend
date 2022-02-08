@@ -3,6 +3,7 @@ module.exports = (sequelize, Sequelize) => {
         "candidate_education", {
         id: {
             type: Sequelize.INTEGER,
+            allowNull: false,
             autoIncrement: true,
             primaryKey: true
         },
@@ -44,14 +45,6 @@ module.exports = (sequelize, Sequelize) => {
             validate: {
                 notNull: { msg: 'must have a year of completion' },
                 notEmpty: { msg: 'year of completion must not be empty' }
-            }
-        },
-        gpa: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a gpa value' },
-                notEmpty: { msg: 'gpa value must not be empty' }
             }
         },
         total_gpa: {

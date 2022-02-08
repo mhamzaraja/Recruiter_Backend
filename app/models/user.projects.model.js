@@ -3,6 +3,7 @@ module.exports = (sequelize, Sequelize) => {
         "candidate_projects", {
         id: {
             type: Sequelize.INTEGER,
+            allowNull: false,
             autoIncrement: true,
             primaryKey: true
         },

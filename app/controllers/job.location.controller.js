@@ -24,7 +24,7 @@ exports.saveJobLocation = async (req, res) => {
 };
 
 exports.showAllJobsLocation = async (req, res) => {
-    let employerId = req.params.employerId;
+    const employerId = req.params.employerId;
     await jobLocation.findAll()
         .then(data => {
             res.status(200).json({
@@ -42,8 +42,8 @@ exports.showAllJobsLocation = async (req, res) => {
 };
 
 exports.showJobLocationById = async (req, res) => {
-    let id = req.params.id;
-    let employerId = req.params.employerId;
+    const id = req.params.id;
+    const employerId = req.params.employerId;
     await jobLocation.findOne({
         where: { id }
     }).then(data => {
@@ -62,10 +62,10 @@ exports.showJobLocationById = async (req, res) => {
 };
 
 exports.deleteJobLocation = async (req, res) => {
-    let id = req.params.id;
-    let employerId = req.params.employerId;
+    const id = req.params.id;
+    const employerId = req.params.employerId;
     try {
-        let loc = await jobLocation.findOne({
+        const loc = await jobLocation.findOne({
             where: { id }
         });
         await loc.destroy().then(data => {
@@ -90,8 +90,8 @@ exports.deleteJobLocation = async (req, res) => {
 };
 
 exports.updateJobLocation = async (req, res) => {
-    let id = req.params.id;
-    let employerId = req.params.employerId;
+    const id = req.params.id;
+    const employerId = req.params.employerId;
     const {
         address,
         city,
@@ -99,7 +99,7 @@ exports.updateJobLocation = async (req, res) => {
     } = req.body;
 
     try {
-        let loc = await jobLocation.findOne({
+        const loc = await jobLocation.findOne({
             where: { id }
         });
 

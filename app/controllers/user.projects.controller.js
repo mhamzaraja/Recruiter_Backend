@@ -29,7 +29,7 @@ exports.saveProjects = async (req, res) => {
 };
 
 exports.showAllProjects = async (req, res) => {
-    let userId = req.params.userId;
+    const userId = req.params.userId;
     await userProjects.findAll({
         where: { userId }
     })
@@ -49,8 +49,8 @@ exports.showAllProjects = async (req, res) => {
 };
 
 exports.showProjectsById = async (req, res) => {
-    let id = req.params.id;
-    let userId = req.params.userId;
+    const id = req.params.id;
+    const userId = req.params.userId;
     await userProjects.findOne({
         where: { id , userId }
     }).then(data => {
@@ -69,10 +69,10 @@ exports.showProjectsById = async (req, res) => {
 };
 
 exports.deleteProjects = async (req, res) => {
-    let id = req.params.id;
-    let userId = req.params.userId;
+    const id = req.params.id;
+    const userId = req.params.userId;
     try {
-        let project = await userProjects.findOne({
+        const project = await userProjects.findOne({
             where: { id , userId }
         });
         await project.destroy().then(data => {
@@ -97,8 +97,8 @@ exports.deleteProjects = async (req, res) => {
 };
 
 exports.updateProjects = async (req, res) => {
-    let id = req.params.id;
-    let userId = req.params.userId;
+    const id = req.params.id;
+    const userId = req.params.userId;
     const {
         project_name,
         project_url,
@@ -110,7 +110,7 @@ exports.updateProjects = async (req, res) => {
     } = req.body;
 
     try {
-        let project = await userProjects.findOne({
+        const project = await userProjects.findOne({
             where: { id , userId }
         });
 

@@ -30,7 +30,7 @@ exports.saveEmployerProfile = async (req, res) => {
 };
 
 exports.showAllJEmployerProfile = async (req, res) => {
-    let employerId = req.params.employerId;
+    const employerId = req.params.employerId;
     await employerProfile.findAll()
         .then(data => {
             res.status(200).json({
@@ -48,8 +48,8 @@ exports.showAllJEmployerProfile = async (req, res) => {
 };
 
 exports.showEmployerProfileById = async (req, res) => {
-    let id = req.params.id;
-    let employerId = req.params.employerId;
+    const id = req.params.id;
+    const employerId = req.params.employerId;
     await employerProfile.findOne({
         where: { id }
     })
@@ -69,10 +69,10 @@ exports.showEmployerProfileById = async (req, res) => {
 };
 
 exports.deleteEmployerProfile = async (req, res) => {
-    let id = req.params.id;
-    let employerId = req.params.employerId;
+    const id = req.params.id;
+    const employerId = req.params.employerId;
     try {
-        let employer = await employerProfile.findOne({
+        const employer = await employerProfile.findOne({
             where: { id }
         });
         await employer.destroy().then(data => {
@@ -97,8 +97,8 @@ exports.deleteEmployerProfile = async (req, res) => {
 };
 
 exports.updateEmployerProfile = async (req, res) => {
-    let id = req.params.id;
-    let employerId = req.params.employerId;
+    const id = req.params.id;
+    const employerId = req.params.employerId;
     const {
         name,
         email,
@@ -112,7 +112,7 @@ exports.updateEmployerProfile = async (req, res) => {
     } = req.body;
 
     try {
-        let employer = await employerProfile.findOne({
+        const employer = await employerProfile.findOne({
             where: { id }
         });
 

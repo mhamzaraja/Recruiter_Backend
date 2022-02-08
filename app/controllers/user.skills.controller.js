@@ -11,7 +11,6 @@ exports.saveSkills = async (req, res) => {
             res.status(200).json({
                 status: 200,
                 success: true,
-                message: "Added Successfully!",
                 data: data
             });
         })
@@ -24,7 +23,7 @@ exports.saveSkills = async (req, res) => {
 };
 
 exports.showAllSkills = async (req, res) => {
-    let userId = req.params.userId;
+    const userId = req.params.userId;
     await userSkills.findAll({
         where: { userId }
     })
@@ -44,8 +43,8 @@ exports.showAllSkills = async (req, res) => {
 };
 
 exports.showSkillsById = async (req, res) => {
-    let id = req.params.id;
-    let userId = req.params.userId;
+    const id = req.params.id;
+    const userId = req.params.userId;
     await userSkills.findOne({
         where: { id, userId }
     })
@@ -65,10 +64,10 @@ exports.showSkillsById = async (req, res) => {
 };
 
 exports.deleteSkills = async (req, res) => {
-    let id = req.params.id;
-    let userId = req.params.userId;
+    const id = req.params.id;
+    const userId = req.params.userId;
     try {
-        let skill = await userSkills.findOne({
+        const skill = await userSkills.findOne({
             where: { id, userId }
         });
         await skill.destroy().then(data => {
@@ -93,15 +92,15 @@ exports.deleteSkills = async (req, res) => {
 };
 
 exports.updateSkills = async (req, res) => {
-    let id = req.params.id;
-    let userId = req.params.userId;
+    const id = req.params.id;
+    const userId = req.params.userId;
     const {
         skill_title,
         skill_proficiency
     } = req.body;
 
     try {
-        let skill = await userSkills.findOne({
+        const skill = await userSkills.findOne({
             where: { id, userId }
         });
 

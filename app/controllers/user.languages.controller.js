@@ -24,7 +24,7 @@ exports.saveLanguages = async (req, res) => {
 };
 
 exports.showAllLanguages = async (req, res) => {
-    let userId = req.params.userId;
+    const userId = req.params.userId;
     await userLanguages.findAll({
         where: { userId }
     })
@@ -44,8 +44,8 @@ exports.showAllLanguages = async (req, res) => {
 };
 
 exports.showLanguagesById = async (req, res) => {
-    let id = req.params.id;
-    let userId = req.params.userId;
+    const id = req.params.id;
+    const userId = req.params.userId;
     await userLanguages.findOne({
         where: { id , userId }
     })
@@ -65,10 +65,10 @@ exports.showLanguagesById = async (req, res) => {
 };
 
 exports.deleteLanguages = async (req, res) => {
-    let id = req.params.id;
-    let userId = req.params.userId;
+    const id = req.params.id;
+    const userId = req.params.userId;
     try {
-        let language = await userLanguages.findOne({
+        const language = await userLanguages.findOne({
             where: { id , userId }
         });
         await language.destroy().then(data => {
@@ -93,15 +93,15 @@ exports.deleteLanguages = async (req, res) => {
 };
 
 exports.updateLanguages = async (req, res) => {
-    let id = req.params.id;
-    let userId = req.params.userId;
+    const id = req.params.id;
+    const userId = req.params.userId;
     const {
         language_title,
         language_proficiency
     } = req.body;
 
     try {
-        let language = await userLanguages.findOne({
+        const language = await userLanguages.findOne({
             where: { id , userId }
         });
 
