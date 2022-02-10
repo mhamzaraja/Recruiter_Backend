@@ -22,9 +22,13 @@ exports.saveJobLocation = async (req, res) => {
         });
 };
 
-exports.showAllJobsLocation = async (req, res) => {
-    const employerId = req.params.employerId;
-    await jobLocation.findAll()
+exports.showJobLocationData = async (req, res) => {
+    const id = req.query.id;
+    const employerId = req.query.employerId;
+
+    if(!id){
+        //show all
+        await jobLocation.findAll()
         .then(data => {
             res.status(200).json({
                 status: 200,
@@ -38,31 +42,30 @@ exports.showAllJobsLocation = async (req, res) => {
                     err.message || "Something Went wrong while requesting!"
             });
         });
-};
-
-exports.showJobLocationById = async (req, res) => {
-    const id = req.params.id;
-    const employerId = req.params.employerId;
-    await jobLocation.findOne({
-        where: { id }
-    }).then(data => {
-        res.status(200).json({
-            status: 200,
-            success: true,
-            data: data
-        });
-    })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
+    } else {
+        //find one by id
+        await jobLocation.findOne({
+            where: { id }
+        })
+            .then(data => {
+                res.status(200).json({
+                    status: 200,
+                    success: true,
+                    data: data
+                });
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Something Went wrong while requesting!"
+                });
             });
-        });
+    }
 };
 
 exports.deleteJobLocation = async (req, res) => {
-    const id = req.params.id;
-    const employerId = req.params.employerId;
+    const id = req.query.id;
+    const employerId = req.query.employerId;
     try {
         const loc = await jobLocation.findOne({
             where: { id }
@@ -89,8 +92,8 @@ exports.deleteJobLocation = async (req, res) => {
 };
 
 exports.updateJobLocation = async (req, res) => {
-    const id = req.params.id;
-    const employerId = req.params.employerId;
+    const id = req.query.id;
+    const employerId = req.query.employerId;
     const {
         address,
         city,

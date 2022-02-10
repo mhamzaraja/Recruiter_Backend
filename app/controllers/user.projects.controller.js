@@ -27,49 +27,51 @@ exports.saveProjects = async (req, res) => {
         });
 };
 
-exports.showAllProjects = async (req, res) => {
-    const userId = req.params.userId;
-    await userProjects.findAll({
-        where: { userId }
-    })
-        .then(data => {
-            res.status(200).json({
-                status: 200,
-                success: true,
-                data: data
-            });
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
-            });
-        });
-};
+exports.showProjectsData = async (req, res) => {
+    const id = req.query.id;
+    const userId = req.query.userId;
 
-exports.showProjectsById = async (req, res) => {
-    const id = req.params.id;
-    const userId = req.params.userId;
-    await userProjects.findOne({
-        where: { id , userId }
-    }).then(data => {
-            res.status(200).json({
-                status: 200,
-                success: true,
-                data: data
-            });
+    if(!id){
+        // show all
+        await userProjects.findAll({
+            where: { userId }
         })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
+            .then(data => {
+                res.status(200).json({
+                    status: 200,
+                    success: true,
+                    data: data
+                });
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Something Went wrong while requesting!"
+                });
             });
-        });
+    } else {
+        // find one by id
+        await userProjects.findOne({
+            where: { id , userId }
+        }).then(data => {
+                res.status(200).json({
+                    status: 200,
+                    success: true,
+                    data: data
+                });
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Something Went wrong while requesting!"
+                });
+            });
+    }
 };
 
 exports.deleteProjects = async (req, res) => {
-    const id = req.params.id;
-    const userId = req.params.userId;
+    const id = req.query.id;
+    const userId = req.query.userId;
     try {
         const project = await userProjects.findOne({
             where: { id , userId }
@@ -96,8 +98,8 @@ exports.deleteProjects = async (req, res) => {
 };
 
 exports.updateProjects = async (req, res) => {
-    const id = req.params.id;
-    const userId = req.params.userId;
+    const id = req.query.id;
+    const userId = req.query.userId;
     const {
         project_name,
         project_url,

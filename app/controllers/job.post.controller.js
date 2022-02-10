@@ -34,9 +34,13 @@ exports.saveJob = async (req, res) => {
         });
 };
 
-exports.showAllJobs = async (req, res) => {
-    // const jobId = req.params.jobId;
-    await userJob.findAll()
+exports.showJobData = async (req, res) => {
+    const id = req.query.id;
+    const employerId = req.query.employerId;
+
+    if(!id){
+        //show all
+        await userJob.findAll()
         .then(data => {
             res.status(200).json({
                 status: 200,
@@ -50,31 +54,31 @@ exports.showAllJobs = async (req, res) => {
                     err.message || "Something Went wrong while requesting!"
             });
         });
+    } else {
+        //find one by id
+        await userJob.findOne({
+            where: { id }
+        })
+            .then(data => {
+                res.status(200).json({
+                    status: 200,
+                    success: true,
+                    data: data
+                });
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Something Went wrong while requesting!"
+                });
+            });
+    }
 };
 
-exports.showJobById = async (req, res) => {
-    const id = req.params.id;
-    // const jobId = req.params.jobId;
-    await userJob.findOne({
-        where: { id }
-    }).then(data => {
-        res.status(200).json({
-            status: 200,
-            success: true,
-            data: data
-        });
-    })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
-            });
-        });
-};
 
 exports.deleteJob = async (req, res) => {
-    const id = req.params.id;
-    // const jobId = req.params.jobId;
+    const id = req.query.id;
+    // const jobId = req.query.jobId;
     try {
         const job = await userJob.findOne({
             where: { id }
@@ -101,8 +105,8 @@ exports.deleteJob = async (req, res) => {
 };
 
 exports.updateJob = async (req, res) => {
-    const id = req.params.id;
-    // const jobId = req.params.jobId;
+    const id = req.query.id;
+    // const jobId = req.query.jobId;
     const {
         job_title,
         company,

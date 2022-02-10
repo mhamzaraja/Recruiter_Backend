@@ -22,50 +22,51 @@ exports.saveLanguages = async (req, res) => {
         });
 };
 
-exports.showAllLanguages = async (req, res) => {
-    const userId = req.params.userId;
-    await userLanguages.findAll({
-        where: { userId }
-    })
-        .then(data => {
-            res.status(200).json({
-                status: 200,
-                success: true,
-                data: data
-            });
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
-            });
-        });
-};
+exports.showLanguagesData = async (req, res) => {
+    const id = req.query.id;
+    const userId = req.query.userId;
 
-exports.showLanguagesById = async (req, res) => {
-    const id = req.params.id;
-    const userId = req.params.userId;
-    await userLanguages.findOne({
-        where: { id , userId }
-    })
-        .then(data => {
-            res.status(200).json({
-                status: 200,
-                success: true,
-                data: data
-            });
+    if(!id){
+        // show all
+        await userLanguages.findAll({
+            where: { userId }
         })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
+            .then(data => {
+                res.status(200).json({
+                    status: 200,
+                    success: true,
+                    data: data
+                });
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Something Went wrong while requesting!"
+                });
             });
-        });
+    } else {
+        // find one by id
+        await userLanguages.findOne({
+            where: { id , userId }
+        }).then(data => {
+                res.status(200).json({
+                    status: 200,
+                    success: true,
+                    data: data
+                });
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Something Went wrong while requesting!"
+                });
+            });
+    }
 };
 
 exports.deleteLanguages = async (req, res) => {
-    const id = req.params.id;
-    const userId = req.params.userId;
+    const id = req.query.id;
+    const userId = req.query.userId;
     try {
         const language = await userLanguages.findOne({
             where: { id , userId }
@@ -92,8 +93,8 @@ exports.deleteLanguages = async (req, res) => {
 };
 
 exports.updateLanguages = async (req, res) => {
-    const id = req.params.id;
-    const userId = req.params.userId;
+    const id = req.query.id;
+    const userId = req.query.userId;
     const {
         language_title,
         language_proficiency

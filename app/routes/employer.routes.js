@@ -16,31 +16,27 @@ module.exports = function (app) {
 
     //employer
     app.post("/api/employer/profile/create", employerProfileController.saveEmployerProfile);
-    app.get("/api/employer/profile/getAll", employerProfileController.showAllJEmployerProfile);
-    app.get("/api/employer/profile/getOne/:id", employerProfileController.showEmployerProfileById);
-    app.delete("/api/employer/profile/delete/:id", employerProfileController.deleteEmployerProfile);
-    app.put("/api/employer/profile/update/:id", employerProfileController.updateEmployerProfile);
+    app.get("/api/employer/profile", employerProfileController.showEmployerProfileData);
+    app.delete("/api/employer/profile/delete", employerProfileController.deleteEmployerProfile);
+    app.put("/api/employer/profile/update", employerProfileController.updateEmployerProfile);
 
 
     //job post
     app.post("/api/employer/job/create", jobPostController.saveJob);
-    app.get("/api/employer/job/getAll", jobPostController.showAllJobs);
-    app.get("/api/employer/job/getOne/:id", jobPostController.showJobById);
-    app.delete("/api/employer/job/delete/:id", jobPostController.deleteJob);
-    app.put("/api/employer/job/update/:id", jobPostController.updateJob);
+    app.get("/api/employer/job", jobPostController.showJobData);
+    app.delete("/api/employer/job/delete", jobPostController.deleteJob);
+    app.put("/api/employer/job/update", jobPostController.updateJob);
 
     //job location
     app.post("/api/employer/jobLocation/create", jobLocationController.saveJobLocation);
-    app.get("/api/employer/jobLocation/getAll", jobLocationController.showAllJobsLocation);
-    app.get("/api/employer/jobLocation/getOne/:id", jobLocationController.showJobLocationById);
-    app.delete("/api/employer/jobLocation/delete/:id", jobLocationController.deleteJobLocation);
-    app.put("/api/employer/jobLocation/update/:id", jobLocationController.updateJobLocation);
+    app.get("/api/employer/jobLocation", jobLocationController.showJobLocationData);
+    app.delete("/api/employer/jobLocation/delete", jobLocationController.deleteJobLocation);
+    app.put("/api/employer/jobLocation/update", jobLocationController.updateJobLocation);
 
     //job skills
     app.post("/api/employer/jobSkills/create", jobSkillsController.saveJobSkills);
-    app.get("/api/employer/jobSkills/getAll", jobSkillsController.showAllJobsSkills);
-    app.get("/api/employer/jobSkills/getOne/:id", jobSkillsController.showJobSkillsById);
-    app.delete("/api/employer/jobSkills/delete/:id", jobSkillsController.deleteJobSkills);
-    app.put("/api/employer/jobSkills/update/:id", jobSkillsController.updateJobSkills);
+    app.get("/api/employer/jobSkills", jobSkillsController.showJobSkillsData);
+    app.delete("/api/employer/jobSkills/delete", jobSkillsController.deleteJobSkills);
+    app.put("/api/employer/jobSkills/update", jobSkillsController.updateJobSkills);
 
 };

@@ -27,49 +27,52 @@ exports.saveEducation = async (req, res) => {
         });
 };
 
-exports.showAllEducations = async (req, res) => {
-    const userId = req.params.userId;
-    await userEducation.findAll({
-        where: { userId }
-    })
-        .then(data => {
+exports.showEducationData = async (req, res) => {
+    const id = req.query.id;
+    const userId = req.query.userId;
+
+    if (!id) {
+        //show all
+        await userEducation.findAll({
+            where: { userId }
+        })
+            .then(data => {
+                res.status(200).json({
+                    status: 200,
+                    success: true,
+                    data: data
+                });
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Something Went wrong while requesting!"
+                });
+            });
+    } else {
+        //show one by id
+        await userEducation.findOne({
+            where: { id, userId }
+        }).then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,
                 data: data
             });
         })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Something Went wrong while requesting!"
+                });
             });
-        });
-};
+    }
 
-exports.showEducationById = async (req, res) => {
-    const id = req.params.id;
-    const userId = req.params.userId;
-    await userEducation.findOne({
-        where: { id, userId }
-    }).then(data => {
-        res.status(200).json({
-            status: 200,
-            success: true,
-            data: data
-        });
-    })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
-            });
-        });
 };
 
 exports.deleteEducation = async (req, res) => {
-    const id = req.params.id;
-    const userId = req.params.userId;
+    const id = req.query.id;
+    const userId = req.query.userId;
     try {
         const education = await userEducation.findOne({
             where: { id, userId }
@@ -96,8 +99,8 @@ exports.deleteEducation = async (req, res) => {
 };
 
 exports.updateEducation = async (req, res) => {
-    const id = req.params.id;
-    const userId = req.params.userId;
+    const id = req.query.id;
+    const userId = req.query.userId;
     const {
         degree_title,
         field_of_study,

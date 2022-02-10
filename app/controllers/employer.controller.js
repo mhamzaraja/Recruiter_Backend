@@ -28,30 +28,13 @@ exports.saveEmployerProfile = async (req, res) => {
         });
 };
 
-exports.showAllJEmployerProfile = async (req, res) => {
-    const employerId = req.params.employerId;
-    await employerProfile.findAll()
-        .then(data => {
-            res.status(200).json({
-                status: 200,
-                success: true,
-                data: data
-            });
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
-            });
-        });
-};
+exports.showEmployerProfileData = async (req, res) => {
+    const id = req.query.id;
+    const employerId = req.query.employerId;
 
-exports.showEmployerProfileById = async (req, res) => {
-    const id = req.params.id;
-    const employerId = req.params.employerId;
-    await employerProfile.findOne({
-        where: { id }
-    })
+    if(!id){
+        //show all
+        await employerProfile.findAll()
         .then(data => {
             res.status(200).json({
                 status: 200,
@@ -65,11 +48,30 @@ exports.showEmployerProfileById = async (req, res) => {
                     err.message || "Something Went wrong while requesting!"
             });
         });
+    } else {
+        //find one by id
+        await employerProfile.findOne({
+            where: { id }
+        })
+            .then(data => {
+                res.status(200).json({
+                    status: 200,
+                    success: true,
+                    data: data
+                });
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Something Went wrong while requesting!"
+                });
+            });
+    }
 };
 
 exports.deleteEmployerProfile = async (req, res) => {
-    const id = req.params.id;
-    const employerId = req.params.employerId;
+    const id = req.query.id;
+    const employerId = req.query.employerId;
     try {
         const employer = await employerProfile.findOne({
             where: { id }
@@ -96,8 +98,8 @@ exports.deleteEmployerProfile = async (req, res) => {
 };
 
 exports.updateEmployerProfile = async (req, res) => {
-    const id = req.params.id;
-    const employerId = req.params.employerId;
+    const id = req.query.id;
+    const employerId = req.query.employerId;
     const {
         name,
         email,
