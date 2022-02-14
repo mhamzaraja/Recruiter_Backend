@@ -38,7 +38,13 @@ module.exports = function(app) {
   // );
 
   app.post("/api/user/profile", [authJwt.verifyToken], controller.createUpdate);
-  
+
+  //user Education CRUD
+  // app.post("/api/user/education/create", [authJwt.verifyToken], controller.educationCreate );
+  // app.get("/api/user/education/get", [authJwt.verifyToken], controller.educationCreate );
+  // app.post("/api/user/education/update", [authJwt.verifyToken], controller.educationCreate );
+  // app.post("/api/user/education/delete", [authJwt.verifyToken], controller.educationCreate );
+
 
 
 };
