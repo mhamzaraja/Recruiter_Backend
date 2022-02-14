@@ -51,6 +51,8 @@ exports.createUpdate = async (req, res) => {
 exports.getUserData = async (req, res) => {
   const id = req.query.id;
   const userId = req.query.userId;
+  
+  // remove userId
 
   if (!id) {
     try {

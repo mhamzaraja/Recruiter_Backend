@@ -27,14 +27,28 @@ exports.signup = async (req, res) => {
       });
 
       const result = user.setRoles(roles);
-      if (result) res.send({ message: "User registered successfully!" });
+      if (result)
+        return res.status(200).json({
+          status: 200,
+          success: true,
+          message: "User registered successfully!"
+        });
     } else {
       // user has role = 1
       const result = user.setRoles([1]);
-      if (result) res.send({ message: "User registered successfully!" });
+      if (result)
+        return res.status(200).json({
+          status: 200,
+          success: true,
+          message: "User registered successfully!"
+        });
     }
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    return res.status(404).json({
+      status: 404,
+      success: false,
+      message: error.message
+    });
   }
 };
 
@@ -47,7 +61,11 @@ exports.signin = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).send({ message: "User Not found." });
+      return res.status(404).json({
+        status: 404,
+        success: false,
+        message: "User Not found."
+      });
     }
 
     const passwordIsValid = bcrypt.compareSync(
@@ -56,9 +74,12 @@ exports.signin = async (req, res) => {
     );
 
     if (!passwordIsValid) {
-      return res.status(401).send({
-        message: "Invalid Password!",
+      return res.status(200).json({
+        status: 200,
+        success: false,
+        message: "Invalid Password!"
       });
+
     }
 
     const token = jwt.sign({ id: user.id }, config.secret, {

@@ -14,9 +14,7 @@ module.exports = function(app) {
     next();
   });
 
-  //remove ? from urls
-
-  app.post("/api/user/profile", controller.createUpdate);
+  app.post("/api/user/profile/create", controller.createUpdate);
   app.get("/api/user/profile", controller.getUserData);
 
   //Education
