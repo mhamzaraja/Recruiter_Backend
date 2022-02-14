@@ -152,5 +152,3 @@ exports.getUserData = async (req, res) => {
     }
   }
 }
-};
-

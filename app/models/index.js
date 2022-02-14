@@ -31,11 +31,12 @@ db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 
 //candidate models
-db.candidateProfile = require("../models/candidate.Profile.model")(sequelize, Sequelize);
+db.candidateProfile = require("../models/candidate.profile.model")(sequelize, Sequelize);
 db.candidateEducation = require("../models/candidate.education.model")(sequelize, Sequelize);
 db.candidateProjects = require("../models/user.projects.model")(sequelize, Sequelize);
 db.candidateSkills = require("../models/user.skills.model")(sequelize, Sequelize);
 db.candidateLanguages = require("../models/user.languages.model")(sequelize, Sequelize);
+db.userExperience = require("../models/userExperience.model")(sequelize, Sequelize);
 
 //employer models
 db.employerProfile = require("../models/employer.profile.model")(sequelize, Sequelize);
@@ -43,9 +44,6 @@ db.jobPost = require("../models/job.post.model")(sequelize, Sequelize);
 db.jobSkills = require("../models/job.skills.model")(sequelize, Sequelize);
 db.jobLocation = require("../models/job.location.model")(sequelize, Sequelize);
 
-db.candidateProfile = require("../models/candidateProfile.model")(sequelize, Sequelize);
-db.candidateEducation = require("../models/education.model")(sequelize, Sequelize);
-db.userExperience = require("../models/userExperience.model")(sequelize, Sequelize);
 
 // ASSOCIATIONS
 
