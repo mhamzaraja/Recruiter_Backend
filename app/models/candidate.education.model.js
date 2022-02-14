@@ -47,14 +47,6 @@ module.exports = (sequelize, Sequelize) => {
                 notEmpty: { msg: 'year of completion must not be empty' }
             }
         },
-        total_gpa: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a title' },
-                notEmpty: { msg: 'title must not be empty' }
-            }
-        },
         obtained_gpa: {
             type: Sequelize.INTEGER,
             allowNull: false,

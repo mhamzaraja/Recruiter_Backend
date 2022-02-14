@@ -44,10 +44,10 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.STRING
             },
             summary:{
-                type: Sequelize.STRING,
+                type: Sequelize.STRING
             },
             experience: {
-                type: Sequelize.INTEGER
+                type: Sequelize.STRING
             }
 
         }, {
