@@ -1,5 +1,6 @@
 const { authJwt } = require("../middleware");
 const controller = require("../controllers/user.controller");
+const experienceController = require("../controllers/userExperience.controller");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -45,6 +46,11 @@ module.exports = function(app) {
   // app.post("/api/user/education/update", [authJwt.verifyToken], controller.educationCreate );
   // app.post("/api/user/education/delete", [authJwt.verifyToken], controller.educationCreate );
 
-
+  // User Experience
+    app.post("/api/user/experience/create", [authJwt.verifyToken], experienceController.createUserExperience );
+    app.get("/api/user/experience/getAll/:userId", [authJwt.verifyToken], experienceController.getAllUserExperience );
+    app.get("/api/user/experience/get/:userId&:id", [authJwt.verifyToken], experienceController.getUserExperience );
+    app.post("/api/user/experience/update/:userId&:id", [authJwt.verifyToken], experienceController.updateUserExperience );
+    app.delete("/api/user/experience/delete/:userId&:id", [authJwt.verifyToken], experienceController.deleteUserExperience );
 
 };

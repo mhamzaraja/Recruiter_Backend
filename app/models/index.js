@@ -31,6 +31,7 @@ db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.candidateProfile = require("../models/candidateProfile.model")(sequelize, Sequelize);
 db.candidateEducation = require("../models/education.model")(sequelize, Sequelize);
+db.userExperience = require("../models/userExperience.model")(sequelize, Sequelize);
 
 // ASSOCIATIONS
 
@@ -64,6 +65,9 @@ db.user.belongsToMany(db.role, {
 //candidate_user
 db.candidateProfile.belongsTo(db.user);
 
+//Experience
+db.user.hasMany(db.userExperience, {foreignKey: "userId"});
+db.userExperience.belongsTo(db.user);
 
 db.ROLES = ["user", "admin", "moderator"];
 

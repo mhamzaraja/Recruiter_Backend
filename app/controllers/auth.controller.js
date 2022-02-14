@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 exports.signup = async (req, res) => {
+  console.log("Body", req.body);
   // save User to Database
   try {
     const user = await User.create({
