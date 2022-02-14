@@ -1,5 +1,10 @@
 const db = require("../models");
 const CandidateProfile = db.candidateProfile;
+const candidateEducation = db.candidateEducation;
+const candidateProjects = db.candidateProjects;
+const candidateSkills = db.candidateSkills;
+const candidateLanguages = db.candidateLanguages;
+
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Candidate
@@ -10,14 +15,6 @@ exports.createUpdate = async (req, res) => {
       userId: req.body.userId,
     },
   });
-
-  // Validate request
-  if (!req.body.name && !req.body.gender && !req.body.marital_status && !req.body.cnic) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-    return;
-  }
 
   if (!profile) {
     CandidateProfile.create(req.body)
@@ -33,16 +30,16 @@ exports.createUpdate = async (req, res) => {
             err.message || "Some error occurred while creating the Tutorial."
         });
       });
-  }else{
+  } else {
     CandidateProfile.update(req.body, {
       where: { userId: req.body.userId }
     }).then(num => {
-        if (num == 1) {
-          res.status(200).send("update Successfully");
-        }else{
-          res.status(200).send(req.body);
-        }
-      })
+      if (num == 1) {
+        res.status(200).send("update Successfully");
+      } else {
+        res.status(200).send(req.body);
+      }
+    })
       .catch(err => {
         res.status(500).send({
           message: "Error updating Tutorial with id=" + req.body.userId
@@ -50,3 +47,110 @@ exports.createUpdate = async (req, res) => {
       });
   }
 };
+
+exports.getUserData = async (req, res) => {
+  const id = req.query.id;
+  const userId = req.query.userId;
+  
+  // remove userId
+
+  if (!id) {
+    try {
+      const profile = await CandidateProfile.findAll({
+        where: { userId }
+      });
+
+      const education = await candidateEducation.findAll({
+        where: { userId }
+      });
+
+      const projects = await candidateProjects.findAll({
+        where: { userId }
+      });
+
+      const skills = await candidateSkills.findAll({
+        where: { userId }
+      });
+
+      const languages = await candidateLanguages.findAll({
+        where: { userId }
+      });
+
+
+      if (!profile && !education && !projects && !skills && !languages) {
+        res.status(500).json({
+          status: 500,
+          success: false,
+          message: "cannot find user"
+        });
+      } else {
+        res.status(200).json({
+          status: 200,
+          success: true,
+          data: [
+            { profile },
+            { education },
+            { projects },
+            { skills },
+            { languages },
+          ]
+        });
+      }
+    } catch (err) {
+      res.status(500).send({
+        message:
+          err.message || "Something Went wrong while requesting!"
+      });
+    }
+  } else {
+    try {
+      const profile = await CandidateProfile.findOne({
+        where: { id, userId }
+      });
+
+      const education = await candidateEducation.findOne({
+        where: { id, userId }
+      });
+
+      const projects = await candidateProjects.findOne({
+        where: { id, userId }
+      });
+
+      const skills = await candidateSkills.findOne({
+        where: { id, userId }
+      });
+
+      const languages = await candidateLanguages.findOne({
+        where: { id, userId }
+      });
+
+
+      if (!profile && !education && !projects && !skills && !languages) {
+        res.status(500).json({
+          status: 500,
+          success: false,
+          message: "cannot find user"
+        });
+      } else {
+        res.status(200).json({
+          status: 200,
+          success: true,
+          data: [
+            { profile },
+            { education },
+            { projects },
+            { skills },
+            { languages },
+          ]
+        });
+      }
+    } catch (err) {
+      res.status(500).send({
+        message:
+          err.message || "Something Went wrong while requesting!"
+      });
+    }
+  }
+}
+};
+

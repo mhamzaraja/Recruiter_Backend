@@ -1,5 +1,9 @@
 const { authJwt } = require("../middleware");
 const controller = require("../controllers/user.controller");
+const educationController = require("../controllers/user.education.controller");
+const projectsController = require("../controllers/user.projects.controller");
+const skillsController = require("../controllers/user.skills.controller");
+const languagesController = require("../controllers/user.languages.controller");
 const experienceController = require("../controllers/userExperience.controller");
 
 module.exports = function(app) {
@@ -11,40 +15,32 @@ module.exports = function(app) {
     next();
   });
 
-  // app.get("/api/test/all", controller.allAccess);
+  app.post("/api/user/profile/create",  [authJwt.verifyToken], controller.createUpdate);
+  app.get("/api/user/profile",  [authJwt.verifyToken], controller.getUserData);
 
-  // app.get(
-  //   "/api/test/user",
-  //   [authJwt.verifyToken],
-  //   controller.userBoard
-  // );
+  //Education
+  app.post("/api/user/education/create",  [authJwt.verifyToken], educationController.saveEducation);
+  app.get("/api/user/education",  [authJwt.verifyToken], educationController.showEducationData);
+  app.delete("/api/user/education/delete",  [authJwt.verifyToken], educationController.deleteEducation );
+  app.put("/api/user/education/update",  [authJwt.verifyToken], educationController.updateEducation );
 
-  // app.get(
-  //   "/api/test/mod",
-  //   [authJwt.verifyToken, authJwt.isModerator],
-  //   controller.moderatorBoard
-  // );
+  //projects
+  app.post("/api/user/projects/create/",  [authJwt.verifyToken], projectsController.saveProjects);
+  app.get("/api/user/projects",  [authJwt.verifyToken], projectsController.showProjectsData);
+  app.delete("/api/user/projects/delete",  [authJwt.verifyToken], projectsController.deleteProjects);
+  app.put("/api/user/projects/update",  [authJwt.verifyToken], projectsController.updateProjects);
 
-  // app.get(
-  //   "/api/test/admin",
-  //   [authJwt.verifyToken, authJwt.isAdmin],
-  //   controller.adminBoard
-  // );
+  //skills
+  app.post("/api/user/skills/create",  [authJwt.verifyToken], skillsController.saveSkills);
+  app.get("/api/user/skills",  [authJwt.verifyToken], skillsController.showSkillsData);
+  app.delete("/api/user/skills/delete",  [authJwt.verifyToken], skillsController.deleteSkills);
+  app.put("/api/user/skills/update",  [authJwt.verifyToken], skillsController.updateSkills);
 
-
-  // app.get(
-  //   "/api/test/user",
-  //   [authJwt.verifyToken],
-  //   controller.userBoard
-  // );
-
-  app.post("/api/user/profile", [authJwt.verifyToken], controller.createUpdate);
-
-  //user Education CRUD
-  // app.post("/api/user/education/create", [authJwt.verifyToken], controller.educationCreate );
-  // app.get("/api/user/education/get", [authJwt.verifyToken], controller.educationCreate );
-  // app.post("/api/user/education/update", [authJwt.verifyToken], controller.educationCreate );
-  // app.post("/api/user/education/delete", [authJwt.verifyToken], controller.educationCreate );
+  //languages
+  app.post("/api/user/languages/create",  [authJwt.verifyToken], languagesController.saveLanguages);
+  app.get("/api/user/languages",  [authJwt.verifyToken], languagesController.showLanguagesData);
+  app.delete("/api/user/languages/delete",  [authJwt.verifyToken], languagesController.deleteLanguages);
+  app.put("/api/user/languages/update",  [authJwt.verifyToken], languagesController.updateLanguages);
 
   // User Experience
     app.post("/api/user/experience/create", [authJwt.verifyToken], experienceController.createUserExperience );

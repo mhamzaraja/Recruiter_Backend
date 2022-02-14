@@ -1,8 +1,9 @@
 module.exports = (sequelize, Sequelize) => {
-    const CandidateEducation = sequelize.define(
-        "candidate_education", {
+    const CandidateProfile = sequelize.define(
+        "candidate_profile", {
             id:{
                 type: Sequelize.INTEGER,
+                allowNull: false,
                 autoIncrement: true,
                 primaryKey: true
             },
@@ -56,5 +57,5 @@ module.exports = (sequelize, Sequelize) => {
           }
     );
   
-    return CandidateEducation;
+    return CandidateProfile;
   };
