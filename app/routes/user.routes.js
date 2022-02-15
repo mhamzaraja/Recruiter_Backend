@@ -23,6 +23,7 @@ module.exports = function(app) {
   app.get("/api/user/education",  [authJwt.verifyToken], educationController.showEducationData);
   app.delete("/api/user/education/delete",  [authJwt.verifyToken], educationController.deleteEducation );
   app.put("/api/user/education/update",  [authJwt.verifyToken], educationController.updateEducation );
+  
 
   //projects
   app.post("/api/user/projects/create/",  [authJwt.verifyToken], projectsController.saveProjects);
