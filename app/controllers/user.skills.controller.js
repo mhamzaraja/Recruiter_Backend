@@ -5,19 +5,21 @@ exports.saveSkills = async (req, res) => {
     await userSkills.create({
         skill_title: req.body.skill_title,
         skill_proficiency: req.body.skill_proficiency,
-        userId : req.body.userId
+        userId: req.body.userId
     })
         .then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,
+                message: "Created Successfully",
                 data: data
             });
         })
         .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
             });
         });
 };
@@ -26,7 +28,7 @@ exports.showSkillsData = async (req, res) => {
     const id = req.query.id;
     const userId = req.query.userId;
 
-    if(!id){
+    if (!id) {
         // show all
         await userSkills.findAll({
             where: { userId }
@@ -39,26 +41,28 @@ exports.showSkillsData = async (req, res) => {
                 });
             })
             .catch(err => {
-                res.status(500).send({
-                    message:
-                        err.message || "Something Went wrong while requesting!"
+                res.status(500).json({
+                    status: 500,
+                    success: false,
+                    message: err.message || "Something Went wrong while requesting!"
                 });
             });
     } else {
         // find one by id
         await userSkills.findOne({
-            where: { id , userId }
+            where: { id, userId }
         }).then(data => {
-                res.status(200).json({
-                    status: 200,
-                    success: true,
-                    data: data
-                });
-            })
+            res.status(200).json({
+                status: 200,
+                success: true,
+                data: data
+            });
+        })
             .catch(err => {
-                res.status(500).send({
-                    message:
-                        err.message || "Something Went wrong while requesting!"
+                res.status(500).json({
+                    status: 500,
+                    success: false,
+                    message: err.message || "Something Went wrong while requesting!"
                 });
             });
     }
@@ -79,9 +83,10 @@ exports.deleteSkills = async (req, res) => {
                 data: data
             });
         }).catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
             });
         });
     } catch (err) {
@@ -117,15 +122,17 @@ exports.updateSkills = async (req, res) => {
             });
         })
             .catch(err => {
-                res.status(500).send({
-                    message:
-                        err.message || "Something Went wrong while requesting!"
+                res.status(500).json({
+                    status: 500,
+                    success: false,
+                    message: err.message || "Something Went wrong while requesting!"
                 });
             });
     } catch (err) {
-        res.status(500).send({
-            message:
-                err.message || "Something Went wrong while requesting!"
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: err.message || "Something Went wrong while requesting!"
         });
     }
 };

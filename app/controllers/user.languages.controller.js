@@ -3,21 +3,23 @@ const userLanguages = db.candidateLanguages;
 
 exports.saveLanguages = async (req, res) => {
     await userLanguages.create({
-        language_title : req.body.language_title,
-        language_proficiency : req.body.language_proficiency,
-        userId : req.body.userId
+        language_title: req.body.language_title,
+        language_proficiency: req.body.language_proficiency,
+        userId: req.body.userId
     })
         .then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,
+                message: "Created Successfully",
                 data: data
             });
         })
         .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
             });
         });
 };
@@ -26,7 +28,7 @@ exports.showLanguagesData = async (req, res) => {
     const id = req.query.id;
     const userId = req.query.userId;
 
-    if(!id){
+    if (!id) {
         // show all
         await userLanguages.findAll({
             where: { userId }
@@ -39,26 +41,28 @@ exports.showLanguagesData = async (req, res) => {
                 });
             })
             .catch(err => {
-                res.status(500).send({
-                    message:
-                        err.message || "Something Went wrong while requesting!"
+                res.status(500).json({
+                    status: 500,
+                    success: false,
+                    message: err.message || "Something Went wrong while requesting!"
                 });
             });
     } else {
         // find one by id
         await userLanguages.findOne({
-            where: { id , userId }
+            where: { id, userId }
         }).then(data => {
-                res.status(200).json({
-                    status: 200,
-                    success: true,
-                    data: data
-                });
-            })
+            res.status(200).json({
+                status: 200,
+                success: true,
+                data: data
+            });
+        })
             .catch(err => {
-                res.status(500).send({
-                    message:
-                        err.message || "Something Went wrong while requesting!"
+                res.status(500).json({
+                    status: 500,
+                    success: false,
+                    message: err.message || "Something Went wrong while requesting!"
                 });
             });
     }
@@ -69,7 +73,7 @@ exports.deleteLanguages = async (req, res) => {
     const userId = req.query.userId;
     try {
         const language = await userLanguages.findOne({
-            where: { id , userId }
+            where: { id, userId }
         });
         await language.destroy().then(data => {
             res.status(200).json({
@@ -79,15 +83,17 @@ exports.deleteLanguages = async (req, res) => {
                 data: data
             });
         }).catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
             });
         });
     } catch (err) {
-        res.status(500).send({
-            message:
-                err.message || "Something Went wrong while requesting!"
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: err.message || "Something Went wrong while requesting!"
         });
     }
 };
@@ -102,7 +108,7 @@ exports.updateLanguages = async (req, res) => {
 
     try {
         const language = await userLanguages.findOne({
-            where: { id , userId }
+            where: { id, userId }
         });
 
         language.language_title = language_title;
@@ -117,15 +123,17 @@ exports.updateLanguages = async (req, res) => {
             });
         })
             .catch(err => {
-                res.status(500).send({
-                    message:
-                        err.message || "Something Went wrong while requesting!"
+                res.status(500).json({
+                    status: 500,
+                    success: false,
+                    message: err.message || "Something Went wrong while requesting!"
                 });
             });
     } catch (err) {
-        res.status(500).send({
-            message:
-                err.message || "Something Went wrong while requesting!"
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: err.message || "Something Went wrong while requesting!"
         });
     }
 };

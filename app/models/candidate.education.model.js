@@ -22,9 +22,6 @@ module.exports = (sequelize, Sequelize) => {
         completion_year: {
             type: Sequelize.INTEGER
         },
-        total_gpa: {
-            type: Sequelize.INTEGER
-        },
         obtained_gpa: {
             type: Sequelize.INTEGER
         }

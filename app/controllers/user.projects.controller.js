@@ -3,26 +3,28 @@ const userProjects = db.candidateProjects;
 
 exports.saveProjects = async (req, res) => {
     await userProjects.create({
-            project_name : req.body.project_name,
-            project_url : req.body.project_url,
-            start_date : req.body.start_date,
-            end_date : req.body.end_date,
-            currently_ongoing : req.body.currently_ongoing,
-            associated_with : req.body.associated_with,
-            description : req.body.description,
-            userId : req.body.userId
+        project_name: req.body.project_name,
+        project_url: req.body.project_url,
+        start_date: req.body.start_date,
+        end_date: req.body.end_date,
+        currently_ongoing: req.body.currently_ongoing,
+        associated_with: req.body.associated_with,
+        description: req.body.description,
+        userId: req.body.userId
     })
-    .then(data => {
+        .then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,
+                message: "Created Successfully",
                 data: data
             });
         })
         .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
             });
         });
 };
@@ -31,7 +33,7 @@ exports.showProjectsData = async (req, res) => {
     const id = req.query.id;
     const userId = req.query.userId;
 
-    if(!id){
+    if (!id) {
         // show all
         await userProjects.findAll({
             where: { userId }
@@ -43,27 +45,27 @@ exports.showProjectsData = async (req, res) => {
                     data: data
                 });
             })
-            .catch(err => {
-                res.status(500).send({
-                    message:
-                        err.message || "Something Went wrong while requesting!"
-                });
-            });
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: err.message || "Something Went wrong while requesting!"
+        });
     } else {
         // find one by id
         await userProjects.findOne({
-            where: { id , userId }
+            where: { id, userId }
         }).then(data => {
-                res.status(200).json({
-                    status: 200,
-                    success: true,
-                    data: data
-                });
-            })
+            res.status(200).json({
+                status: 200,
+                success: true,
+                data: data
+            });
+        })
             .catch(err => {
-                res.status(500).send({
-                    message:
-                        err.message || "Something Went wrong while requesting!"
+                res.status(500).json({
+                    status: 500,
+                    success: false,
+                    message: err.message || "Something Went wrong while requesting!"
                 });
             });
     }
@@ -74,7 +76,7 @@ exports.deleteProjects = async (req, res) => {
     const userId = req.query.userId;
     try {
         const project = await userProjects.findOne({
-            where: { id , userId }
+            where: { id, userId }
         });
         await project.destroy().then(data => {
             res.status(200).json({
@@ -84,9 +86,10 @@ exports.deleteProjects = async (req, res) => {
                 data: data
             });
         }).catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
             });
         });
     } catch (err) {
@@ -112,7 +115,7 @@ exports.updateProjects = async (req, res) => {
 
     try {
         const project = await userProjects.findOne({
-            where: { id , userId }
+            where: { id, userId }
         });
 
         project.project_name = project_name;
@@ -138,9 +141,10 @@ exports.updateProjects = async (req, res) => {
                 });
             });
     } catch (err) {
-        res.status(500).send({
-            message:
-                err.message || "Something Went wrong while requesting!"
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: err.message || "Something Went wrong while requesting!"
         });
     }
 };

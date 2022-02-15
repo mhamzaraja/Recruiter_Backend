@@ -20,14 +20,17 @@ exports.createUpdate = async (req, res) => {
     CandidateProfile.create(req.body)
       .then(data => {
         res.send(data);
-        res.status(200).send({
-          message: "Register Successfully!"
+        res.status(200).json({
+          status: 200,
+          success: false,
+          message: "Created Successfully!"
         });
       })
       .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the Tutorial."
+        res.status(500).json({
+          status: 500,
+          success: false,
+          message: err.message || "Some error occurred while creating."
         });
       });
   } else {
@@ -35,14 +38,24 @@ exports.createUpdate = async (req, res) => {
       where: { userId: req.body.userId }
     }).then(num => {
       if (num == 1) {
-        res.status(200).send("update Successfully");
+        res.status(200).json({
+          status: 200,
+          success: false,
+          message: "Updated Successfully"
+        });
       } else {
-        res.status(200).send(req.body);
+        res.status(500).json({
+          status: 500,
+          success: false,
+          message: "No changes were made!"
+        });
       }
     })
       .catch(err => {
-        res.status(500).send({
-          message: "Error updating Tutorial with id=" + req.body.userId
+        res.status(500).json({
+          status: 500,
+          success: false,
+          message: "Error updating with id=" + req.body.userId
         });
       });
   }
