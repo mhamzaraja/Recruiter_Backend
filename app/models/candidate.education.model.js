@@ -8,60 +8,25 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true
         },
         degree_title: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a title' },
-                notEmpty: { msg: 'title must not be empty' }
-            }
+            type: Sequelize.STRING
         },
         field_of_study: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a field of study' },
-                notEmpty: { msg: 'field of study must not be empty' }
-            }
+            type: Sequelize.STRING
         },
         location: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a location' },
-                notEmpty: { msg: 'location must not be empty' }
-            }
+            type: Sequelize.STRING
         },
         institution: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have an institute' },
-                notEmpty: { msg: 'institute must not be empty' }
-            }
+            type: Sequelize.STRING
         },
         completion_year: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a year of completion' },
-                notEmpty: { msg: 'year of completion must not be empty' }
-            }
+            type: Sequelize.INTEGER
         },
         total_gpa: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a title' },
-                notEmpty: { msg: 'title must not be empty' }
-            }
+            type: Sequelize.INTEGER
         },
         obtained_gpa: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a title' },
-                notEmpty: { msg: 'title must not be empty' }
-            }
+            type: Sequelize.INTEGER
         }
     }, {
         timestamps: false,

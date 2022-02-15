@@ -47,7 +47,7 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.STRING,
             },
             experience: {
-                type: Sequelize.INTEGER
+                type: Sequelize.STRING
             }
 
         }, {
