@@ -43,6 +43,9 @@ db.jobPost = require("../models/job.post.model")(sequelize, Sequelize);
 db.jobSkills = require("../models/job.skills.model")(sequelize, Sequelize);
 db.jobLocation = require("../models/job.location.model")(sequelize, Sequelize);
 
+db.candidateProfile = require("../models/candidateProfile.model")(sequelize, Sequelize);
+db.candidateEducation = require("../models/education.model")(sequelize, Sequelize);
+db.userExperience = require("../models/userExperience.model")(sequelize, Sequelize);
 
 // ASSOCIATIONS
 
@@ -97,6 +100,11 @@ db.user.hasMany(db.candidateLanguages,{
 db.candidateLanguages.belongsTo(db.user, {
   foreignKey : 'userId'
 });
+
+//Experience
+db.user.hasMany(db.userExperience, {foreignKey: "userId"});
+db.userExperience.belongsTo(db.user);
+
 
 db.ROLES = ["user", "admin", "moderator"];
 
