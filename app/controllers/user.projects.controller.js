@@ -30,44 +30,33 @@ exports.saveProjects = async (req, res) => {
 };
 
 exports.showProjectsData = async (req, res) => {
-    const id = req.query.id;
-    const userId = req.query.userId;
-
-    if (!id) {
+    const userId = req.userId;
+    if (!userId) {
         // show all
-        await userProjects.findAll({
-            where: { userId }
-        })
-            .then(data => {
-                res.status(200).json({
-                    status: 200,
-                    success: true,
-                    data: data
-                });
-            })
-        res.status(500).json({
-            status: 500,
+        res.status(403).json({
+            status: 403,
             success: false,
-            message: err.message || "Something Went wrong while requesting!"
+            message: "unautherize"
         });
     } else {
         // find one by id
-        await userProjects.findOne({
-            where: { id, userId }
-        }).then(data => {
+        await userProjects.findAll({
+            where: { userId: userId }
+        })
+        .then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,
                 data: data
             });
         })
-            .catch(err => {
-                res.status(500).json({
-                    status: 500,
-                    success: false,
-                    message: err.message || "Something Went wrong while requesting!"
-                });
+        .catch(err => {
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
             });
+        });
     }
 };
 
