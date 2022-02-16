@@ -19,11 +19,11 @@ exports.createUpdate = async (req, res) => {
   if (!profile) {
     CandidateProfile.create(req.body)
       .then(data => {
-        res.send(data);
         res.status(200).json({
           status: 200,
           success: false,
-          message: "Created Successfully!"
+          message: "Created Successfully!",
+          data: data
         });
       })
       .catch(err => {
@@ -110,10 +110,11 @@ exports.getUserData = async (req, res) => {
         });
       }
     } catch (err) {
-      res.status(500).send({
-        message:
-          err.message || "Something Went wrong while requesting!"
-      });
+      res.status(500).json({
+        status: 500,
+        success: false,
+        message: err.message || "Something Went wrong while requesting!"
+    });
     }
   } else {
     try {
@@ -158,10 +159,11 @@ exports.getUserData = async (req, res) => {
         });
       }
     } catch (err) {
-      res.status(500).send({
-        message:
-          err.message || "Something Went wrong while requesting!"
-      });
+      res.status(500).json({
+        status: 500,
+        success: false,
+        message: err.message || "Something Went wrong while requesting!"
+    });
     }
   }
 }

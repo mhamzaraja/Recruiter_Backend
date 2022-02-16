@@ -96,9 +96,10 @@ exports.deleteExperience = async (req, res) => {
             });
         });
     } catch (err) {
-        res.status(500).send({
-            message:
-                err.message || "Something Went wrong while requesting!"
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: err.message || "Something Went wrong while requesting!"
         });
     }
 };
@@ -144,9 +145,10 @@ exports.updateExperience = async (req, res) => {
             });
         })
             .catch(err => {
-                res.status(500).send({
-                    message:
-                        err.message || "Something Went wrong while requesting!"
+                res.status(500).json({
+                    status: 500,
+                    success: false,
+                    message: err.message || "Something Went wrong while requesting!"
                 });
             });
     } catch (err) {

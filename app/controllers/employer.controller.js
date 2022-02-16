@@ -21,9 +21,10 @@ exports.saveEmployerProfile = async (req, res) => {
             });
         })
         .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
             });
         });
 };
@@ -43,9 +44,10 @@ exports.showEmployerProfileData = async (req, res) => {
             });
         })
         .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
             });
         });
     } else {
@@ -61,9 +63,10 @@ exports.showEmployerProfileData = async (req, res) => {
                 });
             })
             .catch(err => {
-                res.status(500).send({
-                    message:
-                        err.message || "Something Went wrong while requesting!"
+                res.status(500).json({
+                    status: 500,
+                    success: false,
+                    message: err.message || "Something Went wrong while requesting!"
                 });
             });
     }
@@ -84,15 +87,17 @@ exports.deleteEmployerProfile = async (req, res) => {
                 data: data
             });
         }).catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Something Went wrong while requesting!"
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
             });
         });
     } catch (err) {
-        res.status(500).send({
-            message:
-                err.message || "Something Went wrong while requesting!"
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: err.message || "Something Went wrong while requesting!"
         });
     }
 };
@@ -136,15 +141,17 @@ exports.updateEmployerProfile = async (req, res) => {
             });
         })
             .catch(err => {
-                res.status(500).send({
-                    message:
-                        err.message || "Something Went wrong while requesting!"
+                res.status(500).json({
+                    status: 500,
+                    success: false,
+                    message: err.message || "Something Went wrong while requesting!"
                 });
             });
     } catch (err) {
-        res.status(500).send({
-            message:
-                err.message || "Something Went wrong while requesting!"
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: err.message || "Something Went wrong while requesting!"
         });
     }
 };
