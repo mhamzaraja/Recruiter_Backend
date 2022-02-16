@@ -10,13 +10,43 @@ exports.saveProjects = async (req, res) => {
         currently_ongoing: req.body.currently_ongoing,
         associated_with: req.body.associated_with,
         description: req.body.description,
-        userId: req.body.userId
+        userId: req.userId
     })
+    .then(data => {
+        res.status(200).json({
+            status: 200,
+            success: true,
+            message: "Created Successfully",
+            data: data
+        });
+    })
+    .catch(err => {
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: err.message || "Something Went wrong while requesting!"
+        });
+    });
+};
+
+exports.showProjectsData = async (req, res) => {
+    const userId = req.userId;
+
+    if (!userId) {
+        res.status(403).json({
+            status: 403,
+            success: false,
+            message: "Unauthorize"
+        });
+    } else {
+        // find one by id
+        await userProjects.findAll({
+            where: { userId, userId }
+        })
         .then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,
-                message: "Created Successfully",
                 data: data
             });
         })
@@ -27,49 +57,6 @@ exports.saveProjects = async (req, res) => {
                 message: err.message || "Something Went wrong while requesting!"
             });
         });
-};
-
-exports.showProjectsData = async (req, res) => {
-    const id = req.query.id;
-    const userId = req.query.userId;
-
-    if (!id) {
-        // show all
-        await userProjects.findAll({
-            where: { userId }
-        })
-            .then(data => {
-                res.status(200).json({
-                    status: 200,
-                    success: true,
-                    data: data
-                });
-            })
-        .catch(err => {
-                res.status(500).json({
-                    status: 500,
-                    success: false,
-                    message: err.message || "Something Went wrong while requesting!"
-                });
-            });
-    } else {
-        // find one by id
-        await userProjects.findOne({
-            where: { id, userId }
-        }).then(data => {
-            res.status(200).json({
-                status: 200,
-                success: true,
-                data: data
-            });
-        })
-            .catch(err => {
-                res.status(500).json({
-                    status: 500,
-                    success: false,
-                    message: err.message || "Something Went wrong while requesting!"
-                });
-            });
     }
 };
 

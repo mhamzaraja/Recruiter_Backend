@@ -2,6 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
 
+const dotenv = require('dotenv');
+dotenv.config({ path: './.env' });
+
+
 const app = express();
 
 app.use(cors());
@@ -43,7 +47,7 @@ require("./app/routes/user.routes")(app);
 require("./app/routes/employer.routes")(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8001;
+const PORT = process.env.PORT || 8002;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
