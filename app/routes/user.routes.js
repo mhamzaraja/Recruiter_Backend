@@ -26,7 +26,7 @@ module.exports = function(app) {
   
 
   //projects
-  app.post("/api/user/projects/create/",  [authJwt.verifyToken], projectsController.saveProjects);
+  app.post("/api/user/projects/create",  [authJwt.verifyToken], projectsController.saveProjects);
   app.get("/api/user/projects",  [authJwt.verifyToken], projectsController.showProjectsData);
   app.delete("/api/user/projects/delete",  [authJwt.verifyToken], projectsController.deleteProjects);
   app.put("/api/user/projects/update",  [authJwt.verifyToken], projectsController.updateProjects);
@@ -44,10 +44,9 @@ module.exports = function(app) {
   app.put("/api/user/languages/update",  [authJwt.verifyToken], languagesController.updateLanguages);
 
   // User Experience
-    app.post("/api/user/experience/create", [authJwt.verifyToken], experienceController.createUserExperience );
-    app.get("/api/user/experience/getAll/:userId", [authJwt.verifyToken], experienceController.getAllUserExperience );
-    app.get("/api/user/experience/get/:userId&:id", [authJwt.verifyToken], experienceController.getUserExperience );
-    app.post("/api/user/experience/update/:userId&:id", [authJwt.verifyToken], experienceController.updateUserExperience );
-    app.delete("/api/user/experience/delete/:userId&:id", [authJwt.verifyToken], experienceController.deleteUserExperience );
+    app.post("/api/user/experience/create", [authJwt.verifyToken], experienceController.saveExperience);
+    app.get("/api/user/experience/", [authJwt.verifyToken], experienceController.showExperienceData );
+    app.delete("/api/user/experience/delete", [authJwt.verifyToken], experienceController.deleteExperience);
+    app.post("/api/user/experience/update", [authJwt.verifyToken], experienceController.updateExperience );
 
 };

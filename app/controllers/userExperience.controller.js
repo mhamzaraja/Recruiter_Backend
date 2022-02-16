@@ -1,105 +1,159 @@
 const db = require("../models");
-const UserExperience = db.userExperience;
-const Op = db.Sequelize.Op;
+const userExperience = db.candidateExperience;
 
-// Create a new Candidate
-exports.createUserExperience = async (req, res) => {
-    UserExperience.create(req.body)
-    .then(data => {
-        res.status(200).json({
-            status: 200,
-            success: true,
-            data: req.body
-          });
-        })
-        .catch(err => {
-        res.status(500).json({
-            status: 500,
-            success: false,
-            message: err.message || "Some error occurred!"
-        });
-    });
-};
-
-exports.getAllUserExperience = async (req, res) => {
-    let userId = req.params.userId;
-    await UserExperience.findAll({ 
-        where: { userId }
+exports.saveExperience = async (req, res) => {
+    await userExperience.create({
+        jobTitle : req.body.jobTitle,
+        company : req.body.company,
+        industry : req.body.industry,
+        manageTeam : req.body.manageTeam,
+        salary : req.body.salary,
+        location : req.body.location,
+        startDate : req.body.startDate,
+        endDate : req.body.endDate,
+        currentlyWorking : req.body.currentlyWorking,
+        description : req.body.description,
+        userId: req.body.userId
     })
-    .then(data => {
-        res.status(200).json({
-            status: 200,
-            success: true,
-            data: data
-          });
-        })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred!"
-        });
-      }); 
-}
-
-exports.getUserExperience = async (req, res) => {
-    let userId = req.params.userId;
-    await UserExperience.findOne({ 
-        where: { userId }
-    })
-    .then(data => {
-        res.status(200).json({
-            status: 200,
-            success: true,
-            data: data
-          });
-        })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred!"
-        });
-      }); 
-}
-
-exports.updateUserExperience = async (req, res) => {
-    UserExperience.update(req.body, {
-        where: { userId: req.params.userId, id: req.params.id }
-      }).then(num => {
-        if (num == 1) {
+        .then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,
-                data: req.body
+                message: "Created Successfully",
+                data: data
             });
-        }else{
-            res.status(200).json(req.body);
-        }
-    })
-    .catch(err => {
-        res.status(500).json({
-            status: 500,
-            success: false,
-            message: err.message || "Some error occurred!" + req.body.userId
+        })
+        .catch(err => {
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
+            });
         });
-    });
 };
 
-exports.deleteUserExperience = async (req, res) => {
-    let experience = await UserExperience.findOne({
-        where: { userId: req.params.userId, id: req.params.id }
-    })
-    await experience.destroy().then(data => {
-        res.status(200).json({
-            status: 200,
-            success: true,
-            data: data
-        });
-    })
-    .catch(err => {
+exports.showExperienceData = async (req, res) => {
+    const id = req.query.id;
+    const userId = req.query.userId;
+
+    if (!id) {
+        // show all
+        await userExperience.findAll({
+            where: { userId }
+        })
+            .then(data => {
+                res.status(200).json({
+                    status: 200,
+                    success: true,
+                    data: data
+                });
+            })
         res.status(500).json({
             status: 500,
             success: false,
-            message: err.message || "Some error occurred!" + req.body.userId
+            message: err.message || "Something Went wrong while requesting!"
         });
-    });
+    } else {
+        // find one by id
+        await userExperience.findOne({
+            where: { id, userId }
+        }).then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                data: data
+            });
+        })
+            .catch(err => {
+                res.status(500).json({
+                    status: 500,
+                    success: false,
+                    message: err.message || "Something Went wrong while requesting!"
+                });
+            });
+    }
+};
+
+exports.deleteExperience = async (req, res) => {
+    const id = req.query.id;
+    const userId = req.query.userId;
+    try {
+        const experience = await userExperience.findOne({
+            where: { id, userId }
+        });
+        await experience.destroy().then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                message: "Deleted Successfully",
+                data: data
+            });
+        }).catch(err => {
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
+            });
+        });
+    } catch (err) {
+        res.status(500).send({
+            message:
+                err.message || "Something Went wrong while requesting!"
+        });
+    }
+};
+
+exports.updateExperience = async (req, res) => {
+    const id = req.query.id;
+    const userId = req.query.userId;
+    const {
+        jobTitle,
+        company,
+        industry,
+        manageTeam,
+        salary,
+        location,
+        startDate,
+        endDate,
+        currentlyWorking,
+        description
+    } = req.body;
+
+    try {
+        const experience = await userExperience.findOne({
+            where: { id, userId }
+        });
+
+        experience.jobTitle = jobTitle;
+        experience.company = company;
+        experience.industry = industry;
+        experience.manageTeam = manageTeam;
+        experience.salary = salary;
+        experience.location = location;
+        experience.startDate = startDate;
+        experience.endDate = endDate;
+        experience.currentlyWorking = currentlyWorking;
+        experience.description = description;
+
+        await experience.save().then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                message: "Updated Successfully",
+                data: data
+            });
+        })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Something Went wrong while requesting!"
+                });
+            });
+    } catch (err) {
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: err.message || "Something Went wrong while requesting!"
+        });
+    }
 };

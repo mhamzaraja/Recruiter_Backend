@@ -36,7 +36,7 @@ db.candidateEducation = require("../models/candidate.education.model")(sequelize
 db.candidateProjects = require("../models/user.projects.model")(sequelize, Sequelize);
 db.candidateSkills = require("../models/user.skills.model")(sequelize, Sequelize);
 db.candidateLanguages = require("../models/user.languages.model")(sequelize, Sequelize);
-db.userExperience = require("../models/userExperience.model")(sequelize, Sequelize);
+db.candidateExperience = require("../models/user.experience.model")(sequelize, Sequelize);
 
 //employer models
 db.employerProfile = require("../models/employer.profile.model")(sequelize, Sequelize);
@@ -100,8 +100,8 @@ db.candidateLanguages.belongsTo(db.user, {
 });
 
 //Experience
-db.user.hasMany(db.userExperience, {foreignKey: "userId"});
-db.userExperience.belongsTo(db.user);
+db.user.hasMany(db.candidateExperience, {foreignKey: "userId"});
+db.candidateExperience.belongsTo(db.user);
 
 
 db.ROLES = ["user", "admin", "moderator"];
