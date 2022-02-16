@@ -4,7 +4,7 @@ const educationController = require("../controllers/user.education.controller");
 const projectsController = require("../controllers/user.projects.controller");
 const skillsController = require("../controllers/user.skills.controller");
 const languagesController = require("../controllers/user.languages.controller");
-const experienceController = require("../controllers/userExperience.controller");
+const experienceController = require("../controllers/user.experience.controller");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {

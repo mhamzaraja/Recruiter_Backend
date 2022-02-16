@@ -45,11 +45,13 @@ exports.showProjectsData = async (req, res) => {
                     data: data
                 });
             })
-        res.status(500).json({
-            status: 500,
-            success: false,
-            message: err.message || "Something Went wrong while requesting!"
-        });
+        .catch(err => {
+                res.status(500).json({
+                    status: 500,
+                    success: false,
+                    message: err.message || "Something Went wrong while requesting!"
+                });
+            });
     } else {
         // find one by id
         await userProjects.findOne({

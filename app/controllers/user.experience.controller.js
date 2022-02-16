@@ -3,16 +3,16 @@ const userExperience = db.candidateExperience;
 
 exports.saveExperience = async (req, res) => {
     await userExperience.create({
-        jobTitle : req.body.jobTitle,
-        company : req.body.company,
-        industry : req.body.industry,
-        manageTeam : req.body.manageTeam,
-        salary : req.body.salary,
-        location : req.body.location,
-        startDate : req.body.startDate,
-        endDate : req.body.endDate,
-        currentlyWorking : req.body.currentlyWorking,
-        description : req.body.description,
+        jobTitle: req.body.jobTitle,
+        company: req.body.company,
+        industry: req.body.industry,
+        manageTeam: req.body.manageTeam,
+        salary: req.body.salary,
+        location: req.body.location,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
+        currentlyWorking: req.body.currentlyWorking,
+        description: req.body.description,
         userId: req.body.userId
     })
         .then(data => {
@@ -48,11 +48,13 @@ exports.showExperienceData = async (req, res) => {
                     data: data
                 });
             })
-        res.status(500).json({
-            status: 500,
-            success: false,
-            message: err.message || "Something Went wrong while requesting!"
-        });
+            .catch(err => {
+                res.status(500).json({
+                    status: 500,
+                    success: false,
+                    message: err.message || "Something Went wrong while requesting!"
+                });
+            });
     } else {
         // find one by id
         await userExperience.findOne({
