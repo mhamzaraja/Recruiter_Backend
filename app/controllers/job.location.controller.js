@@ -23,12 +23,18 @@ exports.saveJobLocation = async (req, res) => {
         });
 };
 
-exports.showJobLocationData = async (req, res) => {
-    const id = req.query.id;
-    const employerId = req.query.employerId;
+exports.showAllJobLocations = async (req, res) => {
+    // const userId = req.userId;
 
-    if(!id){
-        //show all
+    // console.log(userId);
+
+    // if (!userId) {
+    //     res.status(403).json({
+    //         status: 403,
+    //         success: false,
+    //         message: "Unauthorize"
+    //     });
+    // } else {
         await jobLocation.findAll()
         .then(data => {
             res.status(200).json({
@@ -44,26 +50,38 @@ exports.showJobLocationData = async (req, res) => {
                 message: err.message || "Something Went wrong while requesting!"
             });
         });
-    } else {
-        //find one by id
+    // }
+};
+
+exports.showJobLocationById = async (req, res) => {
+    const id = req.query.id;
+    // const userId = req.userId;
+
+    // if (!userId) {
+    //     res.status(403).json({
+    //         status: 403,
+    //         success: false,
+    //         message: "Unauthorize"
+    //     });
+    // } else {
         await jobLocation.findOne({
             where: { id }
         })
-            .then(data => {
-                res.status(200).json({
-                    status: 200,
-                    success: true,
-                    data: data
-                });
-            })
-            .catch(err => {
-                res.status(500).json({
-                    status: 500,
-                    success: false,
-                    message: err.message || "Something Went wrong while requesting!"
-                });
+        .then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                data: data
             });
-    }
+        })
+        .catch(err => {
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
+            });
+        });
+    // }
 };
 
 exports.deleteJobLocation = async (req, res) => {

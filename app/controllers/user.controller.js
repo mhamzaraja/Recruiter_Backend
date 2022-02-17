@@ -63,7 +63,7 @@ exports.createUpdate = async (req, res) => {
 
 exports.getUserData = async (req, res) => {
   const id = req.query.id;
-  const userId = req.query.userId;
+  const userId = req.userId;
   
   // remove userId
 

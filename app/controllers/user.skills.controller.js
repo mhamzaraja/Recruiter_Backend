@@ -24,53 +24,73 @@ exports.saveSkills = async (req, res) => {
         });
 };
 
-exports.showSkillsData = async (req, res) => {
-    const id = req.query.id;
-    const userId = req.query.userId;
+exports.showAllSkills = async (req, res) => {
+    const userId = req.userId;
 
-    if (!id) {
-        // show all
+    console.log(userId);
+
+    if (!userId) {
+        res.status(403).json({
+            status: 403,
+            success: false,
+            message: "Unauthorize"
+        });
+    } else {
         await userSkills.findAll({
             where: { userId }
         })
-            .then(data => {
-                res.status(200).json({
-                    status: 200,
-                    success: true,
-                    data: data
-                });
-            })
-            .catch(err => {
-                res.status(500).json({
-                    status: 500,
-                    success: false,
-                    message: err.message || "Something Went wrong while requesting!"
-                });
-            });
-    } else {
-        // find one by id
-        await userSkills.findOne({
-            where: { id, userId }
-        }).then(data => {
+        .then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,
                 data: data
             });
         })
-            .catch(err => {
-                res.status(500).json({
-                    status: 500,
-                    success: false,
-                    message: err.message || "Something Went wrong while requesting!"
-                });
+        .catch(err => {
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
             });
+        });
     }
 };
 
+exports.showSkillById = async (req, res) => {
+    const id = req.query.id;
+    const userId = req.userId;
+
+    if (!userId) {
+        res.status(403).json({
+            status: 403,
+            success: false,
+            message: "Unauthorize"
+        });
+    } else {
+        await userSkills.findOne({
+            where: { id, userId }
+        })
+        .then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                data: data
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
+            });
+        });
+    }
+};
+
+
 exports.deleteSkills = async (req, res) => {
     const id = req.query.id;
-    const userId = req.query.userId;
+    const userId = req.userId;
     try {
         const skill = await userSkills.findOne({
             where: { id, userId }
@@ -100,7 +120,7 @@ exports.deleteSkills = async (req, res) => {
 
 exports.updateSkills = async (req, res) => {
     const id = req.query.id;
-    const userId = req.query.userId;
+    const userId = req.userId;
     const {
         skill_title,
         skill_proficiency

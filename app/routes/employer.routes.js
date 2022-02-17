@@ -16,26 +16,30 @@ module.exports = function (app) {
 
     //employer
     app.post("/api/employer/profile/create", employerProfileController.saveEmployerProfile);
-    app.get("/api/employer/profile", employerProfileController.showEmployerProfileData);
+    app.get("/api/employer/profile/getOne", employerProfileController.showEmployerProfileById);
+    app.get("/api/employer/profile/getAll", employerProfileController.showAllEmployerProfiles);
     app.delete("/api/employer/profile/delete", employerProfileController.deleteEmployerProfile);
     app.put("/api/employer/profile/update", employerProfileController.updateEmployerProfile);
 
 
     //job post
     app.post("/api/employer/job/create", jobPostController.saveJob);
-    app.get("/api/employer/job", jobPostController.showJobData);
+    app.get("/api/employer/job/getOne", jobPostController.showJobById);
+    app.get("/api/employer/job/getAll", jobPostController.showAllJobs);
     app.delete("/api/employer/job/delete", jobPostController.deleteJob);
     app.put("/api/employer/job/update", jobPostController.updateJob);
 
     //job location
     app.post("/api/employer/jobLocation/create", jobLocationController.saveJobLocation);
-    app.get("/api/employer/jobLocation", jobLocationController.showJobLocationData);
+    app.get("/api/employer/jobLocation/getOne", jobLocationController.showJobLocationById);
+    app.get("/api/employer/jobLocation/getAll", jobLocationController.showAllJobLocations);
     app.delete("/api/employer/jobLocation/delete", jobLocationController.deleteJobLocation);
     app.put("/api/employer/jobLocation/update", jobLocationController.updateJobLocation);
 
     //job skills
     app.post("/api/employer/jobSkills/create", jobSkillsController.saveJobSkills);
-    app.get("/api/employer/jobSkills", jobSkillsController.showJobSkillsData);
+    app.get("/api/employer/jobSkills/getOne", jobSkillsController.showJobSkillsById);
+    app.get("/api/employer/jobSkills/getAll", jobSkillsController.showAllJobSkills);
     app.delete("/api/employer/jobSkills/delete", jobSkillsController.deleteJobSkills);
     app.put("/api/employer/jobSkills/update", jobSkillsController.updateJobSkills);
 

@@ -29,7 +29,8 @@ exports.saveProjects = async (req, res) => {
     });
 };
 
-exports.showProjectsData = async (req, res) => {
+
+exports.showAllProjects = async (req, res) => {
     const userId = req.userId;
 
     if (!userId) {
@@ -39,9 +40,39 @@ exports.showProjectsData = async (req, res) => {
             message: "Unauthorize"
         });
     } else {
-        // find one by id
         await userProjects.findAll({
-            where: { userId, userId }
+            where: { userId }
+        })
+        .then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                data: data
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
+            });
+        });
+    }
+};
+
+exports.showProjectById = async (req, res) => {
+    const id = req.query.id;
+    const userId = req.userId;
+
+    if (!userId) {
+        res.status(403).json({
+            status: 403,
+            success: false,
+            message: "Unauthorize"
+        });
+    } else {
+        await userProjects.findOne({
+            where: { id, userId }
         })
         .then(data => {
             res.status(200).json({
@@ -62,7 +93,8 @@ exports.showProjectsData = async (req, res) => {
 
 exports.deleteProjects = async (req, res) => {
     const id = req.query.id;
-    const userId = req.query.userId;
+    const userId = req.userId;
+    
     try {
         const project = await userProjects.findOne({
             where: { id, userId }
@@ -92,7 +124,8 @@ exports.deleteProjects = async (req, res) => {
 
 exports.updateProjects = async (req, res) => {
     const id = req.query.id;
-    const userId = req.query.userId;
+    const userId = req.userId;
+    console.log(userId);
     const {
         project_name,
         project_url,

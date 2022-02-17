@@ -35,12 +35,16 @@ exports.saveJob = async (req, res) => {
         });
 };
 
-exports.showJobData = async (req, res) => {
-    const id = req.query.id;
-    const employerId = req.query.employerId;
+exports.showAllJobs = async (req, res) => {
 
-    if(!id){
-        //show all
+
+    // if (!userId) {
+    //     res.status(403).json({
+    //         status: 403,
+    //         success: false,
+    //         message: "Unauthorize"
+    //     });
+    // } else {
         await userJob.findAll()
         .then(data => {
             res.status(200).json({
@@ -56,32 +60,43 @@ exports.showJobData = async (req, res) => {
                 message: err.message || "Something Went wrong while requesting!"
             });
         });
-    } else {
-        //find one by id
+    // }
+};
+
+exports.showJobById = async (req, res) => {
+    const id = req.query.id;
+
+    // if (!userId) {
+    //     res.status(403).json({
+    //         status: 403,
+    //         success: false,
+    //         message: "Unauthorize"
+    //     });
+    // } else {
         await userJob.findOne({
             where: { id }
         })
-            .then(data => {
-                res.status(200).json({
-                    status: 200,
-                    success: true,
-                    data: data
-                });
-            })
-            .catch(err => {
-                res.status(500).json({
-                    status: 500,
-                    success: false,
-                    message: err.message || "Something Went wrong while requesting!"
-                });
+        .then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                data: data
             });
-    }
+        })
+        .catch(err => {
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
+            });
+        });
+    // }
 };
 
 
 exports.deleteJob = async (req, res) => {
     const id = req.query.id;
-    // const jobId = req.query.jobId;
+    // const jobId = req.jobId;
     try {
         const job = await userJob.findOne({
             where: { id }
@@ -111,7 +126,7 @@ exports.deleteJob = async (req, res) => {
 
 exports.updateJob = async (req, res) => {
     const id = req.query.id;
-    // const jobId = req.query.jobId;
+    // const jobId = req.jobId;
     const {
         job_title,
         company,
