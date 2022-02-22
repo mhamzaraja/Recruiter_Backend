@@ -1,25 +1,8 @@
 const db = require("../models");
-const userJob = db.jobPost;
+const userJob = db.postJob;
 
 exports.saveJob = async (req, res) => {
-    await userJob.create({
-
-        job_title: req.body.job_title,
-        company: req.body.company,
-        workplace_type: req.body.workplace_type,
-        employment_type: req.body.employment_type,
-        job_description: req.body.job_description,
-        no_of_positions: req.body.no_of_positions,
-        minimum_qualification: req.body.minimum_qualification,
-        years_of_experience: req.body.years_of_experience,
-        salary_range: req.body.salary_range,
-        salary_visible: req.body.salary_visible,
-        created_date: req.body.created_date,
-        is_active: req.body.is_active,
-        is_sponser: req.body.is_sponser,
-        authorization: req.body.authorization
-
-    }).then(data => {
+    await userJob.create(req.body).then(data => {
         res.status(200).json({
             status: 200,
             success: true,
@@ -36,16 +19,18 @@ exports.saveJob = async (req, res) => {
 };
 
 exports.showAllJobs = async (req, res) => {
+    const employerId = req.userId;
 
-
-    // if (!userId) {
-    //     res.status(403).json({
-    //         status: 403,
-    //         success: false,
-    //         message: "Unauthorize"
-    //     });
-    // } else {
-        await userJob.findAll()
+    if (!employerId) {
+        res.status(403).json({
+            status: 403,
+            success: false,
+            message: "Unauthorize"
+        });
+    } else {
+        await userJob.findAll({
+            where: { employerId }
+        })
         .then(data => {
             res.status(200).json({
                 status: 200,
@@ -60,21 +45,22 @@ exports.showAllJobs = async (req, res) => {
                 message: err.message || "Something Went wrong while requesting!"
             });
         });
-    // }
+    }
 };
 
 exports.showJobById = async (req, res) => {
     const id = req.query.id;
+    const employerId = req.userId;
 
-    // if (!userId) {
-    //     res.status(403).json({
-    //         status: 403,
-    //         success: false,
-    //         message: "Unauthorize"
-    //     });
-    // } else {
+    if (!employerId) {
+        res.status(403).json({
+            status: 403,
+            success: false,
+            message: "Unauthorize"
+        });
+    } else {
         await userJob.findOne({
-            where: { id }
+            where: { id, employerId }
         })
         .then(data => {
             res.status(200).json({
@@ -90,7 +76,7 @@ exports.showJobById = async (req, res) => {
                 message: err.message || "Something Went wrong while requesting!"
             });
         });
-    // }
+    }
 };
 
 
@@ -99,7 +85,7 @@ exports.deleteJob = async (req, res) => {
     // const jobId = req.jobId;
     try {
         const job = await userJob.findOne({
-            where: { id }
+            where: { id, employerId }
         });
         await job.destroy().then(data => {
             res.status(200).json({
@@ -126,7 +112,7 @@ exports.deleteJob = async (req, res) => {
 
 exports.updateJob = async (req, res) => {
     const id = req.query.id;
-    // const jobId = req.jobId;
+    const employerId = req.userId;
     const {
         job_title,
         company,
@@ -146,7 +132,7 @@ exports.updateJob = async (req, res) => {
 
     try {
         const job = await userJob.findOne({
-            where: { id }
+            where: { id, employerId }
         });
 
         job.job_title = job_title;

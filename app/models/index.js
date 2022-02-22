@@ -40,10 +40,14 @@ db.candidateExperience = require("./user.experience.model")(sequelize, Sequelize
 
 //employer models
 db.employerProfile = require("./employer.profile.model")(sequelize, Sequelize);
+db.employerInfo = require("./employer.Info.model")(sequelize, Sequelize);
 db.jobPost = require("./job.post.model")(sequelize, Sequelize);
+db.postJob = require("./post.job.model")(sequelize, Sequelize);
 db.jobSkills = require("./job.skills.model")(sequelize, Sequelize);
 db.jobLocation = require("./job.location.model")(sequelize, Sequelize);
 
+//company
+db.companyProfile = require("./company.profile.model")(sequelize, Sequelize);
 
 // ASSOCIATIONS
 
@@ -102,6 +106,31 @@ db.candidateLanguages.belongsTo(db.user, {
 //Experience
 db.user.hasMany(db.candidateExperience, {foreignKey: "userId"});
 db.candidateExperience.belongsTo(db.user);
+
+// EMPLOYERS
+
+// employers profile
+
+db.user.hasMany(db.employerInfo,{
+  foreignKey: "employerId"
+});
+db.employerInfo.belongsTo(db.user, {
+  foreignKey : 'employerId'
+});
+
+db.user.hasMany(db.postJob,{
+  foreignKey: "employerId"
+});
+db.postJob.belongsTo(db.user, {
+  foreignKey : 'employerId'
+});
+
+db.user.hasMany(db.companyProfile,{
+  foreignKey: "employerId"
+});
+db.companyProfile.belongsTo(db.user, {
+  foreignKey : 'employerId'
+});
 
 
 db.ROLES = ["user", "admin", "moderator"];
