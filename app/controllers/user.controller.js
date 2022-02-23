@@ -1,6 +1,7 @@
 const db = require("../models");
 const CandidateProfile = db.candidateProfile;
 const candidateEducation = db.candidateEducation;
+const candidateExperience = db.candidateExperience;
 const candidateProjects = db.candidateProjects;
 const candidateSkills = db.candidateSkills;
 const candidateLanguages = db.candidateLanguages;
@@ -77,6 +78,10 @@ exports.getUserData = async (req, res) => {
         where: { userId }
       });
 
+      const experience = await candidateExperience.findAll({
+        where: { userId }
+      });
+
       const projects = await candidateProjects.findAll({
         where: { userId }
       });
@@ -103,6 +108,7 @@ exports.getUserData = async (req, res) => {
           data: [
             { profile },
             { education },
+            { experience },
             { projects },
             { skills },
             { languages },
@@ -123,6 +129,10 @@ exports.getUserData = async (req, res) => {
       });
 
       const education = await candidateEducation.findOne({
+        where: { id, userId }
+      });
+
+      const experience = await candidateExperience.findOne({
         where: { id, userId }
       });
 
@@ -152,6 +162,7 @@ exports.getUserData = async (req, res) => {
           data: [
             { profile },
             { education },
+            { experience },
             { projects },
             { skills },
             { languages },
