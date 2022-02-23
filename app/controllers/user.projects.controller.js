@@ -2,16 +2,7 @@ const db = require("../models");
 const userProjects = db.candidateProjects;
 
 exports.saveProjects = async (req, res) => {
-    await userProjects.create({
-        project_name: req.body.project_name,
-        project_url: req.body.project_url,
-        start_date: req.body.start_date,
-        end_date: req.body.end_date,
-        currently_ongoing: req.body.currently_ongoing,
-        associated_with: req.body.associated_with,
-        description: req.body.description,
-        userId: req.userId
-    })
+    await userProjects.create(req.body)
     .then(data => {
         res.status(200).json({
             status: 200,

@@ -2,17 +2,7 @@ const db = require("../models");
 const userEducation = db.candidateEducation;
 
 exports.saveEducation = async (req, res) => {
-    await userEducation.create({
-        degree_title: req.body.degree_title,
-        field_of_study: req.body.field_of_study,
-        location: req.body.location,
-        institution: req.body.institution,
-        completion_year: req.body.completion_year,
-        total_gpa: req.body.total_gpa,
-        obtained_gpa: req.body.obtained_gpa,
-        userId: req.body.userId
-
-    }).then(data => {
+    await userEducation.create(req.body).then(data => {
         res.status(200).json({
             status: 200,
             success: true,

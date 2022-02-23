@@ -2,11 +2,7 @@ const db = require("../models");
 const userLanguages = db.candidateLanguages;
 
 exports.saveLanguages = async (req, res) => {
-    await userLanguages.create({
-        language_title: req.body.language_title,
-        language_proficiency: req.body.language_proficiency,
-        userId: req.body.userId
-    })
+    await userLanguages.create(req.body)
         .then(data => {
             res.status(200).json({
                 status: 200,

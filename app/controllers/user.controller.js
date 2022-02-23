@@ -62,119 +62,120 @@ exports.createUpdate = async (req, res) => {
   }
 };
 
-exports.getUserData = async (req, res) => {
+exports.getUserById = async (req, res) => {
   const id = req.query.id;
   const userId = req.userId;
-  
-  // remove userId
 
-  if (!id) {
-    try {
-      const profile = await CandidateProfile.findAll({
-        where: { userId }
-      });
+  try {
+    const profile = await CandidateProfile.findOne({
+      where: { id, userId }
+    });
 
-      const education = await candidateEducation.findAll({
-        where: { userId }
-      });
+    const education = await candidateEducation.findOne({
+      where: { id, userId }
+    });
 
-      const experience = await candidateExperience.findAll({
-        where: { userId }
-      });
+    const experience = await candidateExperience.findOne({
+      where: { id, userId }
+    });
 
-      const projects = await candidateProjects.findAll({
-        where: { userId }
-      });
+    const projects = await candidateProjects.findOne({
+      where: { id, userId }
+    });
 
-      const skills = await candidateSkills.findAll({
-        where: { userId }
-      });
+    const skills = await candidateSkills.findOne({
+      where: { id, userId }
+    });
 
-      const languages = await candidateLanguages.findAll({
-        where: { userId }
-      });
+    const languages = await candidateLanguages.findOne({
+      where: { id, userId }
+    });
 
 
-      if (!profile && !education && !projects && !skills && !languages) {
-        res.status(500).json({
-          status: 500,
-          success: false,
-          message: "cannot find user"
-        });
-      } else {
-        res.status(200).json({
-          status: 200,
-          success: true,
-          data: [
-            { profile },
-            { education },
-            { experience },
-            { projects },
-            { skills },
-            { languages },
-          ]
-        });
-      }
-    } catch (err) {
+    if (!profile && !education && !projects && !skills && !languages) {
       res.status(500).json({
         status: 500,
         success: false,
-        message: err.message || "Something Went wrong while requesting!"
-    });
+        message: "cannot find user"
+      });
+    } else {
+      res.status(200).json({
+        status: 200,
+        success: true,
+        data: [
+          { profile },
+          { education },
+          { experience },
+          { projects },
+          { skills },
+          { languages },
+        ]
+      });
     }
-  } else {
-    try {
-      const profile = await CandidateProfile.findOne({
-        where: { id, userId }
-      });
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      success: false,
+      message: err.message || "Something Went wrong while requesting!"
+    });
+  }
 
-      const education = await candidateEducation.findOne({
-        where: { id, userId }
-      });
+}
 
-      const experience = await candidateExperience.findOne({
-        where: { id, userId }
-      });
+exports.getAllUsers = async (req, res) => {
+  const userId = req.userId;
 
-      const projects = await candidateProjects.findOne({
-        where: { id, userId }
-      });
+  try {
+    const profile = await CandidateProfile.findAll({
+      where: { userId }
+    });
 
-      const skills = await candidateSkills.findOne({
-        where: { id, userId }
-      });
+    const education = await candidateEducation.findAll({
+      where: { userId }
+    });
 
-      const languages = await candidateLanguages.findOne({
-        where: { id, userId }
-      });
+    const experience = await candidateExperience.findAll({
+      where: { userId }
+    });
+
+    const projects = await candidateProjects.findAll({
+      where: { userId }
+    });
+
+    const skills = await candidateSkills.findAll({
+      where: { userId }
+    });
+
+    const languages = await candidateLanguages.findAll({
+      where: { userId }
+    });
 
 
-      if (!profile && !education && !projects && !skills && !languages) {
-        res.status(500).json({
-          status: 500,
-          success: false,
-          message: "cannot find user"
-        });
-      } else {
-        res.status(200).json({
-          status: 200,
-          success: true,
-          data: [
-            { profile },
-            { education },
-            { experience },
-            { projects },
-            { skills },
-            { languages },
-          ]
-        });
-      }
-    } catch (err) {
+    if (!profile && !education && !projects && !skills && !languages) {
       res.status(500).json({
         status: 500,
         success: false,
-        message: err.message || "Something Went wrong while requesting!"
-    });
+        message: "cannot find user"
+      });
+    } else {
+      res.status(200).json({
+        status: 200,
+        success: true,
+        data: [
+          { profile },
+          { education },
+          { experience },
+          { projects },
+          { skills },
+          { languages },
+        ]
+      });
     }
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      success: false,
+      message: err.message || "Something Went wrong while requesting!"
+    });
   }
 }

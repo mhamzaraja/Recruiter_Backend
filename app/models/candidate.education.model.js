@@ -23,7 +23,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER
         },
         obtained_gpa: {
-            type: Sequelize.INTEGER
+            type: Sequelize.DECIMAL(10,1)
         }
     }, {
         timestamps: false,

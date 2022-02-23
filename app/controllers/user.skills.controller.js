@@ -2,11 +2,7 @@ const db = require("../models");
 const userSkills = db.candidateSkills;
 
 exports.saveSkills = async (req, res) => {
-    await userSkills.create({
-        skill_title: req.body.skill_title,
-        skill_proficiency: req.body.skill_proficiency,
-        userId: req.body.userId
-    })
+    await userSkills.create(req.body)
         .then(data => {
             res.status(200).json({
                 status: 200,

@@ -8,77 +8,31 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true
         },
         name: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a name' },
-                notEmpty: { msg: 'name must not be empty' }
-            }
+            type: Sequelize.STRING
         },
         email: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have an email' },
-                notEmpty: { msg: 'email must not be empty' },
-                isEmail: { msg: 'must be a valid email address' }
-            }
+            type: Sequelize.STRING
         },
         company: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a company' },
-                notEmpty: { msg: 'company must not be empty' }
-            }
+            type: Sequelize.STRING
         },
         address: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have an address' },
-                notEmpty: { msg: 'address must not be empty' }
-            }
+            type: Sequelize.STRING
         },
         city: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a city' },
-                notEmpty: { msg: 'city must not be empty' }
-            }
+            type: Sequelize.STRING
         },
         country: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a country' },
-                notEmpty: { msg: 'country must not be empty' }
-            }
+            type: Sequelize.STRING
         },
         company_url: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a company url' },
-                notEmpty: { msg: 'company url must not be empty' }
-            }
+            type: Sequelize.STRING
         },
         mobile_number: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a mobile number' },
-                notEmpty: { msg: 'mobile number must not be empty' }
-            }
+            type: Sequelize.INTEGER
         },
         summary: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a summary' },
-                notEmpty: { msg: 'summary must not be empty' }
-            }
+            type: Sequelize.STRING
         }
 
     }, {

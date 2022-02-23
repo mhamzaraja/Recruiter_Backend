@@ -2,19 +2,7 @@ const db = require("../models");
 const userExperience = db.candidateExperience;
 
 exports.saveExperience = async (req, res) => {
-    await userExperience.create({
-        jobTitle: req.body.jobTitle,
-        company: req.body.company,
-        industry: req.body.industry,
-        manageTeam: req.body.manageTeam,
-        salary: req.body.salary,
-        location: req.body.location,
-        startDate: req.body.startDate,
-        endDate: req.body.endDate,
-        currentlyWorking: req.body.currentlyWorking,
-        description: req.body.description,
-        userId: req.body.userId
-    })
+    await userExperience.create(req.body)
         .then(data => {
             res.status(200).json({
                 status: 200,

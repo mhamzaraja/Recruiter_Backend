@@ -17,7 +17,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING
         },
         manageTeam: {
-            type: Sequelize.BOOLEAN
+            type: Sequelize.STRING
         },
         salary: {
             type: Sequelize.STRING
