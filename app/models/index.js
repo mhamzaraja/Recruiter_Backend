@@ -39,9 +39,9 @@ db.candidateLanguages = require("./user.languages.model")(sequelize, Sequelize);
 db.candidateExperience = require("./user.experience.model")(sequelize, Sequelize);
 
 //employer models
-db.employerProfile = require("./employer.profile.model")(sequelize, Sequelize);
-db.employerInfo = require("./employer.Info.model")(sequelize, Sequelize);
-db.jobPost = require("./job.post.model")(sequelize, Sequelize);
+// db.employerProfile = require("./employer.profile.model")(sequelize, Sequelize);
+db.employerInfo = require("./employer.info.model")(sequelize, Sequelize);
+// db.jobPost = require("./job.post.model")(sequelize, Sequelize);
 db.postJob = require("./post.job.model")(sequelize, Sequelize);
 db.jobSkills = require("./job.skills.model")(sequelize, Sequelize);
 db.jobLocation = require("./job.location.model")(sequelize, Sequelize);
@@ -64,7 +64,7 @@ db.user.belongsToMany(db.role, {
 });
 
 // candidate profile
-db.user.hasMany(db.candidateProfile,{
+db.user.hasOne(db.candidateProfile,{
   foreignKey: "userId"
 });
 db.candidateProfile.belongsTo(db.user, {
@@ -111,7 +111,7 @@ db.candidateExperience.belongsTo(db.user);
 
 // employers profile
 
-db.user.hasMany(db.employerInfo,{
+db.user.hasOne(db.employerInfo,{
   foreignKey: "employerId"
 });
 db.employerInfo.belongsTo(db.user, {

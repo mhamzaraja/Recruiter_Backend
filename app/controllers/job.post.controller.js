@@ -6,6 +6,7 @@ exports.saveJob = async (req, res) => {
         res.status(200).json({
             status: 200,
             success: true,
+            message: "Created Successfully",
             data: data
         });
     })
@@ -82,7 +83,7 @@ exports.showJobById = async (req, res) => {
 
 exports.deleteJob = async (req, res) => {
     const id = req.query.id;
-    // const jobId = req.jobId;
+    const employerId = req.userId;
     try {
         const job = await userJob.findOne({
             where: { id, employerId }
@@ -115,19 +116,20 @@ exports.updateJob = async (req, res) => {
     const employerId = req.userId;
     const {
         job_title,
-        company,
-        workplace_type,
-        employment_type,
         job_description,
-        no_of_positions,
+        enter_skills,
+        company,
+        job_location,
+        required_career_level,
+        salary_range,
+        job_shift,
+        positions_available,
+        gender_requirement,
         minimum_qualification,
         years_of_experience,
-        salary_range,
-        salary_visible,
-        created_date,
+        workplace_type,
         is_active,
-        is_sponser,
-        authorization
+        is_sponsor
     } = req.body;
 
     try {
@@ -136,19 +138,20 @@ exports.updateJob = async (req, res) => {
         });
 
         job.job_title = job_title;
-        job.company = company;
-        job.workplace_type = workplace_type;
-        job.employment_type = employment_type;
         job.job_description = job_description;
-        job.no_of_positions = no_of_positions;
+        job.enter_skills = enter_skills;
+        job.company = company;
+        job.job_location = job_location;
+        job.required_career_level = required_career_level;
+        job.salary_range = salary_range;
+        job.job_shift = job_shift;
+        job.positions_available = positions_available;
+        job.gender_requirement = gender_requirement;
         job.minimum_qualification = minimum_qualification;
         job.years_of_experience = years_of_experience;
-        job.salary_range = salary_range;
-        job.salary_visible = salary_visible;
-        job.created_date = created_date;
+        job.workplace_type = workplace_type;
         job.is_active = is_active;
-        job.is_sponser = is_sponser;
-        job.authorization = authorization;
+        job.is_sponsor = is_sponsor;
 
         await job.save().then(data => {
             res.status(200).json({

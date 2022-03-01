@@ -7,6 +7,7 @@ exports.saveCompany = async (req, res) => {
             res.status(200).json({
                 status: 200,
                 success: true,
+                message: "Created Successfully",
                 data: data
             });
         })
@@ -127,7 +128,6 @@ exports.updateCompany = async (req, res) => {
         contact_email,
         contact_person,
         company_url,
-        phone_number,
         number_of_employees,
         operating_since,
         company_logo,
@@ -154,7 +154,6 @@ exports.updateCompany = async (req, res) => {
         company.contact_email = contact_email;
         company.contact_person = contact_person;
         company.company_url = company_url;
-        company.phone_number = phone_number;
         company.number_of_employees = number_of_employees;
         company.operating_since = operating_since;
         company.company_logo = company_logo;

@@ -46,9 +46,6 @@ module.exports = (sequelize, Sequelize) => {
         company_url: {
             type: Sequelize.STRING
         },
-        phone_number: {
-            type: Sequelize.STRING
-        },
         number_of_employees: {
             type: Sequelize.STRING
         },
@@ -65,6 +62,9 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER
         },
         is_default: {
+            type: Sequelize.BOOLEAN
+        },
+        is_active: {
             type: Sequelize.BOOLEAN
         }
     }, {

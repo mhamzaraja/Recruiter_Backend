@@ -2,21 +2,59 @@ const db = require("../models");
 const employerProfile = db.employerInfo;
 
 exports.saveEmployerProfile = async (req, res) => {
-    await employerProfile.create(req.body)
+    const employerId = req.userId;
+
+    const profile = await employerProfile.findOne({
+        where: {
+            employerId
+        },
+    });
+
+    if (!profile) {
+
+        employerProfile.create(req.body)
         .then(data => {
-            res.status(200).json({
-                status: 200,
-                success: true,
-                data: data
-            });
+          res.status(200).json({
+            status: 200,
+            success: false,
+            message: "Created Successfully!",
+            data: data
+          });
         })
         .catch(err => {
-            res.status(500).json({
-                status: 500,
-                success: false,
-                message: err.message || "Something Went wrong while requesting!"
-            });
+          res.status(500).json({
+            status: 500,
+            success: false,
+            message: err.message || "Some error occurred while creating."
+          });
         });
+    } else {
+      employerProfile.update(req.body, {
+        where: { employerId }
+      }).then(num => {
+        if (num == 1) {
+          res.status(200).json({
+            status: 200,
+            success: false,
+            message: "Updated Successfully"
+          });
+        } else {
+          res.status(500).json({
+            status: 500,
+            success: false,
+            message: "No changes were made!"
+          });
+        }
+      })
+        .catch(err => {
+          res.status(500).json({
+            status: 500,
+            success: false,
+            message: "Error updating with id=" + req.userId
+          });
+        });
+    }
+
 };
 
 exports.showAllEmployerProfiles = async (req, res) => {

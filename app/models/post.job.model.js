@@ -46,9 +46,6 @@ module.exports = (sequelize, Sequelize) => {
         workplace_type: {
             type: Sequelize.STRING
         },
-        created_date: {
-            type: Sequelize.STRING
-        },
         is_active: {
             type: Sequelize.BOOLEAN
         },
@@ -56,9 +53,9 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.BOOLEAN
         }
     }, {
-        timestamps: false,
-        createdAt: false,
-        updatedAt: false,
+        timestamps: true,
+        createdAt: true,
+        updatedAt: true,
     }
     );
 
