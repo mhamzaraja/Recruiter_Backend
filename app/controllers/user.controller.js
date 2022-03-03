@@ -71,24 +71,24 @@ exports.getUserById = async (req, res) => {
       where: { id, userId }
     });
 
-    const education = await candidateEducation.findOne({
-      where: { id, userId }
+    const education = await candidateEducation.findAll({
+      where: { userId }
     });
 
-    const experience = await candidateExperience.findOne({
-      where: { id, userId }
+    const experience = await candidateExperience.findAll({
+      where: { userId }
     });
 
-    const projects = await candidateProjects.findOne({
-      where: { id, userId }
+    const projects = await candidateProjects.findAll({
+      where: { userId }
     });
 
-    const skills = await candidateSkills.findOne({
-      where: { id, userId }
+    const skills = await candidateSkills.findAll({
+      where: { userId }
     });
 
-    const languages = await candidateLanguages.findOne({
-      where: { id, userId }
+    const languages = await candidateLanguages.findAll({
+      where: { userId }
     });
 
 
