@@ -49,6 +49,8 @@ db.jobLocation = require("./job.location.model")(sequelize, Sequelize);
 //company
 db.companyProfile = require("./company.profile.model")(sequelize, Sequelize);
 
+//job application
+db.jobApplication = require("./job.application.model")(sequelize, Sequelize);
 // ASSOCIATIONS
 
 //user and role
@@ -130,6 +132,24 @@ db.user.hasMany(db.companyProfile,{
 });
 db.companyProfile.belongsTo(db.user, {
   foreignKey : 'employerId'
+});
+
+// Job Application
+
+// Job and application
+db.postJob.hasMany(db.jobApplication,{
+  foreignKey: "jobId"
+});
+db.jobApplication.belongsTo(db.postJob, {
+  foreignKey : 'jobId'
+});
+
+// candidate and application
+db.user.hasMany(db.jobApplication,{
+  foreignKey: "userId"
+});
+db.jobApplication.belongsTo(db.user, {
+  foreignKey : 'userId'
 });
 
 

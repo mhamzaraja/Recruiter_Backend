@@ -29,9 +29,9 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.BLOB
         }
     }, {
-        timestamps: false,
-        createdAt: false,
-        updatedAt: false,
+        timestamps: true,
+        createdAt: true,
+        updatedAt: true,
     }
     );
 

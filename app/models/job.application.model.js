@@ -1,24 +1,21 @@
 module.exports = (sequelize, Sequelize) => {
-    const JobSkills = sequelize.define(
-        "job_skill", {
+    const JobApplication = sequelize.define(
+        "job_application", {
         id: {
             type: Sequelize.INTEGER,
             allowNull: false,
             autoIncrement: true,
             primaryKey: true
         },
-        skill_title: {
-            type: Sequelize.STRING
-        },
-        skill_level: {
+        application_status: {
             type: Sequelize.STRING
         }
     }, {
-        timestamps: false,
-        createdAt: false,
+        timestamps: true,
+        createdAt: true,
         updatedAt: false,
     }
     );
 
-    return JobSkills;
+    return JobApplication;
 };
