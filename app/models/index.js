@@ -136,7 +136,14 @@ db.companyProfile.belongsTo(db.user, {
 
 // Job Application
 
-// Job and application
+// job and application
+db.user.hasMany(db.jobApplication,{
+  foreignKey: "userId"
+});
+db.jobApplication.belongsTo(db.user, {
+  foreignKey : 'userId'
+});
+
 db.postJob.hasMany(db.jobApplication,{
   foreignKey: "jobId"
 });
@@ -145,11 +152,11 @@ db.jobApplication.belongsTo(db.postJob, {
 });
 
 // candidate and application
-db.user.hasMany(db.jobApplication,{
-  foreignKey: "userId"
+db.candidateProfile.hasMany(db.jobApplication,{
+  foreignKey: "candidateId"
 });
-db.jobApplication.belongsTo(db.user, {
-  foreignKey : 'userId'
+db.jobApplication.belongsTo(db.candidateProfile, {
+  foreignKey : 'candidateId'
 });
 
 

@@ -13,7 +13,7 @@ exports.createUpdate = async (req, res) => {
   //checkProfile
   const profile = await CandidateProfile.findOne({
     where: {
-      userId: req.body.userId,
+      userId: req.userId,
     },
   });
 
@@ -36,7 +36,7 @@ exports.createUpdate = async (req, res) => {
       });
   } else {
     CandidateProfile.update(req.body, {
-      where: { userId: req.body.userId }
+      where: { userId: req.userId }
     }).then(num => {
       if (num == 1) {
         res.status(200).json({
@@ -56,7 +56,7 @@ exports.createUpdate = async (req, res) => {
         res.status(500).json({
           status: 500,
           success: false,
-          message: "Error updating with id=" + req.body.userId
+          message: "Error updating with id=" + req.userId
         });
       });
   }
