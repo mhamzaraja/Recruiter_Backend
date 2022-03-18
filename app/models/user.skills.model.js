@@ -8,20 +8,10 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true
         },
         skill_title: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a title for skill' },
-                notEmpty: { msg: 'skill title must not be empty' }
-            }
+            type: Sequelize.STRING
         },
         skill_proficiency : {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'must have a level of skill' },
-                notEmpty: { msg: 'proficiency of skill must not be empty' }
-            }
+            type: Sequelize.STRING
         }
     }, {
         timestamps: false,

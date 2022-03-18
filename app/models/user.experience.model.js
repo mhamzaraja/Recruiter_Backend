@@ -1,40 +1,42 @@
 module.exports = (sequelize, Sequelize) => {
-    const EmployerProfile = sequelize.define(
-        "employer_profile", {
+    const UserExperience = sequelize.define(
+        "candidate_experience", {
         id: {
             type: Sequelize.INTEGER,
             allowNull: false,
             autoIncrement: true,
             primaryKey: true
         },
-        name: {
-            type: Sequelize.STRING
-        },
-        email: {
+        jobTitle: {
             type: Sequelize.STRING
         },
         company: {
             type: Sequelize.STRING
         },
-        address: {
+        industry: {
             type: Sequelize.STRING
         },
-        city: {
+        manageTeam: {
             type: Sequelize.STRING
         },
-        country: {
+        salary: {
             type: Sequelize.STRING
         },
-        company_url: {
+        location: {
             type: Sequelize.STRING
         },
-        mobile_number: {
-            type: Sequelize.INTEGER
+        startDate: {
+            type: Sequelize.STRING
         },
-        summary: {
+        endDate: {
+            type: Sequelize.STRING
+        },
+        currentlyWorking: {
+            type: Sequelize.BOOLEAN
+        },
+        description: {
             type: Sequelize.STRING
         }
-
     }, {
         timestamps: false,
         createdAt: false,
@@ -42,5 +44,5 @@ module.exports = (sequelize, Sequelize) => {
     }
     );
 
-    return EmployerProfile;
+    return UserExperience;
 };

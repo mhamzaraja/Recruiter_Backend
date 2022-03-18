@@ -2,6 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
 
+const dotenv = require('dotenv');
+dotenv.config({ path: './.env' });
+
+
 const app = express();
 
 app.use(cors());
@@ -41,6 +45,7 @@ app.get("/", (req, res) => {
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/employer.routes")(app);
+require("./app/routes/jobs.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8001;

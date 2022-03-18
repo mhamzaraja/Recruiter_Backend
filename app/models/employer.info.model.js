@@ -1,36 +1,39 @@
 module.exports = (sequelize, Sequelize) => {
-    const CandidateEducation = sequelize.define(
-        "candidate_education", {
+    const EmployerInfo = sequelize.define(
+        "employer_Info", {
         id: {
             type: Sequelize.INTEGER,
             allowNull: false,
             autoIncrement: true,
             primaryKey: true
         },
-        degree_title: {
+        full_name: {
             type: Sequelize.STRING
         },
-        field_of_study: {
+        job_designation: {
             type: Sequelize.STRING
         },
-        location: {
+        gender: {
             type: Sequelize.STRING
         },
-        institution: {
+        dob: {
             type: Sequelize.STRING
         },
-        completion_year: {
+        office_number: {
             type: Sequelize.INTEGER
         },
-        obtained_gpa: {
-            type: Sequelize.DECIMAL(10,1)
+        mobile_number: {
+            type: Sequelize.INTEGER
+        },
+        avatar: {
+            type: Sequelize.BLOB
         }
     }, {
-        timestamps: false,
-        createdAt: false,
-        updatedAt: false,
+        timestamps: true,
+        createdAt: true,
+        updatedAt: true,
     }
     );
 
-    return CandidateEducation;
+    return EmployerInfo;
 };

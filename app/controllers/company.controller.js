@@ -1,63 +1,26 @@
 const db = require("../models");
-const employerProfile = db.employerInfo;
+const companyProfile = db.companyProfile;
 
-exports.saveEmployerProfile = async (req, res) => {
-    const employerId = req.userId;
-
-    const profile = await employerProfile.findOne({
-        where: {
-            employerId
-        },
-    });
-
-    if (!profile) {
-
-        employerProfile.create(req.body)
+exports.saveCompany = async (req, res) => {
+    await companyProfile.create(req.body)
         .then(data => {
-          res.status(200).json({
-            status: 200,
-            success: false,
-            message: "Created Successfully!",
-            data: data
-          });
+            res.status(200).json({
+                status: 200,
+                success: true,
+                message: "Created Successfully",
+                data: data
+            });
         })
         .catch(err => {
-          res.status(500).json({
-            status: 500,
-            success: false,
-            message: err.message || "Some error occurred while creating."
-          });
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
+            });
         });
-    } else {
-      employerProfile.update(req.body, {
-        where: { employerId }
-      }).then(num => {
-        if (num == 1) {
-          res.status(200).json({
-            status: 200,
-            success: false,
-            message: "Updated Successfully"
-          });
-        } else {
-          res.status(500).json({
-            status: 500,
-            success: false,
-            message: "No changes were made!"
-          });
-        }
-      })
-        .catch(err => {
-          res.status(500).json({
-            status: 500,
-            success: false,
-            message: "Error updating with id=" + req.userId
-          });
-        });
-    }
-
 };
 
-exports.showAllEmployerProfiles = async (req, res) => {
+exports.showAllCompanys = async (req, res) => {
     const employerId = req.userId;
 
     if (!employerId) {
@@ -67,7 +30,7 @@ exports.showAllEmployerProfiles = async (req, res) => {
             message: "Unauthorize"
         });
     } else {
-        await employerProfile.findAll({
+        await companyProfile.findAll({
             where: { employerId }
         })
             .then(data => {
@@ -87,7 +50,7 @@ exports.showAllEmployerProfiles = async (req, res) => {
     }
 };
 
-exports.showEmployerProfileById = async (req, res) => {
+exports.showCompanyById = async (req, res) => {
     const id = req.query.id;
     const employerId = req.userId;
 
@@ -98,7 +61,7 @@ exports.showEmployerProfileById = async (req, res) => {
             message: "Unauthorize"
         });
     } else {
-        await employerProfile.findOne({
+        await companyProfile.findOne({
             where: { id, employerId }
         })
             .then(data => {
@@ -118,14 +81,14 @@ exports.showEmployerProfileById = async (req, res) => {
     }
 };
 
-exports.deleteEmployerProfile = async (req, res) => {
+exports.deleteCompany = async (req, res) => {
     const id = req.query.id;
     const employerId = req.userId;
     try {
-        const employer = await employerProfile.findOne({
+        const company = await companyProfile.findOne({
             where: { id, employerId }
         });
-        await employer.destroy().then(data => {
+        await company.destroy().then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,
@@ -148,33 +111,57 @@ exports.deleteEmployerProfile = async (req, res) => {
     }
 };
 
-exports.updateEmployerProfile = async (req, res) => {
+exports.updateCompany = async (req, res) => {
     const id = req.query.id;
     const employerId = req.userId;
     const {
-        full_name,
+        company_name,
+        ceo_name,
+        hr_head_department,
         job_designation,
-        gender,
-        dob,
+        industry,
+        ownership_type,
+        company_address,
+        company_description,
+        origin_of_company,
+        number_of_offices,
+        contact_email,
+        contact_person,
+        company_url,
+        number_of_employees,
+        operating_since,
+        company_logo,
         office_number,
         mobile_number,
-        avatar
+        is_default
     } = req.body;
 
     try {
-        const employer = await employerProfile.findOne({
+        const company = await companyProfile.findOne({
             where: { id, employerId }
         });
 
-        employer.full_name = full_name;
-        employer.job_designation = job_designation;
-        employer.gender = gender;
-        employer.dob = dob;
-        employer.office_number = office_number;
-        employer.mobile_number = mobile_number;
-        employer.avatar = avatar;
+        company.company_name = company_name;
+        company.ceo_name = ceo_name;
+        company.hr_head_department = hr_head_department;
+        company.job_designation = job_designation;
+        company.industry = industry;
+        company.ownership_type = ownership_type;
+        company.company_address = company_address;
+        company.company_description = company_description;
+        company.origin_of_company = origin_of_company;
+        company.number_of_offices = number_of_offices;
+        company.contact_email = contact_email;
+        company.contact_person = contact_person;
+        company.company_url = company_url;
+        company.number_of_employees = number_of_employees;
+        company.operating_since = operating_since;
+        company.company_logo = company_logo;
+        company.office_number = office_number;
+        company.mobile_number = mobile_number;
+        company.is_default = is_default;
 
-        await employer.save().then(data => {
+        await company.save().then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,

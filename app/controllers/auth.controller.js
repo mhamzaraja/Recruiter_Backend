@@ -116,9 +116,11 @@ exports.signin = async (req, res) => {
 exports.signout = async (req, res) => {
   try {
     req.session = null;
-    return res.status(200).send({
+    return res.status(200).json({
+      status: 200,
+      success: true,
       message: "You've been signed out!"
-    });
+  });
   } catch (err) {
     this.next(err);
   }
