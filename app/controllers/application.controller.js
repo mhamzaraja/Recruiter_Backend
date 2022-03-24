@@ -20,8 +20,6 @@ exports.saveApplication = async (req, res) => {
             }
         });
 
-        console.log("job id: ", jobId, "user id: ", userId, "candidateId ID: ", candidateId.id,
-         "created: " , created, "data: ", data);
         if (created) {
             return res.status(200).json({
                 status: 200,
@@ -93,8 +91,7 @@ exports.showApplicationById = async (req, res) => {
         } else {
             res.status(500).json({
                 status: 500,
-                success: false,
-                message: "No jobs were posted with this id: " + jobId
+                success: false
             });
         }
         
