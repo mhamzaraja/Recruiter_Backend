@@ -106,8 +106,8 @@ db.candidateLanguages.belongsTo(db.user, {
 });
 
 //Experience
-db.user.hasMany(db.candidateExperience, {foreignKey: "userId"});
-db.candidateExperience.belongsTo(db.user);
+db.user.hasMany(db.userExperience, {foreignKey: "userId"});
+db.userExperience.belongsTo(db.user);
 
 // EMPLOYERS
 

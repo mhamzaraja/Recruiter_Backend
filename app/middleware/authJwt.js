@@ -33,7 +33,7 @@ isAdmin = async (req, res, next) => {
     const roles = await user.getRoles();
 
     for (let i = 0; i < roles.length; i++) {
-      if (roles[i].name === "admin") {
+      if (roles[i].name === "super_user") {
         return next();
       }
     }
@@ -48,19 +48,19 @@ isAdmin = async (req, res, next) => {
   }
 };
 
-isModerator = async (req, res, next) => {
+isEmployer = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.userId);
     const roles = await user.getRoles();
 
     for (let i = 0; i < roles.length; i++) {
-      if (roles[i].name === "moderator") {
+      if (roles[i].name === "employer") {
         return next();
       }
     }
 
     return res.status(403).send({
-      message: "Require Moderator Role!",
+      message: "Require Employer Role!",
     });
   } catch (error) {
     return res.status(500).send({
@@ -69,27 +69,27 @@ isModerator = async (req, res, next) => {
   }
 };
 
-isModeratorOrAdmin = async (req, res, next) => {
+isEmployerOrAdmin = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.userId);
     const roles = await user.getRoles();
 
     for (let i = 0; i < roles.length; i++) {
-      if (roles[i].name === "moderator") {
+      if (roles[i].name === "employer") {
         return next();
       }
 
-      if (roles[i].name === "admin") {
+      if (roles[i].name === "super_admin") {
         return next();
       }
     }
 
     return res.status(403).send({
-      message: "Require Moderator or Admin Role!",
+      message: "Require Employer or Admin Role!",
     });
   } catch (error) {
     return res.status(500).send({
-      message: "Unable to validate Moderator or Admin role!",
+      message: "Unable to validate Employer or Admin role!",
     });
   }
 };
@@ -97,7 +97,7 @@ isModeratorOrAdmin = async (req, res, next) => {
 const authJwt = {
   verifyToken,
   isAdmin,
-  isModerator,
-  isModeratorOrAdmin,
+  isEmployer,
+  isEmployerOrAdmin,
 };
 module.exports = authJwt;

@@ -18,11 +18,11 @@ exports.signup = async (req, res) => {
       password: bcrypt.hashSync(req.body.password, 8),
     });
 
-    if (req.body.roles) {
+    if (req.body.role_id) {
       const roles = await Role.findAll({
         where: {
-          name: {
-            [Op.or]: req.body.roles,
+          id: {
+            [Op.eq]: req.body.role_id,
           },
         },
       });
