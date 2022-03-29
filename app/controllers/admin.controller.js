@@ -166,7 +166,7 @@ exports.getUserById = async (req, res) => {
     try {
       const profile = await candidateProfile.findAll({
 
-        attributes: { exclude: ['userId','createdAt','updatedAt'] }
+  
           // include:[
               
           //     {model:candidateEducation},
