@@ -1,3 +1,4 @@
+const { candidateProfile } = require("../models");
 const db = require("../models");
 const userJob = db.postJob;
 const employerProfile=db.employerInfo;
@@ -163,17 +164,19 @@ exports.getUserById = async (req, res) => {
     const userId = req.userId;
 
     try {
-      const profile = await user.findAll({
-          include:[
+      const profile = await candidateProfile.findAll({
+
+        attributes: { exclude: ['userId','createdAt','updatedAt'] }
+          // include:[
               
-              {model:candidateEducation},
-              {model:candidateExperience},
-              {model:candidateProjects},
-              {model:candidateSkills},
-              {model:candidateLanguages}
+          //     {model:candidateEducation},
+          //     {model:candidateExperience},
+          //     {model:candidateProjects},
+          //     {model:candidateSkills},
+          //     {model:candidateLanguages}
            
 
-          ]
+          // ]
       });
       
 
