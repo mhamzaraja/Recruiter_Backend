@@ -3,6 +3,7 @@ module.exports = (sequelize, Sequelize) => {
         "user_experience", {
             id:{
                 type: Sequelize.INTEGER,
+                allowNull:false,
                 autoIncrement: true,
                 primaryKey: true
             },
@@ -16,7 +17,7 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.STRING
             },
             manageTeam: {
-                type: Sequelize.BOOLEAN
+                type: Sequelize.STRING
             },
             salary:{
                 type: Sequelize.STRING
@@ -25,7 +26,7 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.STRING
             },
             startDate: {
-                type: Sequelize.INTEGER
+                type: Sequelize.STRING
             },
             endDate: {
                 type: Sequelize.STRING
@@ -36,6 +37,10 @@ module.exports = (sequelize, Sequelize) => {
             description: {
                 type: Sequelize.STRING
             }
+        },{
+            timestamps:false,
+            createdAt:false,
+            updatedAt:false,
         }
     );
   
