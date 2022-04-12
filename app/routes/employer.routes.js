@@ -16,11 +16,11 @@ module.exports = function (app) {
     //     });
 
     //employer
-    app.post("/api/employer/profile/create", [authJwt.verifyToken], employerProfileController.saveEmployerProfile);
-    app.get("/api/employer/profile/getOne", [authJwt.verifyToken], employerProfileController.showEmployerProfileById);
-    app.get("/api/employer/profile/getAll", [authJwt.verifyToken], employerProfileController.showAllEmployerProfiles);
-    app.delete("/api/employer/profile/delete", [authJwt.verifyToken], employerProfileController.deleteEmployerProfile);
-    app.put("/api/employer/profile/update", [authJwt.verifyToken], employerProfileController.updateEmployerProfile);
+    app.post("/api/employer/profile/create", [authJwt.verifyToken,authJwt.isEmployer], employerProfileController.saveEmployerProfile);
+    app.get("/api/employer/profile/getOne", [authJwt.verifyToken,authJwt.isEmployer], employerProfileController.showEmployerProfileById);
+    app.get("/api/employer/profile/getAll", [authJwt.verifyToken,authJwt.isEmployer], employerProfileController.showAllEmployerProfiles);
+    app.delete("/api/employer/profile/delete", [authJwt.verifyToken,authJwt.isEmployer], employerProfileController.deleteEmployerProfile);
+    app.put("/api/employer/profile/update", [authJwt.verifyToken,authJwt.isEmployer], employerProfileController.updateEmployerProfile);
 
     //company
     app.post("/api/employer/company/create", [authJwt.verifyToken], companyController.saveCompany);
@@ -30,7 +30,7 @@ module.exports = function (app) {
     app.put("/api/employer/company/update", [authJwt.verifyToken], companyController.updateCompany);
 
     //job post
-    app.post("/api/employer/job/create", [authJwt.verifyToken], jobPostController.saveJob);
+    app.post("/api/employer/job/create", [authJwt.verifyToken,authJwt.isEmployer], jobPostController.saveJob);
     app.get("/api/employer/job/getOne", [authJwt.verifyToken], jobPostController.showJobById);
     app.get("/api/employer/job/getAll", [authJwt.verifyToken], jobPostController.showAllJobs);
     app.delete("/api/employer/job/delete", [authJwt.verifyToken], jobPostController.deleteJob);

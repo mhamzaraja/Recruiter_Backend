@@ -139,42 +139,36 @@ exports.showApplicationById = async (req, res) => {
 //     }
 // };
 
-// exports.updateApplication = async (req, res) => {
-//     const id = req.query.id;
-//     const userId = req.userId;
-//     const {
-//         application_title,
-//         application_proficiency
-//     } = req.body;
+exports.updateApplication = async (req, res) => {
+    const id = req.query.id;
+    const userId = req.userId;
+    const status=req.body.status;   
+    try {
+        const application = await jobApplication.findOne({
+            where: { id, userId }
+        });
 
-//     try {
-//         const application = await jobApplication.findOne({
-//             where: { id, userId }
-//         });
-
-//         application.application_title = application_title;
-//         application.application_proficiency = application_proficiency;
-
-//         await application.save().then(data => {
-//             res.status(200).json({
-//                 status: 200,
-//                 success: true,
-//                 message: "Status Updated Successfully",
-//                 data: data
-//             });
-//         })
-//             .catch(err => {
-//                 res.status(500).json({
-//                     status: 500,
-//                     success: false,
-//                     message: err.message || "Something Went wrong while requesting!"
-//                 });
-//             });
-//     } catch (err) {
-//         res.status(500).json({
-//             status: 500,
-//             success: false,
-//             message: err.message || "Something Went wrong while requesting!"
-//         });
-//     }
-// };
+        application.application_status = status;
+        await application.save().then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                message: "Status Updated Successfully",
+                data: data
+            });
+        })
+            .catch(err => {
+                res.status(500).json({
+                    status: 500,
+                    success: false,
+                    message: err.message || "Something Went wrong while requesting!"
+                });
+            });
+    } catch (err) {
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: err.message || "Something Went wrong while updating status!"
+        });
+    }
+};

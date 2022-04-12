@@ -27,6 +27,26 @@ verifyToken = (req, res, next) => {
   });
 };
 
+isCandidate = async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.userId);
+    const roles = await user.getRoles();
+
+    for (let i = 0; i < roles.length; i++) {
+      if (roles[i].name === "candidate") {
+        return next();
+      }
+    }
+
+    return res.status(403).send({
+      message: "Require Candidate Role!",
+    });
+  } catch (error) {
+    return res.status(500).send({
+      message: "Unable to validate Candidate role!",
+    });
+  }
+};
 isAdmin = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.userId);
@@ -99,5 +119,6 @@ const authJwt = {
   isAdmin,
   isEmployer,
   isEmployerOrAdmin,
+  isCandidate
 };
 module.exports = authJwt;
