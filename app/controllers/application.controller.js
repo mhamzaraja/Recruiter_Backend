@@ -109,35 +109,34 @@ exports.showApplicationById = async (req, res) => {
 };
 
 
-// exports.deleteApplication = async (req, res) => {
-//     const id = req.query.id;
-//     const userId = req.userId;
-//     try {
-//         const application = await jobApplication.findOne({
-//             where: { id, userId }
-//         });
-//         await application.destroy().then(data => {
-//             res.status(200).json({
-//                 status: 200,
-//                 success: true,
-//                 message: "Removed Successfully",
-//                 data: data
-//             });
-//         }).catch(err => {
-//             res.status(500).json({
-//                 status: 500,
-//                 success: false,
-//                 message: err.message || "Something Went wrong while requesting!"
-//             });
-//         });
-//     } catch (err) {
-//         res.status(500).json({
-//             status: 500,
-//             success: false,
-//             message: err.message || "Something Went wrong while requesting!"
-//         });
-//     }
-// };
+exports.deleteApplication = async (req, res) => {
+    const id = req.query.id;
+    try {
+        const application = await jobApplication.findOne({
+            where: {id}
+        });
+        await application.destroy().then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                message: "Removed Successfully",
+                data: data
+            });
+        }).catch(err => {
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
+            });
+        });
+    } catch (err) {
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: err.message || "Something Went wrong while requesting!"
+        });
+    }
+};
 
 exports.updateApplication = async (req, res) => {
     const id = req.query.id;

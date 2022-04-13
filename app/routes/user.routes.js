@@ -16,12 +16,12 @@ module.exports = function (app) {
     next();
   });
 
-  app.post("/api/user/profile/create", [authJwt.verifyToken,isCandidate], controller.createUpdate);
+  app.post("/api/user/profile/create", [authJwt.verifyToken,authJwt.isCandidate], controller.createUpdate);
   app.get("/api/user/profile/getOne", [authJwt.verifyToken], controller.getUserById);
   app.get("/api/user/profile/getAll", [authJwt.verifyToken], controller.getAllUsers);
 
   //Education
-  app.post("/api/user/education/create", [authJwt.verifyToken,isCandidate], educationController.saveEducation);
+  app.post("/api/user/education/create", [authJwt.verifyToken,authJwt.isCandidate], educationController.saveEducation);
   app.get("/api/user/education/getOne", [authJwt.verifyToken], educationController.showEducationById);
   app.get("/api/user/education/getAll", [authJwt.verifyToken], educationController.showAllEducations);
   app.delete("/api/user/education/delete", [authJwt.verifyToken], educationController.deleteEducation);
