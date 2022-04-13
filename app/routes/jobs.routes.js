@@ -12,7 +12,7 @@ module.exports = function (app) {
     app.post("/api/job/application/create", [authJwt.verifyToken,authJwt.isCandidate], applicationController.saveApplication);
     app.get("/api/job/application/getOne", [authJwt.verifyToken], applicationController.showApplicationById);
     // app.get("/api/job/application/getAll", applicationController.showAllApplications);
-    app.delete("/api/job/application/deletee",[authJwt.verifyToken,authJwt.isAdmin], applicationController.deleteApplication);
-    app.put("/api/job/application/update",[authJwt.verifyToken, authJwt.isAdmin], applicationController.updateApplication);
+    app.delete("/api/job/application/deletee",[authJwt.verifyToken,authJwt.isEmployerOrAdmin], applicationController.deleteApplication);
+    app.put("/api/job/application/update",[authJwt.verifyToken, authJwt.isEmployerOrAdmin], applicationController.updateApplication);
 
 };
