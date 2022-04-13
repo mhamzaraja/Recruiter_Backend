@@ -141,7 +141,7 @@ exports.showApplicationById = async (req, res) => {
 
 exports.updateApplication = async (req, res) => {
     const id = req.query.id;
-    const status=req.body.status;   
+    const status=req.body.application_status;   
     try {
         const application = await jobApplication.findOne({
             where: { id }
