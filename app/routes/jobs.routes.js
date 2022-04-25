@@ -1,6 +1,7 @@
 const { authJwt } = require("../middleware");
 const jobsListController = require("../controllers/jobs.list.controller");
 const applicationController = require("../controllers/application.controller");
+const interviewScheduleController=require("../controllers/interview.schedule.controller")
 
 module.exports = function (app) {
 
@@ -15,4 +16,11 @@ module.exports = function (app) {
     app.delete("/api/job/application/deletee",[authJwt.verifyToken,authJwt.isEmployerOrAdmin], applicationController.deleteApplication);
     app.put("/api/job/application/update",[authJwt.verifyToken, authJwt.isEmployerOrAdmin], applicationController.updateApplication);
 
-};
+    // Interview Schedule 
+    app.post("/api/job/interview/create",[authJwt.verifyToken], interviewScheduleController.savescheduleInterview);
+    app.get("/api/job/interview/getOne",[authJwt.verifyToken], interviewScheduleController.showscheduleInterviewById);
+    app.get("/api/job/interview/getAll",[authJwt.verifyToken], interviewScheduleController.showAllscheduleInterview);
+    app.put("/api/job/interview/update",[authJwt.verifyToken], interviewScheduleController.updatescheduleInterview);
+
+
+};      
