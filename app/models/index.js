@@ -9,6 +9,7 @@ const sequelize = new Sequelize(
     host: config.HOST,
     dialect: config.dialect,
     operatorsAliases: 0,
+    logging: false,
 
     pool: {
       max: config.pool.max,
@@ -51,6 +52,9 @@ db.companyProfile = require("./company.profile.model")(sequelize, Sequelize);
 
 //job application
 db.jobApplication = require("./job.application.model")(sequelize, Sequelize);
+
+// Interview Scheduler
+db.interviewSchedule = require("./interview.schedule.model")(sequelize, Sequelize);
 // ASSOCIATIONS
 
 //user and role
@@ -159,6 +163,19 @@ db.jobApplication.belongsTo(db.candidateProfile, {
   foreignKey : 'candidateId'
 });
 
+// Interview Schedule
+db.user.hasMany(db.interviewSchedule,{
+  foreignKey:"userId"
+})
+db.interviewSchedule.belongsTo(db.user,{
+  foreignKey:"userId"
+})
+db.postJob.hasMany(db.interviewSchedule,{
+  foreignKey:"jobId"
+})
+db.interviewSchedule.belongsTo(db.postJob,{
+  foreignKey:"jobId"
+})
 
 db.ROLES = ["user", "admin", "moderator"];
 
