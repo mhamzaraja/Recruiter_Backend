@@ -24,7 +24,7 @@ module.exports = function (app) {
 
     // Interview Schedule 
     app.post("/api/job/interview/create",[authJwt.verifyToken], interviewScheduleController.savescheduleInterview);
-    app.get("/api/job/interview/getOne",[authJwt.verifyToken], interviewScheduleController.showscheduleInterviewById);
+    // app.get("/api/job/interview/getOne",[authJwt.verifyToken], interviewScheduleController.showscheduleInterviewById);
     app.get("/api/job/interview/getAll",[authJwt.verifyToken], interviewScheduleController.showAllscheduleInterview);
     app.put("/api/job/interview/update",[authJwt.verifyToken], interviewScheduleController.updatescheduleInterview);
 

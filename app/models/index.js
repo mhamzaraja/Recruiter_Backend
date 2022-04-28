@@ -179,6 +179,7 @@ db.jobApplication.hasMany(db.jobshortlistCandidate,{
 db.jobshortlistCandidate.belongsTo(db.jobApplication,{
   
 })
+
 // Interview Schedule
 db.user.hasMany(db.interviewSchedule,{
   foreignKey:"userId"
@@ -186,16 +187,21 @@ db.user.hasMany(db.interviewSchedule,{
 db.interviewSchedule.belongsTo(db.user,{
   foreignKey:"userId"
 })
+
 db.postJob.hasMany(db.interviewSchedule,{
   foreignKey:"jobId"
 })
 db.interviewSchedule.belongsTo(db.postJob,{
   foreignKey:"jobId"
 })
-db.candidateProfile.hasMany(db.interviewSchedule);
-db.interviewSchedule.belongsTo(db.candidateProfile);
-db.employerInfo.hasMany(db.interviewSchedule);
-db.interviewSchedule.belongsTo(db.employerInfo);
+
+db.candidateProfile.hasMany(db.interviewSchedule,{
+  foreignKey:"candidateId"
+})
+db.interviewSchedule.belongsTo(db.candidateProfile,{
+  foreignKey:"candidateId"
+})
+
 
 db.ROLES = ["user", "admin", "moderator"];
 

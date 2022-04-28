@@ -38,8 +38,7 @@ exports.showscheduleInterviewById = async (req, res) => {
         } else {
             res.status(500).json({
                 status: 500,
-                success: false,
-                message: "No interview were scheduled with this id: " + interviewId
+                success: false
             });
         }
         
@@ -54,17 +53,11 @@ exports.showscheduleInterviewById = async (req, res) => {
 };
 
 exports.showAllscheduleInterview = async (req, res) => {
+    const jobId = req.query.id;
 
     await interviewSchedule.findAll({
-        include:[
-            {model:candidateProfile},
-            {
-                model:employerInfo
-            },
-            {
-                model:postJob
-            },
-        ]
+        where: { jobId },
+        include: [candidateProfile, postJob]
     }).then(data => {
         if (data.length > 0){
             res.status(200).json({
@@ -76,7 +69,7 @@ exports.showAllscheduleInterview = async (req, res) => {
             res.status(500).json({
                 status: 500,
                 success: false,
-                message: "No interview is schedule"
+                message: "No jobs were posted with this id: " + jobId
             });
         }
         
