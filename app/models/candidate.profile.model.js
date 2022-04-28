@@ -35,7 +35,7 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.STRING
             },
             mobile_number: {
-                type: Sequelize.INTEGER
+                type: Sequelize.STRING
             },
             career_level: {
                 type: Sequelize.STRING

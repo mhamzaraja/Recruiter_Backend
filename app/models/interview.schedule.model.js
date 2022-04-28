@@ -10,7 +10,7 @@ module.exports = (sequelize, Sequelize) => {
             date:{
                 type : Sequelize.STRING
             },
-            time:{
+            timeField:{
                 type :Sequelize.STRING
             },
             city : {

@@ -1,8 +1,10 @@
 const db = require("../models");
 const interviewSchedule=db.interviewSchedule;
+const candidateProfile= db.candidateProfile;
+const employerInfo = db.employerInfo
+const postJob=db.postJob
 
 exports.savescheduleInterview = async (req, res) => {
-
     await interviewSchedule.create(req.body)
     .then(data => {
         res.status(200).json({
@@ -37,7 +39,7 @@ exports.showscheduleInterviewById = async (req, res) => {
             res.status(500).json({
                 status: 500,
                 success: false,
-                message: "No interview were schedule with this id: " + jobId
+                message: "No interview were scheduled with this id: " + interviewId
             });
         }
         
@@ -54,6 +56,15 @@ exports.showscheduleInterviewById = async (req, res) => {
 exports.showAllscheduleInterview = async (req, res) => {
 
     await interviewSchedule.findAll({
+        include:[
+            {model:candidateProfile},
+            {
+                model:employerInfo
+            },
+            {
+                model:postJob
+            },
+        ]
     }).then(data => {
         if (data.length > 0){
             res.status(200).json({
@@ -100,7 +111,7 @@ exports.updatescheduleInterview = async (req, res) => {
         interviewUpdate.comments = comments;
         interviewUpdate.status = status
 
-        await project.save().then(data => {
+        await interviewSchedule.save().then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,

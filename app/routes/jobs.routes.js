@@ -14,7 +14,13 @@ module.exports = function (app) {
     app.get("/api/job/application/getOne", [authJwt.verifyToken], applicationController.showApplicationById);
     // app.get("/api/job/application/getAll", applicationController.showAllApplications);
     app.delete("/api/job/application/deletee",[authJwt.verifyToken,authJwt.isEmployerOrAdmin], applicationController.deleteApplication);
-    app.put("/api/job/application/update",[authJwt.verifyToken, authJwt.isEmployerOrAdmin], applicationController.updateApplication);
+    app.put("/api/job/application/update",[authJwt.verifyToken, authJwt.isAdmin], applicationController.updateApplication);
+
+    // Shortlisted Candidates
+    app.post("/api/job/shortList/create",[authJwt.verifyToken], interviewScheduleController.savescheduleInterview);
+    app.get("/api/job/shortList/getOne",[authJwt.verifyToken], interviewScheduleController.showscheduleInterviewById);
+    app.get("/api/job/shortList/getAll",[authJwt.verifyToken], interviewScheduleController.showAllscheduleInterview);
+    app.put("/api/job/shortList/update",[authJwt.verifyToken], interviewScheduleController.updatescheduleInterview);
 
     // Interview Schedule 
     app.post("/api/job/interview/create",[authJwt.verifyToken], interviewScheduleController.savescheduleInterview);

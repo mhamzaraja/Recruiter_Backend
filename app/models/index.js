@@ -53,6 +53,9 @@ db.companyProfile = require("./company.profile.model")(sequelize, Sequelize);
 //job application
 db.jobApplication = require("./job.application.model")(sequelize, Sequelize);
 
+//shortlist candidate
+db.jobshortlistCandidate =require("./job.shortlist.model")(sequelize, Sequelize);
+
 // Interview Scheduler
 db.interviewSchedule = require("./interview.schedule.model")(sequelize, Sequelize);
 // ASSOCIATIONS
@@ -163,6 +166,19 @@ db.jobApplication.belongsTo(db.candidateProfile, {
   foreignKey : 'candidateId'
 });
 
+//shortlisted Candidates
+
+db.user.hasMany(db.jobshortlistCandidate,{
+
+})
+db.jobshortlistCandidate.belongsTo(db.user,{
+  
+})
+db.jobApplication.hasMany(db.jobshortlistCandidate,{
+})
+db.jobshortlistCandidate.belongsTo(db.jobApplication,{
+  
+})
 // Interview Schedule
 db.user.hasMany(db.interviewSchedule,{
   foreignKey:"userId"
@@ -176,6 +192,10 @@ db.postJob.hasMany(db.interviewSchedule,{
 db.interviewSchedule.belongsTo(db.postJob,{
   foreignKey:"jobId"
 })
+db.candidateProfile.hasMany(db.interviewSchedule);
+db.interviewSchedule.belongsTo(db.candidateProfile);
+db.employerInfo.hasMany(db.interviewSchedule);
+db.interviewSchedule.belongsTo(db.employerInfo);
 
 db.ROLES = ["user", "admin", "moderator"];
 
