@@ -1,7 +1,8 @@
 const { authJwt } = require("../middleware");
 const jobsListController = require("../controllers/jobs.list.controller");
 const applicationController = require("../controllers/application.controller");
-const interviewScheduleController=require("../controllers/interview.schedule.controller")
+const interviewScheduleController=require("../controllers/interview.schedule.controller");
+const shortlistController=require("../controllers/job.shortlist.controller");
 
 module.exports = function (app) {
 
@@ -17,10 +18,10 @@ module.exports = function (app) {
     app.put("/api/job/application/update",[authJwt.verifyToken, authJwt.isAdmin], applicationController.updateApplication);
 
     // Shortlisted Candidates
-    app.post("/api/job/shortList/create",[authJwt.verifyToken], interviewScheduleController.savescheduleInterview);
-    app.get("/api/job/shortList/getOne",[authJwt.verifyToken], interviewScheduleController.showscheduleInterviewById);
-    app.get("/api/job/shortList/getAll",[authJwt.verifyToken], interviewScheduleController.showAllscheduleInterview);
-    app.put("/api/job/shortList/update",[authJwt.verifyToken], interviewScheduleController.updatescheduleInterview);
+    app.post("/api/job/shortlist/create",[authJwt.verifyToken], shortlistController.saveShortlistCandidate);
+    app.get("/api/job/shortlist/getOne",[authJwt.verifyToken], shortlistController.showShortlistCandidatebyId);
+    app.get("/api/job/shortlist/getAll",[authJwt.verifyToken], shortlistController.showAllShortListCandidate);
+    app.put("/api/job/shortlist/update",[authJwt.verifyToken], shortlistController.updateShortlistCandidate);
 
     // Interview Schedule 
     app.post("/api/job/interview/create",[authJwt.verifyToken], interviewScheduleController.savescheduleInterview);

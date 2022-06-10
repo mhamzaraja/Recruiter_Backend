@@ -81,40 +81,42 @@ db.candidateProfile.belongsTo(db.user, {
 });
 
 // education
-db.user.hasMany(db.candidateEducation,{
+db.candidateProfile.hasMany(db.candidateEducation,{
   foreignKey: "userId"
 });
-db.candidateEducation.belongsTo(db.user, {
+db.candidateEducation.belongsTo(db.candidateProfile, {
   foreignKey : 'userId'
 });
 
 // projects
-db.user.hasMany(db.candidateProjects,{
+db.candidateProfile.hasMany(db.candidateProjects,{
   foreignKey: "userId"
 });
-db.candidateProjects.belongsTo(db.user, {
+db.candidateProjects.belongsTo(db.candidateProfile, {
   foreignKey : 'userId'
 });
 
 // skills
-db.user.hasMany(db.candidateSkills,{
+db.candidateProfile.hasMany(db.candidateSkills,{
   foreignKey: "userId"
 });
-db.candidateSkills.belongsTo(db.user, {
+db.candidateSkills.belongsTo(db.candidateProfile, {
   foreignKey : 'userId'
 });
 
 // languages
-db.user.hasMany(db.candidateLanguages,{
+db.candidateProfile.hasMany(db.candidateLanguages,{
   foreignKey: "userId"
 });
-db.candidateLanguages.belongsTo(db.user, {
+db.candidateLanguages.belongsTo(db.candidateProfile, {
   foreignKey : 'userId'
 });
 
 //Experience
-db.user.hasMany(db.candidateExperience, {foreignKey: "userId"});
-db.candidateExperience.belongsTo(db.user);
+db.candidateProfile.hasMany(db.candidateExperience, {foreignKey: "userId"});
+db.candidateExperience.belongsTo(db.candidateProfile,{
+  foreignKey :'userId'
+});
 
 // EMPLOYERS
 
@@ -185,21 +187,27 @@ db.user.hasMany(db.interviewSchedule,{
   foreignKey:"userId"
 })
 db.interviewSchedule.belongsTo(db.user,{
-  foreignKey:"userId"
+  foreignKey:'userId'
 })
 
 db.postJob.hasMany(db.interviewSchedule,{
   foreignKey:"jobId"
 })
 db.interviewSchedule.belongsTo(db.postJob,{
-  foreignKey:"jobId"
+  foreignKey:'jobId'
 })
 
 db.candidateProfile.hasMany(db.interviewSchedule,{
   foreignKey:"candidateId"
 })
 db.interviewSchedule.belongsTo(db.candidateProfile,{
-  foreignKey:"candidateId"
+  foreignKey:'candidateId'
+})
+db.employerInfo.hasMany(db.interviewSchedule,{
+  foreignKey:"empId"
+})
+db.interviewSchedule.belongsTo(db.employerInfo,{
+  foreignKey:'empId'
 })
 
 

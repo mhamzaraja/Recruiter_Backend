@@ -7,21 +7,34 @@ module.exports = (sequelize, Sequelize) => {
                 autoIncrement: true,
                 primaryKey: true
             },
-            date:{
+            summary:{
                 type : Sequelize.STRING
             },
-            timeField:{
+            location:{
                 type :Sequelize.STRING
             },
-            city : {
+            description: {
                 type : Sequelize.STRING
             },
-            comments : {
-                type : Sequelize.STRING
+            start : {
+                type : Sequelize.JSON
             },
-            status :{
-                type:Sequelize.STRING
+            end :{
+                type:Sequelize.JSON
             },
+           
+            attendees: { 
+                type: Sequelize.STRING, 
+                get: function() {
+                    return JSON.parse(this.getDataValue('attendees'));
+                }, 
+                set: function(val) {
+                    return this.setDataValue('attendees', JSON.stringify(val));
+                }
+            }
+            
+
+    
         }, {
             timestamps: false,
             createdAt: false,

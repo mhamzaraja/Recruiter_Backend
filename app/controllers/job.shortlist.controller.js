@@ -1,14 +1,13 @@
 const db = require("../models");
 const shortlistCandidate=db.jobshortlistCandidate
 
-exports.savescheduleInterview = async (req, res) => {
-
+exports.saveShortlistCandidate = async (req, res) => {
     await shortlistCandidate.create(req.body)
     .then(data => {
         res.status(200).json({
             status: 200,
             success: true,
-            message: "Created Successfully",
+            message: "Shortlisted Successfully",
             data: data
         });
     })
@@ -21,11 +20,11 @@ exports.savescheduleInterview = async (req, res) => {
     });
 }
 
-exports.showscheduleInterviewById = async (req, res) => {
-    const interviewId = req.query.id;
+exports.showShortlistCandidatebyId = async (req, res) => {
+    const shortlistId = req.query.id;
 
     await shortlistCandidate.findAll({
-        where: { interviewId },
+        where: { shortlistId },
     }).then(data => {
         if (data.length > 0){
             res.status(200).json({
@@ -37,7 +36,7 @@ exports.showscheduleInterviewById = async (req, res) => {
             res.status(500).json({
                 status: 500,
                 success: false,
-                message: "No candidate were selected with this id: " + jobId
+                message: "No candidate were shortlisted with this id: " + jobId
             });
         }
         
@@ -51,8 +50,7 @@ exports.showscheduleInterviewById = async (req, res) => {
         });
 };
 
-exports.showAllscheduleInterview = async (req, res) => {
-
+exports.showAllShortListCandidate = async (req, res) => {
     await shortlistCandidate.findAll({
     }).then(data => {
         if (data.length > 0){
@@ -65,7 +63,7 @@ exports.showAllscheduleInterview = async (req, res) => {
             res.status(500).json({
                 status: 500,
                 success: false,
-                message: "No Candidate is Selected"
+                message: "No Candidate is Shortlisted"
             });
         }
         
@@ -79,32 +77,30 @@ exports.showAllscheduleInterview = async (req, res) => {
         });
 };
 
-exports.updatescheduleInterview = async (req, res) => {
+exports.updateShortlistCandidate = async (req, res) => {
     const id = req.query.id;
 
-    const {
-        date,
-        time,
-        city,
-        comments,
-        status
-    } = req.body;
+    const {startDate,endDate,startTime,endTime,Location,comments,status,userTimezone,utcTimezone} = req.body;
 
     try {
-        const interviewUpdate = await shortlistCandidate.findOne({
+        const shortlistUpdate = await shortlistCandidate.findOne({
             where: { id }
         });
-        interviewUpdate.date = date;
-        interviewUpdate.time = time;
-        interviewUpdate.city = city;
-        interviewUpdate.comments = comments;
-        interviewUpdate.status = status
+        shortlistUpdate.startDate = startDate;
+        shortlistUpdate.endDate = endDate;
+        shortlistUpdate.startTime = startTime;
+        shortlistUpdate.endTime = endTime;
+        shortlistUpdate.Location = Location;
+        shortlistUpdate.comments = comments;
+        shortlistUpdate.status = status;
+        shortlistUpdate.userTimezone = userTimezone;
+        shortlistUpdate.utcTimezone = utcTimezone;
 
-        await project.save().then(data => {
+        await shortlistCandidate.save().then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,
-                message: "Updated Successfully",
+                message: "Updated shortlist Successfully",
                 data: data
             });
         })

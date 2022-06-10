@@ -7,13 +7,19 @@ module.exports = (sequelize, Sequelize) => {
                 autoIncrement: true,
                 primaryKey: true
             },
-            date:{
+            startDate:{
                 type : Sequelize.STRING
             },
-            time:{
+            endDate:{
                 type :Sequelize.STRING
             },
-            city : {
+            startTime:{
+                type : Sequelize.STRING
+            },
+            endTime:{
+                type :Sequelize.STRING
+            },
+            Location : {
                 type : Sequelize.STRING
             },
             comments : {
@@ -22,6 +28,12 @@ module.exports = (sequelize, Sequelize) => {
             status :{
                 type:Sequelize.STRING
             },
+            userTimezone:{
+               type:Sequelize.STRING
+            },
+            utcTimezone:{
+              type:Sequelize.STRING
+            }
         }, {
             timestamps: false,
             createdAt: false,

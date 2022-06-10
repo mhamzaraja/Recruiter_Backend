@@ -1,8 +1,7 @@
-const { candidateProfile } = require("../models");
 const db = require("../models");
 const userJob = db.postJob;
 const employerProfile=db.employerInfo;
-const CandidateProfile=db.candidateProfile
+const candidateProfile=db.candidateProfile
 const candidateEducation = db.candidateEducation;
 const candidateExperience = db.candidateExperience;
 const candidateProjects = db.candidateProjects;
@@ -100,9 +99,10 @@ exports.showEmployerProfileById = async (req, res) => {
 
 exports.getUserById = async (req, res) => {
     const id = req.query.id;
+    console.log("i am in this route")
 
     try {
-      const profile = await user.findOne({
+      const profile = await candidateProfile.findOne({
         include:[
               
             {model:candidateEducation},
@@ -116,28 +116,28 @@ exports.getUserById = async (req, res) => {
         where: {id:req.query.id},
       });
 
-      const education = await candidateEducation.findOne({
-        where: {id:req.query.id},
-      });
+      // const education = await candidateEducation.findOne({
+      //   where: {id:req.query.id},
+      // });
 
-      const experience = await candidateExperience.findOne({
-        where: {id:req.query.id},
-      });
+      // const experience = await candidateExperience.findOne({
+      //   where: {id:req.query.id},
+      // });
 
-      const projects = await candidateProjects.findOne({
-        where: {id:req.query.id},
-      });
+      // const projects = await candidateProjects.findOne({
+      //   where: {id:req.query.id},
+      // });
 
-      const skills = await candidateSkills.findOne({
-        where: {id:req.query.id},
-      });
+      // const skills = await candidateSkills.findOne({
+      //   where: {id:req.query.id},
+      // });
 
-      const languages = await candidateLanguages.findOne({
-        where: {id:req.query.id},
-      });
+      // const languages = await candidateLanguages.findOne({
+      //   where: {id:req.query.id},
+      // });
 
 
-      if (!profile && !education && !projects && !skills && !languages) {
+      if (!profile) {
         res.status(500).json({
           status: 500,
           success: false,
@@ -162,36 +162,36 @@ exports.getUserById = async (req, res) => {
 
   exports.getAllUsers = async (req, res) => {
     const userId = req.userId;
-
+   console.log("i am in get all route ")
     try {
       const profile = await candidateProfile.findAll({
 
   
-          // include:[
+          include:[
               
-          //     {model:candidateEducation},
-          //     {model:candidateExperience},
-          //     {model:candidateProjects},
-          //     {model:candidateSkills},
-          //     {model:candidateLanguages}
+              {model:candidateEducation},
+              {model:candidateExperience},
+              {model:candidateProjects},
+              {model:candidateSkills},
+              {model:candidateLanguages}
            
 
-          // ]
+          ]
       });
       
 
-      const education = await candidateEducation.findAll();
+      // const education = await candidateEducation.findAll();
 
-      const experience = await candidateExperience.findAll();
+      // const experience = await candidateExperience.findAll();
 
-      const projects = await candidateProjects.findAll();
+      // const projects = await candidateProjects.findAll();
 
-      const skills = await candidateSkills.findAll();
+      // const skills = await candidateSkills.findAll();
 
-      const languages = await candidateLanguages.findAll();
+      // const languages = await candidateLanguages.findAll();
 
 
-      if (!profile && !education && !projects && !skills && !languages) {
+      if (!profile) {
         res.status(500).json({
           status: 500,
           success: false,
@@ -201,9 +201,7 @@ exports.getUserById = async (req, res) => {
         res.status(200).json({
           status: 200,
           success: true,
-          data: [
-            { profile }
-          ]
+          data:profile
         });
       }
     } catch (err) {
