@@ -33,7 +33,7 @@ isCandidate = async (req, res, next) => {
     const roles = await user.getRoles();
 
     for (let i = 0; i < roles.length; i++) {
-      if (roles[i].name === "candidate") {
+      if (roles[i].name === "CANDIDATE") {
         return next();
       }
     }
@@ -53,7 +53,7 @@ isAdmin = async (req, res, next) => {
     const roles = await user.getRoles();
 
     for (let i = 0; i < roles.length; i++) {
-      if (roles[i].name === "super_user") {
+      if (roles[i].name === "SUPER_USER") {
         return next();
       }
     }
@@ -74,7 +74,7 @@ isEmployer = async (req, res, next) => {
     const roles = await user.getRoles();
 
     for (let i = 0; i < roles.length; i++) {
-      if (roles[i].name === "employer") {
+      if (roles[i].name === "EMPLOYER") {
         return next();
       }
     }
@@ -99,7 +99,7 @@ isEmployerOrAdmin = async (req, res, next) => {
         return next();
       }
 
-      if (roles[i].name === "super_admin") {
+      if (roles[i].name === "SUPER_USER") {
         return next();
       }
     }
