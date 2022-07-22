@@ -85,7 +85,9 @@ exports.showEmployerProfileById = async (req, res) => {
                     status: 200,
                     success: true,
                     data: data
-                });
+                }
+                );
+
             })
             .catch(err => {
                 res.status(500).json({

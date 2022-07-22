@@ -7,19 +7,34 @@ module.exports = (sequelize, Sequelize) => {
                 autoIncrement: true,
                 primaryKey: true
             },
-            summary:{
+            startDate:{
                 type : Sequelize.STRING
             },
-            location:{
+            endDate:{
                 type :Sequelize.STRING
             },
-            description: {
+            startTime: {
                 type : Sequelize.STRING
             },
-            start : {
+            endTime : {
                 type : Sequelize.JSON
             },
-            end :{
+            location :{
+                type:Sequelize.JSON
+            },
+            city :{
+                type:Sequelize.JSON
+            },
+            comments :{
+                type:Sequelize.JSON
+            },
+            status :{
+                type:Sequelize.JSON
+            },
+            userTimezone :{
+                type:Sequelize.JSON
+            },
+            utcTimezone :{
                 type:Sequelize.JSON
             },
            
