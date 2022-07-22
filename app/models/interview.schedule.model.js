@@ -41,7 +41,7 @@ module.exports = (sequelize, Sequelize) => {
             attendees: { 
                 type: Sequelize.STRING, 
                 get: function() {
-                    return JSON.parse(this.getDataValue('attendes'));
+                    return JSON.parse(this.getDataValue('attendees'));
                 }, 
                 set: function(val) {
                     return this.setDataValue('attendees', JSON.stringify(val));
