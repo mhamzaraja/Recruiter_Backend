@@ -9,6 +9,7 @@ const sequelize = new Sequelize(
     host: config.HOST,
     dialect: config.dialect,
     operatorsAliases: 0,
+    logging: true,
 
     pool: {
       max: config.pool.max,
@@ -27,24 +28,36 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.user = require("../models/user.model.js")(sequelize, Sequelize);
-db.role = require("../models/role.model.js")(sequelize, Sequelize);
+db.user = require("./user.model.js")(sequelize, Sequelize);
+db.role = require("./role.model.js")(sequelize, Sequelize);
 
 //candidate models
-db.candidateProfile = require("../models/candidate.profile.model")(sequelize, Sequelize);
-db.candidateEducation = require("../models/candidate.education.model")(sequelize, Sequelize);
-db.candidateProjects = require("../models/user.projects.model")(sequelize, Sequelize);
-db.candidateSkills = require("../models/user.skills.model")(sequelize, Sequelize);
-db.candidateLanguages = require("../models/user.languages.model")(sequelize, Sequelize);
-db.userExperience = require("../models/userExperience.model")(sequelize, Sequelize);
+db.candidateProfile = require("./candidate.profile.model")(sequelize, Sequelize);
+db.candidateEducation = require("./candidate.education.model")(sequelize, Sequelize);
+db.candidateProjects = require("./user.projects.model")(sequelize, Sequelize);
+db.candidateSkills = require("./user.skills.model")(sequelize, Sequelize);
+db.candidateLanguages = require("./user.languages.model")(sequelize, Sequelize);
+db.candidateExperience = require("./user.experience.model")(sequelize, Sequelize);
 
 //employer models
-db.employerProfile = require("../models/employer.profile.model")(sequelize, Sequelize);
-db.jobPost = require("../models/job.post.model")(sequelize, Sequelize);
-db.jobSkills = require("../models/job.skills.model")(sequelize, Sequelize);
-db.jobLocation = require("../models/job.location.model")(sequelize, Sequelize);
+// db.employerProfile = require("./employer.profile.model")(sequelize, Sequelize);
+db.employerInfo = require("./employer.info.model")(sequelize, Sequelize);
+// db.jobPost = require("./job.post.model")(sequelize, Sequelize);
+db.postJob = require("./post.job.model")(sequelize, Sequelize);
+db.jobSkills = require("./job.skills.model")(sequelize, Sequelize);
+db.jobLocation = require("./job.location.model")(sequelize, Sequelize);
 
+//company
+db.companyProfile = require("./company.profile.model")(sequelize, Sequelize);
 
+//job application
+db.jobApplication = require("./job.application.model")(sequelize, Sequelize);
+
+//shortlist candidate
+db.jobshortlistCandidate =require("./job.shortlist.model")(sequelize, Sequelize);
+
+// Interview Scheduler
+db.interviewSchedule = require("./interview.schedule.model")(sequelize, Sequelize);
 // ASSOCIATIONS
 
 //user and role
@@ -60,7 +73,7 @@ db.user.belongsToMany(db.role, {
 });
 
 // candidate profile
-db.user.hasMany(db.candidateProfile,{
+db.user.hasOne(db.candidateProfile,{
   foreignKey: "userId"
 });
 db.candidateProfile.belongsTo(db.user, {
@@ -68,40 +81,134 @@ db.candidateProfile.belongsTo(db.user, {
 });
 
 // education
-db.user.hasMany(db.candidateEducation,{
+db.candidateProfile.hasMany(db.candidateEducation,{
   foreignKey: "userId"
 });
-db.candidateEducation.belongsTo(db.user, {
+db.candidateEducation.belongsTo(db.candidateProfile, {
   foreignKey : 'userId'
 });
 
 // projects
-db.user.hasMany(db.candidateProjects,{
+db.candidateProfile.hasMany(db.candidateProjects,{
   foreignKey: "userId"
 });
-db.candidateProjects.belongsTo(db.user, {
+db.candidateProjects.belongsTo(db.candidateProfile, {
   foreignKey : 'userId'
 });
 
 // skills
-db.user.hasMany(db.candidateSkills,{
+db.candidateProfile.hasMany(db.candidateSkills,{
   foreignKey: "userId"
 });
-db.candidateSkills.belongsTo(db.user, {
+db.candidateSkills.belongsTo(db.candidateProfile, {
   foreignKey : 'userId'
 });
 
 // languages
-db.user.hasMany(db.candidateLanguages,{
+db.candidateProfile.hasMany(db.candidateLanguages,{
   foreignKey: "userId"
 });
-db.candidateLanguages.belongsTo(db.user, {
+db.candidateLanguages.belongsTo(db.candidateProfile, {
   foreignKey : 'userId'
 });
 
 //Experience
-db.user.hasMany(db.userExperience, {foreignKey: "userId"});
-db.userExperience.belongsTo(db.user);
+db.candidateProfile.hasMany(db.candidateExperience, {foreignKey: "userId"});
+db.candidateExperience.belongsTo(db.candidateProfile,{
+  foreignKey :'userId'
+});
+
+// EMPLOYERS
+
+// employers profile
+
+db.user.hasOne(db.employerInfo,{
+  foreignKey: "employerId"
+});
+db.employerInfo.belongsTo(db.user, {
+  foreignKey : 'employerId'
+});
+
+db.user.hasMany(db.postJob,{
+  foreignKey: "employerId"
+});
+db.postJob.belongsTo(db.user, {
+  foreignKey : 'employerId'
+});
+
+db.user.hasMany(db.companyProfile,{
+  foreignKey: "employerId"
+});
+db.companyProfile.belongsTo(db.user, {
+  foreignKey : 'employerId'
+});
+
+// Job Application
+
+// job and application
+db.user.hasMany(db.jobApplication,{
+  foreignKey: "userId"
+});
+db.jobApplication.belongsTo(db.user, {
+  foreignKey : 'userId'
+});
+
+db.postJob.hasMany(db.jobApplication,{
+  foreignKey: "jobId"
+});
+db.jobApplication.belongsTo(db.postJob, {
+  foreignKey : 'jobId'
+});
+
+// candidate and application
+db.candidateProfile.hasMany(db.jobApplication,{
+  foreignKey: "candidateId"
+});
+db.jobApplication.belongsTo(db.candidateProfile, {
+  foreignKey : 'candidateId'
+});
+
+//shortlisted Candidates
+
+db.user.hasMany(db.jobshortlistCandidate,{
+
+})
+db.jobshortlistCandidate.belongsTo(db.user,{
+  
+})
+db.jobApplication.hasMany(db.jobshortlistCandidate,{
+})
+db.jobshortlistCandidate.belongsTo(db.jobApplication,{
+  
+})
+
+// Interview Schedule
+db.user.hasMany(db.interviewSchedule,{
+  foreignKey:"userId"
+})
+db.interviewSchedule.belongsTo(db.user,{
+  foreignKey:'userId'
+})
+
+db.postJob.hasMany(db.interviewSchedule,{
+  foreignKey:"jobId"
+})
+db.interviewSchedule.belongsTo(db.postJob,{
+  foreignKey:'jobId'
+})
+
+db.candidateProfile.hasMany(db.interviewSchedule,{
+  foreignKey:"candidateId"
+})
+db.interviewSchedule.belongsTo(db.candidateProfile,{
+  foreignKey:'candidateId'
+})
+db.employerInfo.hasMany(db.interviewSchedule,{
+  foreignKey:"empId"
+})
+db.interviewSchedule.belongsTo(db.employerInfo,{
+  foreignKey:'empId'
+})
 
 
 db.ROLES = ["user", "admin", "moderator"];

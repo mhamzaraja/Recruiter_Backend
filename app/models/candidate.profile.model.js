@@ -19,6 +19,9 @@ module.exports = (sequelize, Sequelize) => {
             gender: {
                 type: Sequelize.STRING
             },
+            email: {
+                type: Sequelize.STRING
+            },
             marital_status:{
                 type: Sequelize.STRING
             },
@@ -35,7 +38,7 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.STRING
             },
             mobile_number: {
-                type: Sequelize.INTEGER
+                type: Sequelize.STRING
             },
             career_level: {
                 type: Sequelize.STRING
@@ -51,9 +54,9 @@ module.exports = (sequelize, Sequelize) => {
             }
 
         }, {
-            timestamps: false,
-            createdAt: false,
-            updatedAt: false,         
+            timestamps: true,
+            createdAt: true,
+            updatedAt: true,         
           }
     );
   

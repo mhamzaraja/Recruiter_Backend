@@ -1,27 +1,26 @@
 const db = require("../models");
-const userProjects = db.candidateProjects;
+const userExperience = db.candidateExperience;
 
-exports.saveProjects = async (req, res) => {
-    await userProjects.create(req.body)
-    .then(data => {
-        res.status(200).json({
-            status: 200,
-            success: true,
-            message: "Created Successfully",
-            data: data
+exports.saveExperience = async (req, res) => {
+    await userExperience.create(req.body)
+        .then(data => {
+            res.status(200).json({
+                status: 200,
+                success: true,
+                message: "Created Successfully",
+                data: data
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                status: 500,
+                success: false,
+                message: err.message || "Something Went wrong while requesting!"
+            });
         });
-    })
-    .catch(err => {
-        res.status(500).json({
-            status: 500,
-            success: false,
-            message: err.message || "Something Went wrong while requesting!"
-        });
-    });
 };
 
-
-exports.showAllProjects = async (req, res) => {
+exports.showAllExperiences = async (req, res) => {
     const userId = req.userId;
 
     if (!userId) {
@@ -31,7 +30,7 @@ exports.showAllProjects = async (req, res) => {
             message: "Unauthorize"
         });
     } else {
-        await userProjects.findAll({
+        await userExperience.findAll({
             where: { userId }
         })
         .then(data => {
@@ -51,7 +50,7 @@ exports.showAllProjects = async (req, res) => {
     }
 };
 
-exports.showProjectById = async (req, res) => {
+exports.showExperienceById = async (req, res) => {
     const id = req.query.id;
     const userId = req.userId;
 
@@ -62,7 +61,7 @@ exports.showProjectById = async (req, res) => {
             message: "Unauthorize"
         });
     } else {
-        await userProjects.findOne({
+        await userExperience.findOne({
             where: { id, userId }
         })
         .then(data => {
@@ -82,15 +81,14 @@ exports.showProjectById = async (req, res) => {
     }
 };
 
-exports.deleteProjects = async (req, res) => {
+exports.deleteExperience = async (req, res) => {
     const id = req.query.id;
     const userId = req.userId;
-    
     try {
-        const project = await userProjects.findOne({
+        const experience = await userExperience.findOne({
             where: { id, userId }
         });
-        await project.destroy().then(data => {
+        await experience.destroy().then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,
@@ -113,34 +111,39 @@ exports.deleteProjects = async (req, res) => {
     }
 };
 
-exports.updateProjects = async (req, res) => {
+exports.updateExperience = async (req, res) => {
     const id = req.query.id;
     const userId = req.userId;
-    console.log(userId);
     const {
-        project_name,
-        project_url,
-        start_date,
-        end_date,
-        currently_ongoing,
-        associated_with,
+        jobTitle,
+        company,
+        industry,
+        manageTeam,
+        salary,
+        location,
+        startDate,
+        endDate,
+        currentlyWorking,
         description
     } = req.body;
 
     try {
-        const project = await userProjects.findOne({
+        const experience = await userExperience.findOne({
             where: { id, userId }
         });
 
-        project.project_name = project_name;
-        project.project_url = project_url;
-        project.start_date = start_date;
-        project.end_date = end_date;
-        project.currently_ongoing = currently_ongoing;
-        project.associated_with = associated_with;
-        project.description = description;
+        experience.jobTitle = jobTitle;
+        experience.company = company;
+        experience.industry = industry;
+        experience.manageTeam = manageTeam;
+        experience.salary = salary;
+        experience.location = location;
+        experience.startDate = startDate;
+        experience.endDate = endDate;
+        experience.currentlyWorking = currentlyWorking;
+        experience.description = description;
 
-        await project.save().then(data => {
+        await experience.save().then(data => {
             res.status(200).json({
                 status: 200,
                 success: true,

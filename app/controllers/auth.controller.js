@@ -18,11 +18,11 @@ exports.signup = async (req, res) => {
       password: bcrypt.hashSync(req.body.password, 8),
     });
 
-    if (req.body.roles) {
+    if (req.body.role_id) {
       const roles = await Role.findAll({
         where: {
-          name: {
-            [Op.or]: req.body.roles,
+          id: {
+            [Op.eq]: req.body.role_id,
           },
         },
       });
@@ -116,9 +116,11 @@ exports.signin = async (req, res) => {
 exports.signout = async (req, res) => {
   try {
     req.session = null;
-    return res.status(200).send({
+    return res.status(200).json({
+      status: 200,
+      success: true,
       message: "You've been signed out!"
-    });
+  });
   } catch (err) {
     this.next(err);
   }
