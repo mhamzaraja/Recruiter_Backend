@@ -17,10 +17,10 @@ module.exports = (sequelize, Sequelize) => {
                 type : Sequelize.STRING
             },
             start : {
-                type : Sequelize.JSON
+                type : Sequelize.STRING
             },
             end :{
-                type:Sequelize.JSON
+                type:Sequelize.STRING
             },
            
             attendees: { 
