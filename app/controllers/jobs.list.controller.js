@@ -5,7 +5,7 @@ exports.showAllJobs = async (req, res) => {
     const pageNumber = req.page ? req.page-1 : 1 - 1;
   const count = await userJob.count();
   await userJob
-    .findAll({ offset: (pageNumber) * 10, limit: 10 })
+    .findAll({ offset: pageNumber * 10, limit: 10 })
     .then((data) => {
       res.status(200).json({
         status: 200,
