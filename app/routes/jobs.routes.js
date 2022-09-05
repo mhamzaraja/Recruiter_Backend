@@ -8,6 +8,7 @@ module.exports = function (app) {
 
     //list of all jobs
     app.get("/api/jobs/list/getAll", jobsListController.showAllJobs);
+    app.get("/api/jobs/list/search",jobsListController.showJobsBySearch)
     app.get("/api/jobs/list/getOne", jobsListController.showJobById);
 
     //job application
