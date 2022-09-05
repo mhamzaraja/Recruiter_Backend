@@ -9,7 +9,7 @@ const { OAuth2 } = google.auth
 
 exports.savescheduleInterview = async (req, res) => {
 
-    const {Summary,Location,Description,start,end,Attendees}=req.body
+    const {summary,location,description,start,end,attendees}=req.body
     
     const oAuth2Client = new OAuth2(
       calenderConfig.clientEmail,
@@ -17,47 +17,36 @@ exports.savescheduleInterview = async (req, res) => {
     )
     
     oAuth2Client.setCredentials({
-      refresh_token: calenderConfig.refreshToken,
+        refresh_token: calenderConfig.refreshToken,
     })
     
     const calendar = google.calendar({ version: 'v3', auth: oAuth2Client })
     
-    // const eventStartTime = new Date();
-    // eventStartTime.setDate(eventStartTimess)
-    // console.log("event start date",eventStartTime,eventStartTime.getDay());
     
-    // const eventEndTime = new Date()
-    // eventEndTime.setDate(eventEndTime.getDay() + 13)
-    // eventEndTime.setMinutes(eventEndTime.getMinutes() + 45)
-    
-    // Create a dummy event for temp uses in our calendar
     
     const event = {
-      summary: Summary,
+      summary: summary,
       location: calenderConfig.zoomLink,
-      description: Description ,
+      description: description ,
       colorId: 1,
       start: {
-        dateTime: start.startTime,
-        timeZone: 'Asia/Karachi',
+        dateTime: start,
       },
       end: {
-        dateTime: end.endTime,
-        timeZone: 'Asia/Karachi',
+        dateTime: end,
       },
        attendees: [
-         {email:Attendees}
+         {email:attendees}
         ],
        calendarId:"primary",
        sendNotifications: true,
     }
-    // Check if we a busy and have an event on our calendar for the same time.
+    // // Check if we a busy and have an event on our calendar for the same time.
     calendar.freebusy.query(
       {
         resource: {
-          timeMin: start.startTime,
-          timeMax: end.endTime,
-          timeZone: 'Asia/Karachi',
+          timeMin: start,
+        timeMax: end,
           items: [{ id: 'primary' }],
         },
       },
@@ -72,7 +61,7 @@ exports.savescheduleInterview = async (req, res) => {
             err => {
               if (err) return console.error('Error Creating Calender Event:', err)
               else {
-                interviewSchedule.create(event)
+                interviewSchedule.create(req.body)
                 .then(data => {
                     res.status(200).json({
                         status: 200,
