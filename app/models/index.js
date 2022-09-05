@@ -58,6 +58,10 @@ db.jobshortlistCandidate =require("./job.shortlist.model")(sequelize, Sequelize)
 
 // Interview Scheduler
 db.interviewSchedule = require("./interview.schedule.model")(sequelize, Sequelize);
+
+// Interview Scheduler
+db.favouriteJobs = require("./user.favourite.job.model")(sequelize, Sequelize);
+
 // ASSOCIATIONS
 
 //user and role
@@ -158,6 +162,20 @@ db.postJob.hasMany(db.jobApplication,{
 });
 db.jobApplication.belongsTo(db.postJob, {
   foreignKey : 'jobId'
+});
+
+db.postJob.hasMany(db.favouriteJobs,{
+  foreignKey: "jobId"
+});
+db.favouriteJobs.belongsTo(db.postJob, {
+  foreignKey : 'jobId'
+});
+
+db.user.hasMany(db.favouriteJobs,{
+  foreignKey: "userId"
+});
+db.favouriteJobs.belongsTo(db.user, {
+  foreignKey : 'userId'
 });
 
 // candidate and application
