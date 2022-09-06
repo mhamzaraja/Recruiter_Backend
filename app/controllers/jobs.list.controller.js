@@ -22,7 +22,7 @@ exports.showAllJobs = async (req, res) => {
     });
 };
 exports.showJobsBySearch = async (req, res) => {
-  const pageNumber = req.page ? req.page - 1 : 1 - 1;
+  const pageNumber = req.body.page ? req.body.page - 1 : 1 - 1;
   const search = req.body.search;
   const Op = db.Sequelize.Op;
   await userJob
