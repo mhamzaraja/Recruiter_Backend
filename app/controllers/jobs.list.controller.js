@@ -28,12 +28,13 @@ exports.showJobsBySearch = async (req, res) => {
   await userJob
     .findAll({
       where: {
-        [Op.or]: [{ job_title: { [Op.like]: `%${search}%` } }],
-        [Op.or]: [{ company: { [Op.like]: `%${search}%` } }],
-        [Op.or]: [{ job_location: { [Op.like]: `%${search}%` } }],
-        [Op.or]: [{ required_career_level: { [Op.like]: `%${search}%` } }],
-        [Op.or]: [{ workplace_type: { [Op.like]: `%${search}%` } }]
-
+        [Op.or]: [
+          { job_title: { [Op.like]: `%${search}%` } },
+          { company: { [Op.like]: `%${search}%` } },
+          { job_location: { [Op.like]: `%${search}%` } },
+          { required_career_level: { [Op.like]: `%${search}%` } },
+          { workplace_type: { [Op.like]: `%${search}%` } }
+        ],
       },
       offset: pageNumber * 10,
       limit: 10,
