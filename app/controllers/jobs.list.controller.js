@@ -2,7 +2,7 @@ const db = require("../models");
 const userJob = db.postJob;
 
 exports.showAllJobs = async (req, res) => {
-  const pageNumber = req.page ? req.page - 1 : 1 - 1;
+  const pageNumber = req.query.page ? req.query.page - 1 : 1 - 1;
   const count = await userJob.count();
   await userJob
     .findAll({ offset: pageNumber * 10, limit: 10 })
