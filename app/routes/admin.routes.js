@@ -1,4 +1,5 @@
 const { authJwt } = require("../middleware");
+const dataController =require('../controllers/dataAnalytics.controller')
 const adminController=require('../controllers/admin.controller')
 
 module.exports = function (app) {
@@ -22,4 +23,10 @@ module.exports = function (app) {
     //Candidate Details
     app.get("/api/admin/user/profile/getOne", [authJwt.verifyToken,authJwt.isAdmin], adminController.getUserById);
     app.get("/api/admin/user/profile/getAll", [authJwt.verifyToken,authJwt.isAdmin], adminController.getAllUsers);
+
+    //Data Analytics
+    app.get("/api/admin/user/dataAnalytics", [authJwt.verifyToken], dataController.dataAnalytics);
+
 } 
+
+
