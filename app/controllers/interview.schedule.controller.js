@@ -5,7 +5,7 @@ const candidateProfile= db.candidateProfile;
 const employerInfo = db.employerInfo
 const postJob=db.postJob
 const { google } = require('googleapis');
-const { OAuth2 } = google.auth
+const { OAuth2, getCredentials } = google.auth
 
 exports.savescheduleInterview = async (req, res) => {
 
@@ -15,6 +15,42 @@ exports.savescheduleInterview = async (req, res) => {
       calenderConfig.clientEmail,
       calenderConfig.clientPassword
     )
+
+    oAuth2Client.setCredentials({
+        refresh_token: calenderConfig.refreshToken,
+    })
+
+    getCredentials()
+
+    const authorizationUrl = oAuth2Client.generateAuthUrl({
+        access_type: 'offline',
+        scope: [
+            "https://www.googleapis.com/auth/calendar.events",
+            "https://www.googleapis.com/auth/calendar"
+        ],
+        include_granted_scopes: true
+    });
+
+    oAuth2Client.on('tokens', (tokens) => {
+        if (tokens.refresh_token) {
+          // store the refresh_token in your secure persistent database
+          console.log(tokens.refresh_token);
+        }
+        console.log(tokens.access_token);
+      });
+
+    console.log("authorizationUrl", authorizationUrl);
+
+    return res.status(200).json({
+        status: 200,
+        success: true,
+        message: "Created Successfully",
+        data: authorizationUrl
+    });
+
+    google.auth.getCredentials()
+
+    
     
     oAuth2Client.setCredentials({
         refresh_token: calenderConfig.refreshToken,
