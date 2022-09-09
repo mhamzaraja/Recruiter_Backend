@@ -3,58 +3,38 @@ const calenderConfig=require('../config/calendar.config')
 const interviewSchedule=db.interviewSchedule;
 const candidateProfile= db.candidateProfile;
 const employerInfo = db.employerInfo
-const postJob=db.postJob
+const postJob = db.postJob
+const googleAuth = db.googleAuth;
 const { google } = require('googleapis');
-const { OAuth2, getCredentials } = google.auth
+const { OAuth2 } = google.auth
 
 exports.savescheduleInterview = async (req, res) => {
 
-    const {summary,location,description,start,end,attendees}=req.body
+    const { summary, location, description, start, end, attendees } = req.body
+    const authTokeks = await googleAuth.findOne({ where: { id: 1 } });
     
     const oAuth2Client = new OAuth2(
       calenderConfig.clientEmail,
       calenderConfig.clientPassword
     )
 
-    oAuth2Client.setCredentials({
-        refresh_token: calenderConfig.refreshToken,
-    })
+    if (authTokeks) {
+        oAuth2Client.setCredentials({
+            refresh_token: authTokeks.refresh_token,
+            expiry_date: authTokeks.expiry_date
+        })
+    }
 
-    getCredentials()
-
-    const authorizationUrl = oAuth2Client.generateAuthUrl({
-        access_type: 'offline',
-        scope: [
-            "https://www.googleapis.com/auth/calendar.events",
-            "https://www.googleapis.com/auth/calendar"
-        ],
-        include_granted_scopes: true
+    oAuth2Client.refreshAccessToken((err, tokens) => {
+            googleAuth.update(tokens, {
+                where: { id: 1 }
+            });
+            oAuth2Client.setCredentials({
+                refresh_token: tokens?.refresh_token,
+                expiry_date: tokens?.expiry_date
+            })
     });
-
-    oAuth2Client.on('tokens', (tokens) => {
-        if (tokens.refresh_token) {
-          // store the refresh_token in your secure persistent database
-          console.log(tokens.refresh_token);
-        }
-        console.log(tokens.access_token);
-      });
-
-    console.log("authorizationUrl", authorizationUrl);
-
-    return res.status(200).json({
-        status: 200,
-        success: true,
-        message: "Created Successfully",
-        data: authorizationUrl
-    });
-
-    google.auth.getCredentials()
-
     
-    
-    oAuth2Client.setCredentials({
-        refresh_token: calenderConfig.refreshToken,
-    })
     
     const calendar = google.calendar({ version: 'v3', auth: oAuth2Client })
     

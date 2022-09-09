@@ -59,8 +59,11 @@ db.jobshortlistCandidate =require("./job.shortlist.model")(sequelize, Sequelize)
 // Interview Scheduler
 db.interviewSchedule = require("./interview.schedule.model")(sequelize, Sequelize);
 
-// Interview Scheduler
+// favourite Jobs
 db.favouriteJobs = require("./user.favourite.job.model")(sequelize, Sequelize);
+
+// Google Auth
+db.googleAuth = require("./auth.model")(sequelize, Sequelize);
 
 // ASSOCIATIONS
 
