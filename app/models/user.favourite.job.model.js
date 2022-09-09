@@ -14,9 +14,9 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.INTEGER,
             },
     }, {
-        timestamps: false,
-        createdAt: false,
-        updatedAt: false,
+        timestamps: true,
+        createdAt: true,
+        updatedAt: true,
     }
     );
 
