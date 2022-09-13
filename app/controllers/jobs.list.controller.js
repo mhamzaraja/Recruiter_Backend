@@ -21,7 +21,7 @@ exports.showAllJobs = async (req, res) => {
         res.status(200).json({
           status: 200,
           success: true,
-          data: data,
+          data: { jobsList: data, jobsCount: count },
         });
       })
       .catch((err) => {
