@@ -1,9 +1,37 @@
 const db = require("../models");
 const userJob = db.postJob;
+const favouriteJobs = db.favouriteJobs;
 
 exports.showAllJobs = async (req, res) => {
   const pageNumber = req.query.page ? req.query.page - 1 : 1 - 1;
+  const userId = req.query.userId ? req.query.userId : 0;
   const count = await userJob.count();
+  if (userId) {
+    await userJob
+      .findAll({
+        offset: pageNumber * 10,
+        limit: 10,
+        include: [{
+          model: favouriteJobs,
+          where: { userId: userId },
+          required: false
+        }]
+      })
+      .then((data) => {
+        res.status(200).json({
+          status: 200,
+          success: true,
+          data: data,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          status: 500,
+          success: false,
+          message: err.message || "Something Went wrong while requesting!",
+        });
+      });
+  }
   await userJob
     .findAll({ offset: pageNumber * 10, limit: 10 })
     .then((data) => {
