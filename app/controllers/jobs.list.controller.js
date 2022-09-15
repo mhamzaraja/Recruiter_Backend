@@ -53,6 +53,17 @@ exports.showJobsBySearch = async (req, res) => {
   const pageNumber = req.body.page ? req.body.page - 1 : 1 - 1;
   const search = req.body.search;
   const Op = db.Sequelize.Op;
+  const countJobs = await userJob.count({
+    where: {
+      [Op.or]: [
+        { job_title: { [Op.like]: `%${search}%` } },
+        { company: { [Op.like]: `%${search}%` } },
+        { job_location: { [Op.like]: `%${search}%` } },
+        { required_career_level: { [Op.like]: `%${search}%` } },
+        { workplace_type: { [Op.like]: `%${search}%` } }
+      ],
+    },
+  });
   await userJob
     .findAll({
       where: {
@@ -71,7 +82,7 @@ exports.showJobsBySearch = async (req, res) => {
       res.status(200).json({
         status: 200,
         success: true,
-        data: { jobsList: data, jobsCount: data.length },
+        data: { jobsList: data, jobsCount: countJobs },
       });
     })
     .catch((err) => {

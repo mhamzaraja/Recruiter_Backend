@@ -22,7 +22,7 @@ module.exports = function (app) {
 
     //Candidate Details
     app.get("/api/admin/user/profile/getOne", [authJwt.verifyToken,authJwt.isAdmin], adminController.getUserById);
-    app.get("/api/admin/user/profile/getAll", [authJwt.verifyToken,authJwt.isAdmin], adminController.getAllUsers);
+    app.get("/api/admin/user/profile/getAll", [authJwt.verifyToken,authJwt.isEmployerOrAdmin], adminController.getAllUsers);
 
     //Data Analytics
     app.get("/api/admin/user/dataAnalytics", [authJwt.verifyToken], dataController.dataAnalytics);
