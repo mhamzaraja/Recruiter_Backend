@@ -21,7 +21,7 @@ module.exports = function (app) {
     app.get("/api/admin/employer/profile/getAll", [authJwt.verifyToken, authJwt.isAdmin], adminController.showAllEmployerProfiles);
 
     //Candidate Details
-    app.get("/api/admin/user/profile/getOne", [authJwt.verifyToken,authJwt.isAdmin], adminController.getUserById);
+    app.get("/api/admin/user/profile/getOne", [authJwt.verifyToken,authJwt.isEmployerOrAdmin], adminController.getUserById);
     app.get("/api/admin/user/profile/getAll", [authJwt.verifyToken,authJwt.isEmployerOrAdmin], adminController.getAllUsers);
 
     //Data Analytics
