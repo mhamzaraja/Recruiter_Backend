@@ -25,7 +25,7 @@ module.exports = function (app) {
     app.get("/api/admin/user/profile/getAll", [authJwt.verifyToken,authJwt.isEmployerOrAdmin], adminController.getAllUsers);
 
     //Data Analytics
-    app.get("/api/admin/user/dataAnalytics", [authJwt.verifyToken], dataController.dataAnalytics);
+    app.get("/api/admin/user/dataAnalytics", dataController.dataAnalytics);
 
 } 
 
