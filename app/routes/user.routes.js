@@ -56,4 +56,8 @@ module.exports = function (app) {
   app.delete("/api/user/experience/delete", [authJwt.verifyToken], experienceController.deleteExperience);
   app.put("/api/user/experience/update", [authJwt.verifyToken], experienceController.updateExperience);
 
+  //aws s3
+  app.post("/api/imageUpload", controller.imageUpload);
+
+  
 };

@@ -1,12 +1,16 @@
 const db = require("../models");
+// const S3Service = require("../services/s3service");
+const path = require("path")
 const CandidateProfile = db.candidateProfile;
 const candidateEducation = db.candidateEducation;
 const candidateExperience = db.candidateExperience;
 const candidateProjects = db.candidateProjects;
 const candidateSkills = db.candidateSkills;
 const candidateLanguages = db.candidateLanguages;
-
+const { v4: uuidv4 } = require('uuid');
+const BUCKET = "recruiter-profile-picture";
 const Op = db.Sequelize.Op;
+
 
 // Create and Save a new Candidate
 exports.createUpdate = async (req, res) => {
@@ -178,4 +182,61 @@ exports.getAllUsers = async (req, res) => {
       message: err.message || "Something Went wrong while requesting!"
     });
   }
+  
+}
+exports.imageUpload = async (req, res) => {
+  const payload = req.body
+  // console.log("payload",req.body)
+  let image= {};
+      let buffer = Buffer.from(payload.file.replace(/^data:image\/\w+;base64,/, ""),'base64');
+      image['key'] = uuidv4();
+      image['file'] = buffer;
+      image['type'] = path.extname(payload.fileName);
+      image['mime'] = payload.mime;
+    if (BUCKET) {
+      const responseUrl = await uploadImage(image, BUCKET).catch(err => {
+        return res.status(500).json({
+          status: 500,
+          success: false,
+          message: err.message || (err ).message
+        })
+      });
+
+
+       if (!responseUrl)
+        res.status(500).json({
+          status: 500,
+          success: false,
+          message: err.message || "Can not upload Image."
+        });
+        console.log("url2233",responseUrl)
+
+      // const resp = await AddCardImage({ ...item, image_url: `${responseUrl}` });
+      // res.status(200).json({
+      //   status: 200,
+      //   success: true,})
+    }
+    else return res.status(500).json({
+      status: 500,
+      success: false,
+      message: err.message || "Can not upload Image."
+    });
+  // const files = req.file;
+
+  //   try {
+  //       if (files) {
+  //         await S3Service.uploadFiles(files[0], 'Image', function (result) {
+  //               res.status(result.status).json(result.body);
+  //           });
+  //       } else {
+  //           res.status(400).json({
+  //               message: 'Wrong request Body format or there no files to upload'
+  //           });
+  //       }
+  //   } catch (error) {
+  //       res.status(500).json({
+  //           message: error
+  //       });
+  //   }
+ 
 }
