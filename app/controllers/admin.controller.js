@@ -68,9 +68,8 @@ exports.showAllEmployerProfiles = async (req, res) => {
 
 exports.showEmployerProfileById = async (req, res) => {
     const id = req.query.id;
-    const employerId = req.userId;
 
-    if (!employerId) {
+    if (!id) {
         res.status(403).json({
             status: 403,
             success: false,
