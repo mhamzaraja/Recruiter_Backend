@@ -88,7 +88,6 @@ exports.showAllEmployerProfiles = async (req, res) => {
 };
 
 exports.showEmployerProfileById = async (req, res) => {
-    const id = req.query.id;
     const employerId = req.userId;
 
     if (!employerId) {
@@ -99,7 +98,7 @@ exports.showEmployerProfileById = async (req, res) => {
         });
     } else {
         await employerProfile.findOne({
-            where: { id, employerId }
+            where: {  employerId }
         })
             .then(data => {
                 res.status(200).json({
