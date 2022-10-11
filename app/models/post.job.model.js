@@ -10,6 +10,9 @@ module.exports = (sequelize, Sequelize) => {
         job_title: {
             type: Sequelize.STRING
         },
+        job_category : {
+                type : Sequelize.STRING
+        },
         job_description: {
             type: Sequelize.STRING
         },

@@ -129,7 +129,8 @@ exports.updateJob = async (req, res) => {
         years_of_experience,
         workplace_type,
         is_active,
-        is_sponsor
+        is_sponsor,
+        job_category
     } = req.body;
 
     try {
@@ -152,6 +153,7 @@ exports.updateJob = async (req, res) => {
         job.workplace_type = workplace_type;
         job.is_active = is_active;
         job.is_sponsor = is_sponsor;
+        job.job_category = job_category;
 
         await job.save().then(data => {
             res.status(200).json({
