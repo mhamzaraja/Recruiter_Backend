@@ -9,6 +9,7 @@ const { google } = require('googleapis');
 const { OAuth2 } = google.auth
 
 exports.savescheduleInterview = async (req, res) => {
+    console.log(req,"reqss")
 
     const { summary, location, description, start, end, attendees } = req.body
     const authTokeks = await googleAuth.findOne({ where: { id: 1 } });
@@ -18,17 +19,21 @@ exports.savescheduleInterview = async (req, res) => {
       calenderConfig.clientPassword
     )
 
-    if (authTokeks) {
-        oAuth2Client.setCredentials({
-            refresh_token: authTokeks.refresh_token,
-            expiry_date: authTokeks.expiry_date
-        })
-    }
+    // if (authTokeks) {
+    //     console.log("datahere")
+    //     oAuth2Client.setCredentials({
+    //         refresh_token: authTokeks.refresh_token,
+    //         expiry_date: authTokeks.expiry_date
+    //     }
+    //     )
+    // }
 
     oAuth2Client.refreshAccessToken((err, tokens) => {
+        console.log("isdatahere")
             googleAuth.update(tokens, {
                 where: { id: 1 }
             });
+            console.log("token-1",tokens)
             oAuth2Client.setCredentials({
                 refresh_token: tokens?.refresh_token,
                 expiry_date: tokens?.expiry_date
@@ -67,6 +72,7 @@ exports.savescheduleInterview = async (req, res) => {
         },
       },
       (err, response) => {
+
         if (err) return console.error('Free Busy Query Error: ', err)
     
         const eventArr = response.data.calendars.primary.busy

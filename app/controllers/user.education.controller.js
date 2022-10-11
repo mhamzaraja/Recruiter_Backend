@@ -2,6 +2,7 @@ const db = require("../models");
 const userEducation = db.candidateEducation;
 
 exports.saveEducation = async (req, res) => {
+    console.log(req.body)
     await userEducation.create(req.body).then(data => {
         res.status(200).json({
             status: 200,

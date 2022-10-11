@@ -87,8 +87,16 @@ db.candidateProfile.belongsTo(db.user, {
   foreignKey : 'userId'
 });
 
-// education
-db.candidateProfile.hasMany(db.candidateEducation,{
+// // education foreign key with profile table
+// db.candidateProfile.hasMany(db.candidateEducation,{
+//   foreignKey: "userId"
+// });
+// db.candidateEducation.belongsTo(db.candidateProfile, {
+//   foreignKey : 'userId'
+// });
+
+// user foreign key with education table
+db.user.hasMany(db.candidateEducation,{
   foreignKey: "userId"
 });
 db.candidateEducation.belongsTo(db.candidateProfile, {
@@ -96,34 +104,56 @@ db.candidateEducation.belongsTo(db.candidateProfile, {
 });
 
 // projects
-db.candidateProfile.hasMany(db.candidateProjects,{
+db.user.hasMany(db.candidateProjects,{
   foreignKey: "userId"
 });
 db.candidateProjects.belongsTo(db.candidateProfile, {
   foreignKey : 'userId'
 });
+// db.candidateProfile.hasMany(db.candidateProjects,{
+//   foreignKey: "userId"
+// });
+// db.candidateProjects.belongsTo(db.candidateProfile, {
+//   foreignKey : 'userId'
+// });
 
 // skills
-db.candidateProfile.hasMany(db.candidateSkills,{
+db.user.hasMany(db.candidateSkills,{
   foreignKey: "userId"
 });
 db.candidateSkills.belongsTo(db.candidateProfile, {
   foreignKey : 'userId'
 });
+// db.candidateProfile.hasMany(db.candidateSkills,{
+//   foreignKey: "userId"
+// });
+// db.candidateSkills.belongsTo(db.candidateProfile, {
+//   foreignKey : 'userId'
+// });
 
 // languages
-db.candidateProfile.hasMany(db.candidateLanguages,{
+db.user.hasMany(db.candidateLanguages,{
   foreignKey: "userId"
 });
 db.candidateLanguages.belongsTo(db.candidateProfile, {
   foreignKey : 'userId'
 });
 
+// db.candidateProfile.hasMany(db.candidateLanguages,{
+//   foreignKey: "userId"
+// });
+// db.candidateLanguages.belongsTo(db.candidateProfile, {
+//   foreignKey : 'userId'
+// });
 //Experience
-db.candidateProfile.hasMany(db.candidateExperience, {foreignKey: "userId"});
+db.user.hasMany(db.candidateExperience, {foreignKey: "userId"});
 db.candidateExperience.belongsTo(db.candidateProfile,{
   foreignKey :'userId'
 });
+// db.candidateProfile.hasMany(db.candidateExperience, {foreignKey: "userId"});
+// db.candidateExperience.belongsTo(db.candidateProfile,{
+//   foreignKey :'userId'
+// });
 
 // EMPLOYERS
 
